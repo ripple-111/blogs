@@ -89,6 +89,6 @@ import {View} from '@element-plus/icons-vue'
 </script>
 <style lang="scss" scoped>
     .el-card{
-        background-color: rgb(107, 208, 233);
+        background-color: rgb(142, 174, 223);
     }
 </style>

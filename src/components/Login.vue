@@ -82,6 +82,7 @@ const onRegister=(form)=>{
             loading.value=true
             register({username,password}).then(res=>{
                 loading.value=false
+                islogin.value=true
                 alert(res.msg)
             })
         }
@@ -97,7 +98,7 @@ const onLogin=()=>{
         if(res.msg=='登录成功'){
             localStorage.setItem('token',res.token)
             localStorage.setItem('userId',res.data)
-            userStore.userId=res.data
+            store.userId=res.data
             router.push('/blog')
         }
         

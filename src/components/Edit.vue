@@ -1,17 +1,18 @@
 <template>
     <div class="grid grid-flow-row grid-cols-2 gap-x-10 px-4 bg-blue-300">
         
-    <div class="h-screen bg-blue-200 p-4">
+    <div class="min-h-screen bg-blue-200 p-4">
         <el-button class="mb-4 ml-2" type="info" @click="router.push('/blog')">返回</el-button>
         <el-tabs v-model="activeName" type="card" class="tab">
            
-                <el-tab-pane label="文本编辑区" name="first" class="tab">
-                    <el-input v-model="textarea" :autosize="{ minRows: 15, maxRows: 20 }" type="textarea"
-                    placeholder="在此书写你的文字" />
-                </el-tab-pane>
+            <el-tab-pane label="文本编辑区" name="first" class="tab">
+                <!-- <el-input v-model="textarea" :autosize="{ minRows: 15, maxRows: 20 }" type="textarea"
+                placeholder="在此书写你的文字" /> -->
+            <Editorer @input="codeinput"/>
+            </el-tab-pane>
         
-        <el-tab-pane label="样式编辑区" name="second" class="tab">Config</el-tab-pane>
-        <el-tab-pane label="Role" name="third" class="tab">Role</el-tab-pane>
+            <el-tab-pane label="样式编辑区" name="second" class="tab">Config</el-tab-pane>
+            <el-tab-pane label="Role" name="third" class="tab">Role</el-tab-pane>
     </el-tabs>
     <div class="flex justify-end mt-4">
         <el-button type="primary" class="w-20">导入</el-button>
@@ -22,40 +23,68 @@
     </div>
     <div class="h-screen bg-gray-700 p-4 overflow-y-auto">
         <el-scrollbar height="100vh">
-        <div v-html="text" id="edit">
+        <div v-html="text" id="edit" v-highLight>
         </div>
         </el-scrollbar>
     </div>
     </div>
 </template>
 <script setup>
-
+import hljs from 'highlight.js'
+import 'highlight.js/styles/vs2015.css'
 import showdown from 'showdown'
-
+const vHighLight={
+    updated:(el)=>{
+        let block=el.querySelectorAll('pre code');
+        if(block.length)
+        block.forEach(block=>hljs.highlightElement(block))
+    }
+}
 
 const router=useRouter()
-const converter = new showdown.Converter()
-
-const textarea = ref('')
-const text=computed(()=>converter.makeHtml(textarea.value))
-
+const converter = new showdown.Converter({
+    tables:true,
+    parseImgDimensions:true,
+    simplifiedAutoLink:true,
+    strikethrough:true,
+    smoothLivePreview:true,
+    encodeEmails:true,
+    emoji:true,
+    tasklists:true,
+})
+console.log(converter.getOptions())
+const text=ref('')
 let activeName='first'
+
+
+function codeinput(code){
+    text.value=converter.makeHtml(code)
+}
+    
+
+
+
+
 
 
 </script>
 <style lang="scss">
-.is-active{
-    @apply text-blue-600 after:block after:w-full after:h-1 after:bg-slate-700 after:my-2 #{!important};
-}
+
 .el-tabs__nav.is-top,.el-tabs__item.is-top{
    @apply border-none font-semibold text-lg  #{!important};
 }
 
 .tab{
     @apply border-0 #{!important};
+    .el-tabs__item{
+    @apply border-0 after:w-0 after:block after:transition-all duration-500 after:h-1 after:bg-slate-700 after:my-2 #{!important};
 }
+    .is-active{
+    @apply text-blue-600  after:w-full #{!important};
+    }
+}   
 #edit{
-    @apply text-white text-lg mb-20 leading-loose px-6;
+    @apply text-white text-lg mb-20 leading-loose px-6 tracking-widest;
     h1,h2,h3,h4,h5{
         @apply my-4 text-teal-600
     }
@@ -77,7 +106,7 @@ let activeName='first'
     }
     p,pre{
         font-size: 18px;
-        margin: 10px;
+        margin: 2px;
     }
     strong{
         @apply mx-1 text-amber-600 my-2
@@ -92,10 +121,10 @@ let activeName='first'
         }
     }
     ul,ol{
-        @apply list-disc list-inside text-blue-400 leading-loose text-base;    
+        @apply list-square  text-blue-400 leading-loose text-base font-semibold ml-6;    
     }
     ol{
-        @apply list-decimal
+        @apply  list-decimal;
     }
     pre:has(>code){
         @apply  p-2 bg-gray-800 shadow-2xl;

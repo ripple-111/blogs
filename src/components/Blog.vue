@@ -17,11 +17,11 @@
                     <el-menu-item index="/more">
                         <el-icon :size="50"><MoreFilled /></el-icon>更多
                     </el-menu-item>
-                    <el-avatar :size="50" class="my-auto mx-4" src="../src/assets/headImage.jpeg" fit="fill" />
-                        <el-dropdown class="my-auto">
-                            <span class="text-black text-lg">
-                                <span class="align-middle">1111</span>
-                                <el-icon :size="30" class="align-middle">
+                    <el-avatar :size="50" class="my-auto mx-2" :src="info.headImage" fit="fill" />
+                        <el-dropdown class="my-auto mr-6">
+                            <span class="text-black font-semibold">
+                                <span class="align-middle">{{info.name}}</span>
+                                <el-icon :size="20" class="align-middle">
                                 <arrow-down />
                                 </el-icon>
                             </span>
@@ -40,20 +40,20 @@
         <div class="w-1/4 flex flex-col items-end pr-4">
             <div class="flex flex-col items-center w-3/4  my-8 bg-gradient-to-br from-blue-500 via-blue-300 to-blue-500 rounded-lg border-solid border-2 border-opacity-80 shadow-xl">
             <el-avatar :size="130"  src="../src/assets/headImage.jpeg" fit="fill" class="m-10 mb-0"/>
-            <div class="text-2xl mt-4 font-semibold">{{'John'}}</div>
-            <div class="text-base text-gray-500 mt-2">{{'this is a IT boy'}}</div>
+            <div class="text-2xl mt-4 font-semibold">{{info.name}}</div>
+            <div class="text-base text-gray-500 mt-2">{{info.introduce}}</div>
             <div class="flex w-60 mt-4 text-center text-gray-700">
                 <div class="w-1/3">
                     <p class="text-lg">文章数</p>
-                    <p class="text-gray-500">111</p>
+                    <p class="text-gray-500">{{info.article}}</p>
                 </div>
                 <div class="w-1/3">
                     <p class="text-lg">话题数</p>
-                    <p class="text-gray-500">111</p>
+                    <p class="text-gray-500">{{info.topic}}</p>
                 </div>
                 <div class="w-1/3">
                     <p class="text-lg">粉丝数</p>
-                    <p class="text-gray-500">111</p>
+                    <p class="text-gray-500">{{info.fan}}</p>
                 </div>
             </div>
             <el-divider></el-divider>
@@ -109,10 +109,17 @@ const store=useStore()
 const router=ref(useRouter())
 const path=computed(()=>router.value.currentRoute.path)
 const time=ref('')
-
-console.log(store.userId)
+let info=ref({
+    article:'999',
+    fan:'999',
+    topic:'999',
+    name:'默认昵称',
+    introduce:'...',
+    headImage:'../src/assets/headImage.jpeg',
+})
 userInfo({id:store.userId}).then(res=>{
-        console.log(res)
+        info.value=res.data
+        console.log(info)
 })
 onMounted(()=>{
     setInterval(()=>{
