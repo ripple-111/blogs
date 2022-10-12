@@ -5,10 +5,16 @@ module.exports = {
       "./src/**/*.{vue,js,ts,jsx,tsx}",
     ],
     theme: {
+        listStyleType:{
+            "square":'square',
+            "decimal": 'decimal',
+        },
       extend: {
+        
         height:{
             'border':'2px',
             '70':'70%',
+            '70vh':'70vh'
         },
         minHeight:{
             '200':'200px',
