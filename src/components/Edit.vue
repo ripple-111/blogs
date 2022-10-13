@@ -84,7 +84,7 @@ function codeinput(code){
     }
 }   
 #edit{
-    @apply text-white text-lg mb-20 leading-loose px-6 tracking-widest;
+    @apply text-white text-lg mb-20 leading-loose px-6 tracking-wide;
     h1,h2,h3,h4,h5{
         @apply my-4 text-teal-600
     }
@@ -115,7 +115,7 @@ function codeinput(code){
         @apply mx-1
     }
     blockquote{
-        @apply bg-slate-600 leading-10 w-full border-l-4 border-gray-400 shadow-xl;
+        @apply bg-slate-600 leading-10 w-full border-l-4 border-gray-400 shadow-xl pl-2;
         p{
             @apply opacity-80 
         }
