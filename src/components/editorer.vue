@@ -11,34 +11,37 @@ import loader from "@monaco-editor/loader"
 import * as monaco from 'monaco-editor'
 const editor=ref(null)
 let editorer=null
-// const suggestions=[{
-//     label:'h1/标题一',
-//     kind:monaco.languages.CompletionItemKind['Function'],
-//     insertText:'# ${1:标题}',
-//     insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-//     detail:'插入大标题',
-// }]
 const emit = defineEmits(['input'])
+const prop=defineProps({markdown:String})
 loader.config({ monaco });
 loader.config({
   "vs/nls": {
-    // availableLanguages: { "*": "de" },
     availableLanguages: { "*": "zh-cn" },
   },
 });
 
 
 onMounted(()=>{
+   
     loader.init().then(monacoInstance => {
     editorer=monacoInstance.editor.create(editor.value,{
-    value:'',
     language:'markdown',
     theme:'vs-dark',
     autoClosingBrackets: false,
+    minimap: { // 关闭小地图
+      enabled: false,
+    },
+    wordWrap:'on',
+    unicodeHighlight:{ ambiguousCharacters:false},
     padding:{
         top:'10px'
     }
     })
+    watchEffect(()=>editorer.setValue(prop.markdown))
+    window.addEventListener('resize',()=>{
+    editorer.layout()
+    })
+    emit('input',editorer.getValue()) //初始化一次markdown
     editorer.onDidChangeModelContent(()=>emit('input',editorer.getValue()))
     editorer.onDidDispose(()=>comple.dispose())
     const comple=monacoInstance.languages.registerCompletionItemProvider('markdown', {
@@ -68,14 +71,7 @@ onMounted(()=>{
                 insertText:'[名称](地址)',
                 insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         })
-        else if(textBeforePointer=='___'||textBeforePointer=='*'||textBeforePointer=='-'){
-            suggestions.push({
-                label:'分割线',
-                kind:monaco.languages.CompletionItemKind['Function'],
-                insertText:'---',
-                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-            })
-        }
+        
         else if(textBeforePointer=='1'){
             suggestions.push({
                 label:'1.',
@@ -86,7 +82,27 @@ onMounted(()=>{
                 detail:'有序列表',
             })
         }
-        else if(textBeforePointer=='+'||textBeforePointer=='-'||textBeforePointer=='*'){
+        else if(textBeforePointer=='|'){
+            suggestions.push({
+                label:'表格',
+                kind:monaco.languages.CompletionItemKind['Function'],
+                insertText:` \${1:表头}|\${2:表头}|\${3:表头}|
+|:---   |:----: |---:   |
+|\${4:内容}    |\${5:内容}    |\${6:内容}    |
+|Paragraph|Text|And more|`,
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                detail:'创建表格',
+            })
+        }
+        if(textBeforePointer=='___'||textBeforePointer=='*'||textBeforePointer=='-'){
+            suggestions.push({
+                label:'分割线',
+                kind:monaco.languages.CompletionItemKind['Function'],
+                insertText:'---',
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+            })
+        }
+        if(textBeforePointer=='+'||textBeforePointer=='-'||textBeforePointer=='*'){
             suggestions.push({
                 label:'ol无序列表',
                 kind:monaco.languages.CompletionItemKind['Function'],
@@ -94,8 +110,19 @@ onMounted(()=>{
 ${textBeforePointer} \${2:列表项二}`,
                 insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
                 detail:'有序列表',
-            })
+            }) 
         }
+        if(textBeforePointer=='-'){
+            suggestions.push({
+                label:'代办事项',
+                kind:monaco.languages.CompletionItemKind['Function'],
+                insertText:` [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media`,
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                detail:'代办事项',
+            })
+            }
         if(textBeforePointer.endsWith('*')){
             ['','*','**'].map(item=>suggestions.push({
                 label:item+'*',
@@ -132,13 +159,30 @@ console.log(\${1:x})
                 insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
             })
         }
+        if(textBeforePointer.endsWith(':')){
+            suggestions.push({
+                label:'👍',
+                kind:monaco.languages.CompletionItemKind['Function'],
+                insertText:'+1:',
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+            })
+            
+        }
+        
         return {
             suggestions
         };
     },
-    triggerCharacters: ["#","*","1","+","-",'`','[','!']
+    triggerCharacters: ["#","*","1","+","-",'`','[','!','|',':']
     })
-    
+    // editorer.addAction({
+    //     id:'emoji',
+    //     label:'emoji表情',
+    //     keybindings:[monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyE],
+    //     run:(edit)=>{
+    //         editorer.trigger('开启表情选择', 'editor.action.triggerSuggest', {});
+    //     }
+    // })
 });
     
 })

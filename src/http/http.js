@@ -16,19 +16,21 @@ axios.interceptors.request.use(
     return Promise.error(error)
   })
   // 响应拦截器
-  axios.interceptors.response.use(res => {
+  axios.interceptors.response.use(res=> {
     if (res.status === 200) {
           return Promise.resolve(res.data)
           // store.commit('clearUserInfo')  // 使用vuex存储过用户信息，这里需要清空一下。
       } 
-    else if(res.status==401){
-        window.location.href = '/login'
-        alert('登录信息失效')
-    }
     else{
         return Promise.reject(res)
     }
-  })
+  },(err)=>{
+    if(err.response.status==401){
+        window.location.href = '/login'
+        alert(err.response.data.msg)
+    }
+  }
+  )
   
   // 2、封装请求方式
   // @param url 接口地址

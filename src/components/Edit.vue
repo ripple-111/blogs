@@ -1,154 +1,212 @@
 <template>
-    <div class="grid grid-flow-row grid-cols-2 gap-x-10 px-4 bg-blue-300">
-        
-    <div class="min-h-screen bg-blue-200 p-4">
-        <el-button class="mb-4 ml-2" type="info" @click="router.push('/blog')">返回</el-button>
-        <el-tabs v-model="activeName" type="card" class="tab">
-           
-            <el-tab-pane label="文本编辑区" name="first" class="tab">
-                <!-- <el-input v-model="textarea" :autosize="{ minRows: 15, maxRows: 20 }" type="textarea"
-                placeholder="在此书写你的文字" /> -->
-            <Editorer @input="codeinput"/>
-            </el-tab-pane>
-        
-            <el-tab-pane label="样式编辑区" name="second" class="tab">Config</el-tab-pane>
-            <el-tab-pane label="Role" name="third" class="tab">Role</el-tab-pane>
-    </el-tabs>
-    <div class="flex justify-end mt-4">
-        <el-button type="primary" class="w-20">导入</el-button>
-        <el-button type="primary" class="w-20">保存</el-button>
-        <el-button type="primary" class="w-20">发布</el-button>
-    </div>
-    
-    </div>
-    <div class="h-screen bg-gray-700 p-4 overflow-y-auto">
-        <el-scrollbar height="100vh">
-        <div v-html="text" id="edit" v-highLight>
+    <div class="grid grid-flow-row grid-cols-2 bg-black">
+        <div class="min-h-screen bg-editor p-4 relative">
+            <el-button class="mb-4 ml-2" type="info" @click="router.push('/blog')">返回</el-button>
+            <el-switch v-model="model" class="right-10 top-16 z-50" size="large"
+                style="position: absolute;--el-switch-on-color: dark; --el-switch-off-color:gray;--el-color-white:white"
+                inline-prompt :active-icon="Moon" :inactive-icon="Sunny" />
+            <el-tabs v-model="activeName" type="card" class="tab">
+
+                <el-tab-pane label="文本编辑区" name="first" class="tab">
+                    <el-input v-model="article.title" placeholder="输入文章标题" ref="title"
+                        style="width:80%;--el-input-bg-color:rgb(30,30,30);--el-input-border-color:none;--el-input-focus-border-color:gray;--el-input-text-color:white"
+                        class="my-2" maxlength="12"></el-input>
+
+                    <el-badge is-dot class="item mt-2 w-1/6 ml-2">
+                        <el-button class="mb-2 w-full" type="info" @click=" drawer = true">文章信息</el-button>
+                    </el-badge>
+                    <Editorer @input="codeinput" :markdown=file />
+                </el-tab-pane>
+
+                <el-tab-pane label="样式编辑区" name="second" class="tab">
+                    <Edit_style />
+                </el-tab-pane>
+                <el-tab-pane label="Role" name="third" class="tab">Role</el-tab-pane>
+            </el-tabs>
+            <div class="flex justify-end mt-4">
+                <el-upload ref="uploadRef" :auto-upload="false" class="mx-3" :on-change="loadIn" :show-file-list="false"  :limit="1"  :on-exceed="handleExceed">
+                <template #trigger>
+                    <el-button type="primary" class="w-20" >导入</el-button>
+                </template>
+                </el-upload>  
+                <el-button type="primary" class="w-20 mx-1" @click="upload">上传</el-button>
+                <el-button type="primary" class="w-20 mx-1">发布</el-button>
+            </div>
+
         </div>
-        </el-scrollbar>
+        <div class="h-screen bg-gray-700 p-4 overflow-y-auto">
+            <el-scrollbar height="100vh">
+                <div v-html="text" id="edit" v-highLight>
+                </div>
+            </el-scrollbar>
+        </div>
     </div>
-    </div>
+    <el-drawer v-model="drawer" title="文章分类" custom-class="drawer" :close-on-click-modal="false">
+        <el-form label-position="top">
+            <el-form-item label="文章类型">
+                <el-input v-model="article.type" placeholder="输入文章的类型" />
+            </el-form-item>
+            <el-form-item label="文章封面">
+                <el-input v-model="article.image" placeholder="输入文章封面链接" />
+            </el-form-item>
+            <el-form-item label="文章标签"></el-form-item>
+            <el-tag v-for="tag in article.tags" :key="tag" closable size="large" class="m-1"
+                :disable-transitions="false" @close="handleClose(tag)">
+                {{ tag }}
+            </el-tag>
+            <el-input v-if="inputVisible" ref="InputRef" v-model="inputValue" style="width:60px"
+                @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" />
+            <el-button v-else class="button-new-tag ml-1" @click="showInput">
+                + 增加标签
+            </el-button>
+            <p class="ml-1 my-1 text-right">{{article.tags.length+'/10'}}</p>
+
+            <el-form-item label="简介">
+                <el-input v-model="article.expla" type="textarea" autosize placeholder="请输入文章简介，便于他人了解你的文章主题"
+                    show-word-limit max-length="100">
+
+                </el-input>
+            </el-form-item>
+
+        </el-form>
+    </el-drawer>
 </template>
 <script setup>
+import { Moon, Sunny } from '@element-plus/icons-vue';
 import hljs from 'highlight.js'
 import 'highlight.js/styles/vs2015.css'
 import showdown from 'showdown'
-const vHighLight={
-    updated:(el)=>{
-        let block=el.querySelectorAll('pre code');
-        if(block.length)
-        block.forEach(block=>hljs.highlightElement(block))
+import Edit_style from './Edit-style.vue';
+import { genFileId } from 'element-plus'
+import { upload as BlogUpload } from '../http/api'
+const vHighLight = {
+    updated: (el) => {
+        let block = el.querySelectorAll('pre code');
+        let input = el.querySelectorAll('input[type="checkbox"]')
+        if (block.length)
+            block.forEach(block => hljs.highlightElement(block))
+        if (input.length) {
+            input.forEach(item => item.disabled = false)
+        }
+    }
+}
+const model = ref(true)
+let activeName = 'first'
+const router = useRouter()
+
+const title=ref()
+const text = ref('')
+const drawer = ref(false)
+let markdown = ''
+function upload() {
+        if(markdown!=`<!--访问https://github.com/showdownjs/showdown/wiki/emojis 网站得到更多支持的emoji-->
+# 标题`){
+        if(!article.title){
+            ElMessage('请输入文章标题')
+            title.value.focus()
+        }
+        else{
+        if(article.type&&article.tags)
+        BlogUpload({md:markdown,article}).then(res=>{
+            console.log(res.data.md)
+        })
+        else{
+            ElMessage('请补充文章类型和标签')
+            drawer.value=true
+        }
+        }
+        
+    }
+    else
+    ElMessage('无内容')
+        
+}
+const converter = new showdown.Converter({
+    tables: true,
+    parseImgDimensions: true,
+    simplifiedAutoLink: true,
+    strikethrough: true,
+    smoothLivePreview: true,
+    encodeEmails: true,
+    emoji: true,
+    tasklists: true,
+})
+function codeinput(code) {
+    markdown = code
+    text.value = converter.makeHtml(code)
+}
+const article = reactive({
+    title: '',
+    type: '',
+    tags: [],
+    image: '',
+    expla: ''
+})
+const inputValue = ref('')
+const inputVisible = ref(false)
+const InputRef = ref()
+
+const handleClose = (tag) => {
+    article.tags.splice(article.tags.indexOf(tag), 1)
+}
+
+const showInput = () => {
+    inputVisible.value = true
+    nextTick(() => {
+        InputRef.value.input.focus()
+    })
+}
+const handleInputConfirm = () => {
+    if (inputValue.value) {
+        if (article.tags.length < 10)
+            article.tags.push(inputValue.value)
+    }
+    inputVisible.value = false
+    inputValue.value = ''
+}
+const uploadRef=ref()
+let file=ref(`<!--访问https://github.com/showdownjs/showdown/wiki/emojis 网站得到更多支持的emoji-->
+# 标题`)
+function loadIn(n){
+    const fileRead=new FileReader()
+    // 读取文件内容
+    fileRead.readAsText(n.raw,'urf-8')
+    // 接下来可对文件内容进行处理
+    fileRead.onload = (e) => {
+        file.value=e.target.result
+        article.title=n.name.slice(0,n.name.indexOf('.'))
     }
 }
 
-const router=useRouter()
-const converter = new showdown.Converter({
-    tables:true,
-    parseImgDimensions:true,
-    simplifiedAutoLink:true,
-    strikethrough:true,
-    smoothLivePreview:true,
-    encodeEmails:true,
-    emoji:true,
-    tasklists:true,
-})
-console.log(converter.getOptions())
-const text=ref('')
-let activeName='first'
-
-
-function codeinput(code){
-    text.value=converter.makeHtml(code)
+const handleExceed= (files) => {
+    uploadRef.value.clearFiles()
+  let file = files[0]
+  file.uid = genFileId()
+  uploadRef.value.handleStart(file)
 }
-    
-
-
 
 
 
 
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+$model: dark;
 
-.el-tabs__nav.is-top,.el-tabs__item.is-top{
-   @apply border-none font-semibold text-lg  #{!important};
+:deep(.el-tabs__nav.is-top) {
+    @apply border-none;
 }
 
-.tab{
-    @apply border-0 #{!important};
-    .el-tabs__item{
-    @apply border-0 after:w-0 after:block after:transition-all duration-500 after:h-1 after:bg-slate-700 after:my-2 #{!important};
+:deep(.el-tabs__item) {
+    @apply font-semibold text-lg text-gray-400 #{!important};
 }
-    .is-active{
-    @apply text-blue-600  after:w-full #{!important};
+
+.tab {
+    :deep(.el-tabs__item) {
+        @apply border-0 after:w-0 after:block after:transition-all duration-500 after:h-1 after:bg-slate-300 after:my-2 #{!important};
     }
-}   
-#edit{
-    @apply text-white text-lg mb-20 leading-loose px-6 tracking-wide;
-    h1,h2,h3,h4,h5{
-        @apply my-4 text-teal-600
-    }
-    h1{
-        font-size:30px;
-        @apply text-center font-extrabold  
-        after:w-full after:block after:h-border after:bg-black after:my-4;
-    }
-    h2{
-        font-size: 25px;
-        @apply font-bold 
-    }
-    h3{
-        font-size: 20px;
-        @apply font-semibold 
-    }
-    h4,h5{
-        font-size: 18px; 
-    }
-    p,pre{
-        font-size: 18px;
-        margin: 2px;
-    }
-    strong{
-        @apply mx-1 text-amber-600 my-2
-    }
-    em{
-        @apply mx-1
-    }
-    blockquote{
-        @apply bg-slate-600 leading-10 w-full border-l-4 border-gray-400 shadow-xl pl-2;
-        p{
-            @apply opacity-80 
-        }
-    }
-    ul,ol{
-        @apply list-square  text-blue-400 leading-loose text-base font-semibold ml-6;    
-    }
-    ol{
-        @apply  list-decimal;
-    }
-    pre:has(>code){
-        @apply  p-2 bg-gray-800 shadow-2xl;
-        &::before{
-            content: '\1F534\1F7E1\1F7E2';
-        }
-        code{
-        @apply w-full block  min-h-200
-    }
-    }
-    p:has(>code){
-        @apply  p-2 bg-gray-800 shadow-2xl rounded-lg; 
-    }
-    hr{
-        @apply my-4 border-teal-700
-    }
-    img{
-        @apply min-h-150 object-contain object-center w-full my-4
-    }
-    p:has(>a){
-        @apply  text-center;
-        a{
-            @apply underline text-blue-400 hover:text-red-300  text-center 
-        }
+
+    :deep(.is-active) {
+        @apply text-blue-300 after:w-full #{!important};
     }
 }
 </style>

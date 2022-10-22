@@ -81,10 +81,11 @@ const onRegister=(form)=>{
             let {username,password}=user
             loading.value=true
             register({username,password}).then(res=>{
+                if(res.msg=='注册成功')
                 loading.value=false
                 islogin.value=true
                 alert(res.msg)
-            })
+            }).catch(err=>{loading.value=false})
         }
     })
 }

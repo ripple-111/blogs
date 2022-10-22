@@ -20,6 +20,9 @@ module.exports = {
             '200':'200px',
             '150':'150px'
         },
+        backgroundColor:{
+            'editor':'rgb(40,40,40)',
+        },
         backgroundImage: {
             'star': "url('../src/assets/SaturnMoon_Sojuel_1824.jpg')",
             'starRiver':"url('../src/assets/star.jpg')",
@@ -45,7 +48,7 @@ module.exports = {
             "rotate":"rotatex 2s ease-in-out",
             "ripple":"ripple 4s ease-in-out infinite",
             "shake":"shake 1s cubic-bezier(.315,.605,.375,.925) forwards;",
-            "bg":"bg 10s ease infinite"
+            "bg":"bg 5s ease infinite"
         },
         keyframes: {
             bg:{

@@ -119,7 +119,7 @@ let info=ref({
 })
 userInfo({id:store.userId}).then(res=>{
         info.value=res.data
-        console.log(info)
+        console.log(info.value)
 })
 onMounted(()=>{
     setInterval(()=>{
