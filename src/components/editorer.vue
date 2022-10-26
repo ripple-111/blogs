@@ -151,7 +151,7 @@ console.log(\${1:x})
                 detail:'插入一个多行代码块',
             }])
         } 
-        if(textBeforePointer.endsWith('[')){
+        if(textBeforePointer.endsWith('[')&&textBeforePointer[textBeforePointer.length-2]!='!'){
             suggestions.push({
                 label:'外部链接',
                 kind:monaco.languages.CompletionItemKind['Function'],

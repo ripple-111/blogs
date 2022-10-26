@@ -16,7 +16,7 @@ export default defineConfig({
             libraryName: 'element-plus',
             esModule: true,
             resolveStyle: (name) => {
-                if(name!='gen-file-id')
+                if(name!='gen-file-id'&&name!='el-message')
                 return `element-plus/lib/theme-chalk/${name}.css`
             },
           }]}),
