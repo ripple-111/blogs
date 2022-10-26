@@ -7,7 +7,7 @@
                 inline-prompt :active-icon="Moon" :inactive-icon="Sunny" />
             <el-tabs v-model="activeName" type="card" class="tab">
 
-                <el-tab-pane label="文本编辑区" name="first" class="tab">
+                <el-tab-pane label="文本编辑区" name="first">
                     <el-input v-model="article.title" placeholder="输入文章标题" ref="title"
                         style="width:80%;--el-input-bg-color:rgb(30,30,30);--el-input-border-color:none;--el-input-focus-border-color:gray;--el-input-text-color:white"
                         class="my-2" maxlength="12"></el-input>
@@ -16,32 +16,36 @@
                         <el-button class="mb-2 w-full" type="info" @click=" drawer = true">文章信息</el-button>
                     </el-badge>
                     <Editorer @input="codeinput" :markdown=file />
+                    <div class="flex justify-end mt-4">
+                        <el-upload ref="uploadRef" :auto-upload="false" class="mx-3" :on-change="loadIn"
+                            :show-file-list="false" :limit="1" :on-exceed="handleExceed">
+                            <template #trigger>
+                                <el-button type="primary" class="w-20">导入</el-button>
+                            </template>
+                        </el-upload>
+                        <el-button type="primary" class="w-20 mx-1" @click="upload">上传</el-button>
+                        <el-button type="primary" class="w-20 mx-1">发布</el-button>
+                    </div>
                 </el-tab-pane>
 
-                <el-tab-pane label="样式编辑区" name="second" class="tab">
-                    <Edit_style />
+                <el-tab-pane label="样式编辑区" name="second">
+                    <Edit_style/>
+                    <div class="flex justify-end mt-4">
+                        <el-button type="primary" class="w-20 mx-1" @click="">全局设置</el-button>
+                    </div>
                 </el-tab-pane>
-                <el-tab-pane label="Role" name="third" class="tab">Role</el-tab-pane>
+                <el-tab-pane label="Role" name="third">Role</el-tab-pane>
             </el-tabs>
-            <div class="flex justify-end mt-4">
-                <el-upload ref="uploadRef" :auto-upload="false" class="mx-3" :on-change="loadIn" :show-file-list="false"  :limit="1"  :on-exceed="handleExceed">
-                <template #trigger>
-                    <el-button type="primary" class="w-20" >导入</el-button>
-                </template>
-                </el-upload>  
-                <el-button type="primary" class="w-20 mx-1" @click="upload">上传</el-button>
-                <el-button type="primary" class="w-20 mx-1">发布</el-button>
-            </div>
+
 
         </div>
-        <div class="h-screen bg-gray-700 p-4 overflow-y-auto">
+        <div>
             <el-scrollbar height="100vh">
-                <div v-html="text" id="edit" v-highLight>
-                </div>
+                <div v-html="text" id="edit" v-highLight></div>
             </el-scrollbar>
         </div>
     </div>
-    <el-drawer v-model="drawer" title="文章分类" custom-class="drawer" :close-on-click-modal="false">
+    <el-drawer v-model="drawer" title="文章分类" custom-class="drawer">
         <el-form label-position="top">
             <el-form-item label="文章类型">
                 <el-input v-model="article.type" placeholder="输入文章的类型" />
@@ -94,32 +98,32 @@ const model = ref(true)
 let activeName = 'first'
 const router = useRouter()
 
-const title=ref()
+const title = ref()
 const text = ref('')
 const drawer = ref(false)
 let markdown = ''
 function upload() {
-        if(markdown!=`<!--访问https://github.com/showdownjs/showdown/wiki/emojis 网站得到更多支持的emoji-->
-# 标题`){
-        if(!article.title){
+    if (markdown != `<!--访问https://github.com/showdownjs/showdown/wiki/emojis 网站得到更多支持的emoji-->
+# 标题`) {
+        if (!article.title) {
             ElMessage('请输入文章标题')
             title.value.focus()
         }
-        else{
-        if(article.type&&article.tags)
-        BlogUpload({md:markdown,article}).then(res=>{
-            console.log(res.data.md)
-        })
-        else{
-            ElMessage('请补充文章类型和标签')
-            drawer.value=true
+        else {
+            if (article.type && article.tags)
+                BlogUpload({ md: markdown, article }).then(res => {
+                    console.log(res.data.md)
+                })
+            else {
+                ElMessage('请补充文章类型和标签')
+                drawer.value = true
+            }
         }
-        }
-        
+
     }
     else
-    ElMessage('无内容')
-        
+        ElMessage('无内容')
+
 }
 const converter = new showdown.Converter({
     tables: true,
@@ -164,34 +168,93 @@ const handleInputConfirm = () => {
     inputVisible.value = false
     inputValue.value = ''
 }
-const uploadRef=ref()
-let file=ref(`<!--访问https://github.com/showdownjs/showdown/wiki/emojis 网站得到更多支持的emoji-->
+const uploadRef = ref()
+let file = ref(`<!--访问https://github.com/showdownjs/showdown/wiki/emojis 网站得到更多支持的emoji-->
 # 标题`)
-function loadIn(n){
-    const fileRead=new FileReader()
+function loadIn(n) {
+    const fileRead = new FileReader()
     // 读取文件内容
-    fileRead.readAsText(n.raw,'urf-8')
+    fileRead.readAsText(n.raw, 'urf-8')
     // 接下来可对文件内容进行处理
     fileRead.onload = (e) => {
-        file.value=e.target.result
-        article.title=n.name.slice(0,n.name.indexOf('.'))
+        file.value = e.target.result
+        article.title = n.name.slice(0, n.name.indexOf('.'))
     }
 }
 
-const handleExceed= (files) => {
+const handleExceed = (files) => {
     uploadRef.value.clearFiles()
-  let file = files[0]
-  file.uid = genFileId()
-  uploadRef.value.handleStart(file)
+    let file = files[0]
+    file.uid = genFileId()
+    uploadRef.value.handleStart(file)
 }
 
 
 
+// const style={
+//     edit:{
+//         text:'',
+//         form:{
+//             color: 'white',
+//             fontSize: '1.125rem',
+//             lineHeight: '2',
+//             padding: '1.5rem',
+//             letterSpacing: '0.025em',
+//             backgroundColor: 'rgb(55,65,81)',
+//     }},
+//     title:{
+//         text:'',
+//         form:{
+//             color:'rgb(13,148,136)',
+//             margin:'0 0 10px 0',
+//         }
+//     },
+//     h1:{
+//         text:'',
+//         form:{
+//             fontSize:'30px',
+//             textAlign:'center',
+//             fontWeight:'800',
+//         }
+//     },
+//     h2:{
+//         text:'',
+//         form:{
+//             fontWeight:'700',
+//             fontSize:'25px'
+//         }
+//     },
+//     strong:{
+//         margin:'8px 4px',
+//         color: 'rgb(217,119,6)'
+//     },
+//     em:{
+//         margin:'0 4px'
+//     },
+//     blockquote:{
+//         backgroundColor:'rgb(71,85,105)',
+//         lineHeight: '2.5rem',
+//         borderLeftWidth: '4px',
+//         borderColor: 'rgb(156,163,175)',
+//         padding:'0 0 0 8px'
+//     }
+// }
+// const css={edit:['color','fontSize','lineHeight','padding','letterSpacing','backgroundColor']}
+// // onMounted(() => {
+// //     let edit=document.getElementById('edit')
+// //     console.log(window.getComputedStyle(edit))
+// //     Object.keys(css).forEach((item)=>{
+// //         let ele=document.getElementById(item)
+// //         let style=window.getComputedStyle(ele)
+// //         css[item].forEach((n)=>{
+// //             console.log(style[n])
+// //         })
+        
+// //     })
+// // })
 
 </script>
 <style lang="scss" scoped>
-$model: dark;
-
 :deep(.el-tabs__nav.is-top) {
     @apply border-none;
 }
@@ -205,7 +268,7 @@ $model: dark;
         @apply border-0 after:w-0 after:block after:transition-all duration-500 after:h-1 after:bg-slate-300 after:my-2 #{!important};
     }
 
-    :deep(.is-active) {
+    :deep(.el-tabs__item.is-active) {
         @apply text-blue-300 after:w-full #{!important};
     }
 }

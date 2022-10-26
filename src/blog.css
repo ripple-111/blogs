@@ -1,0 +1,105 @@
+#edit{
+    background-color:rgb(55,65,81);
+    color:white;
+    @apply text-lg  leading-loose p-6 tracking-wide min-h-screen font-normal m-0
+}
+    /* h1,h2,h3,h4,h5{
+        @apply my-4 text-teal-600
+    } */
+
+#edit p,pre{
+    margin-left: 10px
+}
+#edit strong{
+    color: rgb(217,119,6);
+    margin:8px 4px;
+    font-weight:600
+}
+#edit em{
+    maegin:0 4px
+}
+#edit  blockquote{
+    background-color:rgb(71,85,105);
+    border-color: rgb(156,163,175);
+    padding:0 0 0 8px;
+    @apply  leading-10 w-full border-l-4 shadow-xl;
+    p{
+        @apply opacity-80 
+    }
+} 
+#edit ul,#edit ol{
+    color: rgb(96,165,250);
+    margin:0 0 0 24px;
+    @apply list-square  text-base font-semibold leading-loose   
+}
+#edit ol{
+    @apply  list-decimal
+} 
+#edit code{
+    background-color: rgb(31,41,55);
+    color: rgb(156,163,175);
+    padding:1px 4px;
+    @apply shadow-sm
+}  
+#edit pre:has(>code){
+    background-color: rgb(31,41,55);
+    @apply  p-2  shadow-2xl;
+    &::before{
+        content: '\1F534\1F7E1\1F7E2'
+    }}
+#edit pre:has(>code)>code{
+    @apply w-full block  min-h-200
+}
+#edit p:has(>code){
+    background-color: rgb(31,41,55);
+    @apply  p-2 shadow-2xl rounded-sm
+}
+#edit table{
+    @apply w-full border-2;
+    thead{
+        @apply bg-slate-500
+    }
+    tr{
+        @apply border-y-2
+    }
+}
+#edit hr{
+    border-color: rgb(15,118,110);
+    margin:16px 0;
+}
+#edit img{
+    @apply min-h-150 object-cover object-center  my-4 mx-auto max-h-96
+}
+ #edit p:has(>a){
+    @apply  text-center;
+    a{
+        @apply underline text-blue-400 hover:text-red-300  text-center 
+    } 
+} 
+#edit a{
+    color: rgb(96,165,250);
+    @apply underline  hover:text-red-400  text-center 
+}
+#edit h1,#edit h2,#edit h3,#edit h4,#edit h5{
+    color: rgb(13,148,136);
+    margin:16px 0;
+    font-size: 20px;
+    font-weight:500;
+    text-align:left
+}
+#edit h1{
+    font-size:30px;
+    color:rgb(3,148,136);
+    @apply text-center font-extrabold after:w-full after:block after:h-border after:bg-black after:my-4
+}
+#edit h2{
+    font-size: 25px;
+    @apply font-bold 
+}
+#edit h3{
+    font-size: 20px;
+    @apply font-semibold 
+}
+#edit h4,h5{
+    font-size: 18px
+}
