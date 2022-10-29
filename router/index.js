@@ -1,4 +1,5 @@
 import { createRouter,createWebHistory} from "vue-router";
+import Edit from '../src/components/Edit.vue'
 const routes=[
     {
         path:'/',
@@ -7,7 +8,7 @@ const routes=[
     {
         path:'/edit',
         meta:{keepAlive:true},
-        component:()=>import('../src/components/Edit.vue')
+        component:Edit
     },
     {
         path:'/index',
@@ -16,6 +17,10 @@ const routes=[
     {
         path:'/login',
         component:()=>import('../src/components/Login.vue')
+    },
+    {
+        path:'/display',
+        component:()=>import('../src/components/Display.vue')
     },
     {
         path:'/blog',

@@ -14,7 +14,7 @@ module.exports = {
         height:{
             'border':'2px',
             '70':'70%',
-            '70vh':'70vh'
+            '70vh':'70vh',
         },
         minHeight:{
             '200':'200px',
@@ -27,7 +27,8 @@ module.exports = {
             'star': "url('../src/assets/SaturnMoon_Sojuel_1824.jpg')",
             'starRiver':"url('../src/assets/star.jpg')",
             'modern':"url('../src/assets/modern.jpeg')",
-            "jupiter":"url('../src/assets/mu.png')"
+            "jupiter":"url('../src/assets/mu.png')",
+            "water":"url('../src/assets/1.png')"
            },
         backgroundSize:{
             '100%':"100% 100%",
@@ -37,7 +38,8 @@ module.exports = {
             "title":'.5rem'
         },
         zIndex:{
-            "under":-1
+            "under":-1,
+            "underer":-5,
         },
         lineHeight:{
             "16":'4rem',

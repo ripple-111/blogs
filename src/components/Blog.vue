@@ -1,23 +1,25 @@
 <template>
-      <el-scrollbar height="100vh">
-        <div class="flex flex-wrap w-full min-h-screen content-start bg-blue-200">
-        <div class=" bg-blue-400  w-full">
-            <el-menu  mode="horizontal" router :default-active="'/blog'" :ellipsis="false" class="h-16" background-color="#84a2d4" text-color="#bbc8e6" active-text-color="#bb5548">
+      <el-scrollbar height="100vh" ref="scroll">
+        <div class="bg-water fixed w-full h-screen z-under" ></div>
+        <div class="flex flex-wrap w-full min-h-screen content-start ">
+        
+        <div class="w-full fixed z-50">
+            <el-menu  mode="horizontal" router :default-active="'/blog'" :ellipsis="false" class="h-12" background-color="#A9CCE3" text-color="black">
                 <el-menu-item >LOGO</el-menu-item>
                 <div class="flex-1"></div>
                     <el-menu-item index="/blog">
-                        <el-icon :size="50"><HomeFilled /></el-icon>主页
+                        <el-icon :size="40"><HomeFilled /></el-icon>主页
                     </el-menu-item>
                     <el-menu-item index="/community">
-                        <el-icon :size="50"><Promotion /></el-icon>社区
+                        <el-icon :size="40"><Promotion /></el-icon>社区
                     </el-menu-item>
                     <el-menu-item index="/edit">
                         <el-icon><EditPen /></el-icon>创作
                     </el-menu-item>
                     <el-menu-item index="/more">
-                        <el-icon :size="50"><MoreFilled /></el-icon>更多
+                        <el-icon :size="40"><MoreFilled /></el-icon>更多
                     </el-menu-item>
-                    <el-avatar :size="50" class="my-auto mx-2" :src="info.headImage" fit="fill" />
+                    <el-avatar :size="40" class="my-auto mx-2" :src="info.headImage" fit="fill" />
                         <el-dropdown class="my-auto mr-6">
                             <span class="text-black font-semibold">
                                 <span class="align-middle">{{info.name}}</span>
@@ -37,7 +39,21 @@
                    
             </el-menu>
         </div>
-        <div class="w-1/4 flex flex-col items-end pr-4">
+        <div class="w-full flex justify-center h-screen items-center">
+            <div class="w-80">
+                <p class="font-blod text-5xl text-center mb-4 text-transparent" style="background-clip: text;-webkit-background-clip: text;background-image:linear-gradient(60deg,#64b3f4 0%, #c2e59c 100%)">The Star</p>
+                <el-input
+                v-model="search"
+                placeholder="输入你想搜索的文章名字"
+                prefix-icon="Search"
+                style="height:40px;--el-input-bg-color:#eef1f5"
+                class="mb-2"
+                @change="change()"
+                >
+                </el-input>
+            </div> 
+        </div>
+        <div class="w-1/4 flex flex-col items-end pr-4 bg-blue-200">
             <div class="flex flex-col items-center w-3/4  my-8 bg-gradient-to-br from-blue-500 via-blue-300 to-blue-500 rounded-lg border-solid border-2 border-opacity-80 shadow-xl">
             <el-avatar :size="130"  src="../src/assets/headImage.jpeg" fit="fill" class="m-10 mb-0"/>
             <div class="text-2xl mt-4 font-semibold">{{info.name}}</div>
@@ -82,17 +98,27 @@
                 <div class="my-4">技术<text class="float-right text-blue-600 border-2 rounded-full p-1 text-sm">{{99}}</text></div>
             </div> 
         </div>
-        <div class="flex-1">
+        <div class="flex-1 bg-blue-200" >
            <div class=" mx-auto my-8 bg-blue-200">
-            <div class="w-full bg-white border-2 rounded-md">
+            <div class="w-full">
+                
                 <router-view></router-view>
+                <el-pagination
+                    v-model:currentPage="currentPage"
+                    layout="prev, pager, next, jumper"
+                    :total="total"
+                    :page-size="5"
+                    @current-change="getAll()"
+                    :hide-on-single-page="true"
+                    class="justify-center"
+                    />
             </div>
                
            </div>
         </div>
         
-        <div class="w-1/5 pt-8 text-xl font-semibold ">
-            <div class="w-3/4 h-40 bg-slate-200 mx-auto leading-40 text-center">
+        <div class="w-1/5 pt-8 text-xl font-semibold bg-blue-200">
+            <div class="w-3/4 h-40 mx-auto leading-40 text-center" style="background-image:linear-gradient(120deg,#a1c4fd 0%, #c2e9fb 100%)">
                {{time||'...'}}
             </div>
         </div>
@@ -102,9 +128,9 @@
 </template>
 
 <script setup>
-import {userInfo} from '../http/api'
-import {useStore} from '../../stores/index'
 
+import {userInfo,getAritic} from '../http/api'
+import {useStore} from '../../stores/index'
 const store=useStore()
 const router=ref(useRouter())
 const path=computed(()=>router.value.currentRoute.path)
@@ -119,15 +145,31 @@ let info=ref({
 })
 userInfo({id:store.userId}).then(res=>{
         info.value=res.data
-        console.log(info.value)
 })
+
+
 onMounted(()=>{
     setInterval(()=>{
         let date=new Date()
         time.value=date.getMonth()+'月'+date.getDate()+'日'+'  '+date.getHours()+'.'+date.getMinutes()+'.'+(date.getSeconds()<10?'0'+date.getSeconds():date.getSeconds())
     },1000)
 })
+const search=ref()
 
+const currentPage = ref(1)
+const total=ref()
+function getAll(){
+    getAritic({currentPage:currentPage.value,search:search.value}).then(res=>{
+    store.articles=res.data.article.map(item=>{item.name=res.data.user;item.headImage=res.data.headImage;return item})
+    total.value=res.data.total
+})
+}
+getAll()
+const scroll=ref()
+function change(){
+    scroll.value.scrollTo({top:window.innerHeight,left:0,behavior:'smooth' })
+    getAll()
+}
 </script>
 
 <style lang="scss" scoped>
