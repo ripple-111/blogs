@@ -29,19 +29,21 @@
                 </el-tab-pane>
 
                 <el-tab-pane label="样式编辑区" name="second">
-                    <Edit_style/>
+                    <Edit_style @stylechange=stylechange />
                     <div class="flex justify-end mt-4">
                         <el-button type="primary" class="w-20 mx-1" @click="">全局设置</el-button>
                     </div>
                 </el-tab-pane>
-                <el-tab-pane label="Role" name="third">Role</el-tab-pane>
+                <el-tab-pane label="文章结构" name="third">
+                    <EditFile/>
+                </el-tab-pane>
             </el-tabs>
 
 
         </div>
         <div>
             <el-scrollbar height="100vh">
-                <div v-html="text" id="edit" v-highLight></div>
+                <div v-html="text" id="edit" v-highLight ></div>
             </el-scrollbar>
         </div>
     </div>
@@ -80,9 +82,11 @@ import { Moon, Sunny } from '@element-plus/icons-vue';
 import hljs from 'highlight.js'
 import 'highlight.js/styles/vs2015.css'
 import showdown from 'showdown'
-import Edit_style from './Edit-style.vue';
+import Edit_style from './Edit-style.vue'
 import { genFileId } from 'element-plus'
 import { upload as BlogUpload } from '../http/api'
+import EditFile from './Edit-file.vue';
+
 const vHighLight = {
     updated: (el) => {
         let block = el.querySelectorAll('pre code');
@@ -102,6 +106,14 @@ const title = ref()
 const text = ref('')
 const drawer = ref(false)
 let markdown = ''
+let css=[]
+let cssText=[]
+function stylechange([index,formIndex]){
+    if(index)
+    index.forEach(item=>css.push(document.styleSheets[2].cssRules[item]?.cssText))
+    if(formIndex)
+    formIndex.forEach(item=>cssText.push(document.styleSheets[2].cssRules[item]?.cssText))
+}
 function upload() {
     if (markdown != `<!--访问https://github.com/showdownjs/showdown/wiki/emojis 网站得到更多支持的emoji-->
 # 标题`) {
@@ -111,7 +123,7 @@ function upload() {
         }
         else {
             if (article.type && article.tags)
-                BlogUpload({ md: markdown, article }).then(res => {
+                BlogUpload({ md: markdown, article ,css,cssText}).then(res => {
                     console.log(res.data.md)
                 })
             else {

@@ -25,11 +25,10 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
 const active=ref('')
+const emit=defineEmits(['stylechange'])
 
-
-let index=reactive([''])
+let index=reactive([])
 let formIndex=reactive([])
 function change(n,ele,i,i2){
     try{
@@ -41,7 +40,6 @@ function change(n,ele,i,i2){
     
     // let selectorText=selectorMap.find(item=>item[1]==ele)[0]
     // let length=Object.values(document.styleSheets[2].cssRules).findIndex(item=>item.selectorText==selectorText)
-    console.log(document.styleSheets[2])
     if(n.value)
     formIndex[source]=document.styleSheets[2].insertRule(`${selectorMap.find(item=>item[1]==ele)[0]} {${n.key}:${n.value}}`,document.styleSheets[2].cssRules.length)
     }
@@ -53,6 +51,7 @@ function change(n,ele,i,i2){
 function make({text}){
     let length=document.styleSheets[2].cssRules.length
     try{
+        if(index.length)
         index.forEach((item,i)=>{ 
         if(item){
         document.styleSheets[2].deleteRule(item)
@@ -75,7 +74,9 @@ function make({text}){
         console.log(err)
     }
 }
-watch([index,formIndex],()=>console.log(document.styleSheets[2].cssRules[index]?.cssText,document.styleSheets[2].cssRules[formIndex]?.cssText))
+watch([index,formIndex],()=>{
+    emit('stylechange',[index,formIndex]) 
+})
 const selectorMap=[]
 onMounted(() => {
     // console.log(document.styleSheets[2].cssRules)
@@ -101,7 +102,7 @@ onMounted(() => {
         case '#edit blockquote':
             type='blockquote'
             break;
-        case '#edit ul,#edit ol':
+        case '#edit ul, #edit ol':
             type='ulol'
             break;
         case '#edit ol':
