@@ -1,10 +1,10 @@
 <template>
-      <el-scrollbar height="100vh" ref="scroll">
+      <el-scrollbar height="100vh" ref="scroll" class="scroll">
         <div class="bg-water fixed w-full h-screen z-under" ></div>
         <div class="flex flex-wrap w-full min-h-screen content-start ">
         
         <div class="w-full fixed z-50">
-            <el-menu  mode="horizontal" router :default-active="'/blog'" :ellipsis="false" class="h-12" background-color="#A9CCE3" text-color="black">
+            <el-menu  mode="horizontal" router :default-active="'/blog'" :ellipsis="false" class="h-12" background-color="rgba(7,21,58,.5)" style="backdrop-filter: blur(4px);--el-menu-hover-text-color:white;--el-menu-hover-bg-color:#ffffff1a" text-color="rgba(233,233,233,.6)">
                 <el-menu-item >LOGO</el-menu-item>
                 <div class="flex-1"></div>
                     <el-menu-item index="/blog">
@@ -21,8 +21,8 @@
                     </el-menu-item>
                     <el-avatar :size="40" class="my-auto mx-2" :src="info.headImage" fit="fill" />
                         <el-dropdown class="my-auto mr-6">
-                            <span class="text-black font-semibold">
-                                <span class="align-middle">{{info.name}}</span>
+                            <span class="text-white font-semibold">
+                                <span class="align-middle">{{info.username}}</span>
                                 <el-icon :size="20" class="align-middle">
                                 <arrow-down />
                                 </el-icon>
@@ -51,12 +51,13 @@
                 @change="change()"
                 >
                 </el-input>
+                <p class="font-blod text-lg text-center mb-4 text-white mt-4">开启你的去中心博客之旅</p>
             </div> 
         </div>
         <div class="w-1/4 flex flex-col items-end pr-4 bg-blue-200">
-            <div class="flex flex-col items-center w-3/4  my-8 bg-gradient-to-br from-blue-500 via-blue-300 to-blue-500 rounded-lg border-solid border-2 border-opacity-80 shadow-xl">
+            <div class="flex flex-col items-center w-3/4  my-8 bg-gradient-to-br from-blue-500 via-blue-300 to-blue-500 rounded-lg border-solid border-2 border-opacity-80 shadow-xl relative">
             <el-avatar :size="130"  src="../src/assets/headImage.jpeg" fit="fill" class="m-10 mb-0"/>
-            <div class="text-2xl mt-4 font-semibold">{{info.name}}</div>
+            <div class="text-2xl mt-4 font-semibold">{{info.username}}</div>
             <div class="text-base text-gray-500 mt-2">{{info.introduce}}</div>
             <div class="flex w-60 mt-4 text-center text-gray-700">
                 <div class="w-1/3">
@@ -78,40 +79,28 @@
             </div>
             </div>
             <div class="w-3/4 button">
-                <el-button class="w-full" :class="path=='/blog'?'active':''" @click="router.push('/blog')"><el-icon :size="18" class="mr-4"><HomeFilled /></el-icon>回到首页</el-button>
+                <el-button class="w-full" :class="path=='/blog'?'active':''" @click="router.push('/blog');store.clear()"><el-icon :size="18" class="mr-4"><HomeFilled /></el-icon>回到首页</el-button>
                 <el-button class="w-full" :class="path=='/kind'?'active':''" @click="router.push('/kind')"><el-icon :size="18" class="mr-4"><Tickets /></el-icon>文章归档</el-button>
                 <el-button class="w-full" :class="path=='/friend'?'active':''" @click="router.push('/friend')"><el-icon :size="18" class="mr-4"><PhoneFilled /></el-icon>呼唤友人</el-button>
                 <el-button class="w-full" :class="path=='/board'?'active':''" @click="router.push('/board')"><el-icon :size="18" class="mr-4"><DataBoard /></el-icon>留言板</el-button>
             </div>
             <div class="w-3/4 min-h-200 mt-8 bg-white bg-opacity-80 shadow-lg rounded-md pt-2">
-                <el-tag size="large" class="m-2 cursor-pointer" effect="dark" round>#Tag 1</el-tag>
-                <el-tag size="large" class="m-2 cursor-pointer" effect="dark" round type="info">Tag 1</el-tag>
-                <el-tag size="large" class="m-2 cursor-pointer" effect="dark" round type="warning">Tag 1</el-tag>
-                <el-tag size="large" class="m-2 cursor-pointer" effect="dark" round type="success">Tag 1</el-tag>
-                <el-tag size="large" class="m-2 cursor-pointer" effect="dark" round type="warning">Tag 2222</el-tag>
-                <el-tag size="large" class="m-2 cursor-pointer" effect="dark" round type="success">Tag 1</el-tag>
+                <el-tag size="large" class="m-2 cursor-pointer" effect="dark" round v-for="tag in store.tags" :key="tag" @click="store.currentTag=tag; store.getAll({})">{{'#'+tag}}</el-tag>
                 
             </div>
-            <div class="w-3/4 min-h-200 my-8 bg-white bg-opacity-80 py-2 px-2 text-lg text-gray-600 shadow-lg rounded-md">
-                <p class="font-semibold text-xl text-blue-400 mb-4">文章归类</p>
-                <div class="my-4 cursor-pointer">技术<text class="float-right text-blue-600 border-2 rounded-full p-1 text-sm">{{99}}</text></div>
-                <div class="my-4">技术<text class="float-right text-blue-600 border-2 rounded-full p-1 text-sm">{{99}}</text></div>
+            <div class="w-3/4 min-h-200 my-8 bg-white bg-opacity-80 py-2 text-lg text-gray-600 shadow-lg rounded-md">
+                <p class="font-semibold text-xl text-blue-400 mb-4 ml-4">文章归类</p>
+                <div class="my-4 cursor-pointer hover:bg-slate-200 flex justify-between items-center px-4"   v-for="item in store.type" :key="item.type" 
+                @click="store.currentType=item.type;store.getAll({})">
+                {{item.type}}
+                <span class=" text-blue-600 border px-1 rounded content-center text-sm bg-blue-100">{{item.count}}</span>
+                </div>
             </div> 
         </div>
         <div class="flex-1 bg-blue-200" >
            <div class=" mx-auto my-8 bg-blue-200">
             <div class="w-full">
-                
                 <router-view></router-view>
-                <el-pagination
-                    v-model:currentPage="currentPage"
-                    layout="prev, pager, next, jumper"
-                    :total="total"
-                    :page-size="5"
-                    @current-change="getAll()"
-                    :hide-on-single-page="true"
-                    class="justify-center"
-                    />
             </div>
                
            </div>
@@ -121,15 +110,17 @@
             <div class="w-3/4 h-40 mx-auto leading-40 text-center" style="background-image:linear-gradient(120deg,#a1c4fd 0%, #c2e9fb 100%)">
                {{time||'...'}}
             </div>
+           
         </div>
-        <el-backtop :right="200" :bottom="100" />
+        
     </div>
 </el-scrollbar>
+
 </template>
 
 <script setup>
 
-import {userInfo,getAritic} from '../http/api'
+import {userInfo} from '../http/api'
 import {useStore} from '../../stores/index'
 const store=useStore()
 const router=ref(useRouter())
@@ -139,15 +130,14 @@ let info=ref({
     article:'999',
     fan:'999',
     topic:'999',
-    name:'默认昵称',
+    username:'默认昵称',
     introduce:'...',
     headImage:'../src/assets/headImage.jpeg',
+    ipfs:""
 })
-userInfo({id:store.userId}).then(res=>{
-        info.value=res.data
+userInfo().then(res=>{
+        info.value=res.data.user
 })
-
-
 onMounted(()=>{
     setInterval(()=>{
         let date=new Date()
@@ -156,25 +146,18 @@ onMounted(()=>{
 })
 const search=ref()
 
-const currentPage = ref(1)
-const total=ref()
-function getAll(){
-    getAritic({currentPage:currentPage.value,search:search.value}).then(res=>{
-    store.articles=res.data.article.map(item=>{item.name=res.data.user;item.headImage=res.data.headImage;return item})
-    total.value=res.data.total
-})
-}
-getAll()
+store.getAll({})
+store.getAllType()
 const scroll=ref()
 function change(){
     scroll.value.scrollTo({top:window.innerHeight,left:0,behavior:'smooth' })
-    getAll()
+    store.getAll({search:search.value})
 }
 </script>
 
 <style lang="scss" scoped>
   .el-menu-item{
-    font-size:22px
+    font-size:20px
   }
   .el-divider{
     margin: 1px 0;
