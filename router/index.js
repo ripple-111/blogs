@@ -30,7 +30,7 @@ const routes=[
             path:'',component:()=>import('../src/components/Essay.vue')
         },
         {
-            path:'/kind',component:()=>import('../src/components/Aritic.vue')
+            path:'/kind',component:()=>import('../src/components/Article.vue')
         },
         {
             path:'/friend',component:()=>import('../src/components/Friend.vue')

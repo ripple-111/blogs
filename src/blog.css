@@ -3,10 +3,6 @@
     color:white;
     @apply text-lg  leading-loose p-6 tracking-wide min-h-screen font-normal m-0
 }
-    /* h1,h2,h3,h4,h5{
-        @apply my-4 text-teal-600
-    } */
-
 #edit p,pre{
     margin-left: 10px
 }

@@ -47,6 +47,14 @@
     <div v-else class="text-center font-medium text-xl mt-10">
         用户似乎没有文章 
     </div>
+    <el-pagination
+        v-model:currentPage="currentPage"
+        layout="prev, pager, next, jumper"
+        :total="store.total"
+        :page-size="3"
+        @current-change="store.getAll({currentPage})"
+        class="justify-center"
+        />
 </template>
 
 <script setup>
@@ -55,6 +63,7 @@ import { useRouter } from 'vue-router'
 import {timeFormat} from '../../util/time'
 const router=useRouter()
 const store=useStore()
+const currentPage = ref(1)
 function enter(n){
     router.push({path:'/display',query:{id:n.id}})
 }
