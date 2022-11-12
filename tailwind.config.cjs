@@ -18,7 +18,11 @@ module.exports = {
         },
         minHeight:{
             '200':'200px',
-            '150':'150px'
+            '150':'150px',
+            
+        },
+        minWidth:{
+            '50':'50px'
         },
         backgroundColor:{
             'editor':'rgb(40,40,40)',
