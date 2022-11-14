@@ -1,9 +1,9 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-
+import 'animate.css'
 import './index.css'
-import './assets/font.css'
+import '../public/font.css'
 import vueRouter from '../router/index'
 // import 'element-plus/dist/index.css'
 // import ElementPlus from 'element-plus'

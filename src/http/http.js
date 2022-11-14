@@ -26,7 +26,7 @@ axios.interceptors.request.use(
     }
   },(err)=>{
     if(err.response.status==401){
-        window.location.href = '/login'
+        window.location.hash = '/login'
         alert(err.response.data.msg)
     }
   }

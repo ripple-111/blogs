@@ -9,6 +9,7 @@
 <script setup>
 import loader from "@monaco-editor/loader"
 import * as monaco from 'monaco-editor'
+
 const editor=ref(null)
 let editorer=null
 const emit = defineEmits(['input'])

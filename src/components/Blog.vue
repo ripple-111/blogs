@@ -56,7 +56,7 @@
         </div>
         <div class="w-1/4 flex flex-col items-end pr-4 bg-blue-200">
             <div class="flex flex-col items-center w-3/4  my-8 bg-gradient-to-br from-blue-500 via-blue-300 to-blue-500 rounded-lg border-solid border-2 border-opacity-80 shadow-xl relative">
-            <el-avatar :size="130"  src="../src/assets/headImage.jpeg" fit="fill" class="m-10 mb-0"/>
+            <el-avatar :size="130"  src="../public/headImage.jpeg" fit="fill" class="m-10 mb-0"/>
             <div class="text-2xl mt-4 font-semibold">{{info.username}}</div>
             <div class="text-base text-gray-500 mt-2">{{info.introduce}}</div>
             <div class="flex w-60 mt-4 text-center text-gray-700">
@@ -132,7 +132,7 @@ let info=ref({
     topic:'999',
     username:'默认昵称',
     introduce:'...',
-    headImage:'../src/assets/headImage.jpeg',
+    headImage:'../public/headImage.jpeg',
     ipfs:""
 })
 userInfo().then(res=>{

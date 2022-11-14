@@ -34,9 +34,7 @@
                         <el-button type="primary" class="w-20 mx-1" @click="">全局设置</el-button>
                     </div>
                 </el-tab-pane>
-                <el-tab-pane label="文章结构" name="third">
-                    <EditFile/>
-                </el-tab-pane>
+               
             </el-tabs>
 
 
@@ -85,8 +83,15 @@ import showdown from 'showdown'
 import Edit_style from './Edit-style.vue'
 import { genFileId } from 'element-plus'
 import { upload as BlogUpload } from '../http/api'
-import EditFile from './Edit-file.vue';
-
+import { ElNotification } from 'element-plus'
+import {useRoute} from 'vue-router'
+import {useStore} from '../../stores/index'
+const store=useStore()
+const route=useRoute()
+let file = ref(`<!--访问https://github.com/showdownjs/showdown/wiki/emojis 网站得到更多支持的emoji-->
+# 标题`)
+if(route.query.id)
+file=store.articles.find(item=>item.id==route.query.id).text
 const vHighLight = {
     updated: (el) => {
         let block = el.querySelectorAll('pre code');
@@ -124,6 +129,7 @@ function upload() {
         else {
             if (article.type && article.tags)
                 BlogUpload({ md: markdown, article ,css,cssText}).then(res => {
+                    ElNotification.success('文章上传成功')
                     console.log(res.data.md)
                 })
             else {
@@ -181,8 +187,7 @@ const handleInputConfirm = () => {
     inputValue.value = ''
 }
 const uploadRef = ref()
-let file = ref(`<!--访问https://github.com/showdownjs/showdown/wiki/emojis 网站得到更多支持的emoji-->
-# 标题`)
+
 function loadIn(n) {
     const fileRead = new FileReader()
     // 读取文件内容
@@ -200,71 +205,6 @@ const handleExceed = (files) => {
     file.uid = genFileId()
     uploadRef.value.handleStart(file)
 }
-
-
-
-// const style={
-//     edit:{
-//         text:'',
-//         form:{
-//             color: 'white',
-//             fontSize: '1.125rem',
-//             lineHeight: '2',
-//             padding: '1.5rem',
-//             letterSpacing: '0.025em',
-//             backgroundColor: 'rgb(55,65,81)',
-//     }},
-//     title:{
-//         text:'',
-//         form:{
-//             color:'rgb(13,148,136)',
-//             margin:'0 0 10px 0',
-//         }
-//     },
-//     h1:{
-//         text:'',
-//         form:{
-//             fontSize:'30px',
-//             textAlign:'center',
-//             fontWeight:'800',
-//         }
-//     },
-//     h2:{
-//         text:'',
-//         form:{
-//             fontWeight:'700',
-//             fontSize:'25px'
-//         }
-//     },
-//     strong:{
-//         margin:'8px 4px',
-//         color: 'rgb(217,119,6)'
-//     },
-//     em:{
-//         margin:'0 4px'
-//     },
-//     blockquote:{
-//         backgroundColor:'rgb(71,85,105)',
-//         lineHeight: '2.5rem',
-//         borderLeftWidth: '4px',
-//         borderColor: 'rgb(156,163,175)',
-//         padding:'0 0 0 8px'
-//     }
-// }
-// const css={edit:['color','fontSize','lineHeight','padding','letterSpacing','backgroundColor']}
-// // onMounted(() => {
-// //     let edit=document.getElementById('edit')
-// //     console.log(window.getComputedStyle(edit))
-// //     Object.keys(css).forEach((item)=>{
-// //         let ele=document.getElementById(item)
-// //         let style=window.getComputedStyle(ele)
-// //         css[item].forEach((n)=>{
-// //             console.log(style[n])
-// //         })
-        
-// //     })
-// // })
-
 </script>
 <style lang="scss" scoped>
 :deep(.el-tabs__nav.is-top) {

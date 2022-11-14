@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 
+import path from 'path'   
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -7,6 +8,7 @@ import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import {createStyleImportPlugin,ElementPlusResolve} from 'vite-plugin-style-import' 
 export default defineConfig({
+//   base: path.resolve(__dirname, './dist/'), // 新增
   plugins: [
     vue(),
     createStyleImportPlugin({
@@ -16,7 +18,7 @@ export default defineConfig({
             libraryName: 'element-plus',
             esModule: true,
             resolveStyle: (name) => {
-                if(name!='gen-file-id')
+                if(name!='gen-file-id'&&name!='el-notification')
                 return `element-plus/lib/theme-chalk/${name}.css`
             },
           }]}),
