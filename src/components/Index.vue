@@ -15,8 +15,8 @@
                 </el-menu>
             </div>
             <div class="h-screen w-full relative">
-                <video autoplay loop muted src='../assets/plant.mp4' poster="../assets/plant.png"
-                    class="object-cover h-screen"></video>
+                <!-- <video autoplay loop muted src='../assets/plant.mp4' poster="../assets/plant.png"
+                    class="object-cover h-screen"></video> -->
                 <div class="absolute bottom-10 left-32 text-white">
                     <h1 class="tracking-widest text-6xl leading-20 my-10">加入群星</h1>
                     <el-button plain id="button">Get Start</el-button>

@@ -5,7 +5,7 @@
                 <template #header>
                 <div class="flex justify-between items-center">
                     <div>
-                    <el-avatar :size="50" class="inline-block align-middle" src="../src/assets/headImage.jpeg" fit="cover"  />
+                    <el-avatar :size="50" class="inline-block align-middle" src="../public/headImage.jpeg" fit="cover"  />
                     <span class="text-xl font-semibold inline-block align-middle mx-2">{{'mike'}}</span>
                     </div>
                     <el-button type="primary" :icon="View"></el-button>
@@ -25,7 +25,7 @@
                 <template #header>
                 <div class="flex justify-between items-center">
                     <div>
-                    <el-avatar :size="50" class="inline-block align-middle" src="../src/assets/headImage.jpeg" fit="cover"  />
+                    <el-avatar :size="50" class="inline-block align-middle" src="../public/headImage.jpeg" fit="cover"  />
                     <span class="text-xl font-semibold inline-block align-middle mx-2">{{'mike'}}</span>
                     </div>
                     <el-button type="primary" :icon="View"></el-button>
@@ -45,7 +45,7 @@
                 <template #header>
                 <div class="flex justify-between items-center">
                     <div>
-                    <el-avatar :size="50" class="inline-block align-middle" src="../src/assets/headImage.jpeg" fit="cover"  />
+                    <el-avatar :size="50" class="inline-block align-middle" src="../public/headImage.jpeg" fit="cover"  />
                     <span class="text-xl font-semibold inline-block align-middle mx-2">{{'mike'}}</span>
                     </div>
                     <el-button type="primary" :icon="View"></el-button>
@@ -65,7 +65,7 @@
                 <template #header>
                 <div class="flex justify-between items-center">
                     <div>
-                    <el-avatar :size="50" class="inline-block align-middle" src="../src/assets/headImage.jpeg" fit="cover"  />
+                    <el-avatar :size="50" class="inline-block align-middle" src="../public/headImage.jpeg" fit="cover"  />
                     <span class="text-xl font-semibold inline-block align-middle mx-2">{{'mike'}}</span>
                     </div>
                     <el-button type="primary" :icon="View"></el-button>

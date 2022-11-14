@@ -28,11 +28,12 @@ module.exports = {
             'editor':'rgb(40,40,40)',
         },
         backgroundImage: {
-            'star': "url('../src/assets/SaturnMoon_Sojuel_1824.jpg')",
-            'starRiver':"url('../src/assets/star.jpg')",
-            'modern':"url('../src/assets/modern.jpeg')",
-            "jupiter":"url('../src/assets/mu.png')",
-            "water":"url('../src/assets/1.png')"
+            'star': "url('../SaturnMoon_Sojuel_1824.jpg')",
+            'starRiver':"url('../star.jpg')",
+            'modern':"url('../modern.jpeg')",
+            "jupiter":"url('../mu.png')",
+            "water":"url('../1.png')",
+            "forest":"url('../forest.png')"
            },
         backgroundSize:{
             '100%':"100% 100%",
