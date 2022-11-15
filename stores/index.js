@@ -4,7 +4,7 @@ export const useStore=defineStore('user',{
     state:()=>{
         return{
             userId:localStorage.getItem('userId')||'',
-            articles:[],
+            articles:JSON.parse(localStorage.getItem('article'))||[],
             tags:[],
             type:[],
             currentType:'',
@@ -16,6 +16,7 @@ export const useStore=defineStore('user',{
         getAll({currentPage=1,search}){
             getArticle({currentPage,search,type:this.currentType,tags:this.currentTag}).then(res=>{
                 this.articles=res.data.article.rows.map(item=>{item.name=res.data.user;item.headImage=res.data.headImage;return item})
+                localStorage.setItem('article',JSON.stringify(this.articles))
                 this.total=res.data.article.count
             })
         },

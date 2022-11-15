@@ -84,7 +84,6 @@ import Edit_style from './Edit-style.vue'
 import { genFileId } from 'element-plus'
 import { upload as BlogUpload } from '../http/api'
 import { ElNotification } from 'element-plus'
-import {useRoute} from 'vue-router'
 import {useStore} from '../../stores/index'
 const store=useStore()
 const route=useRoute()
@@ -128,7 +127,7 @@ function upload() {
         }
         else {
             if (article.type && article.tags)
-                BlogUpload({ md: markdown, article ,css,cssText}).then(res => {
+                BlogUpload({ md: markdown, article ,css,cssText,id:route.query.id}).then(res => {
                     ElNotification.success('文章上传成功')
                     console.log(res.data.md)
                 })

@@ -30,18 +30,20 @@ const emit=defineEmits(['stylechange'])
 
 let index=reactive([])
 let formIndex=reactive([])
+let stylesheet=Array.from(document.styleSheets).find(i=>i.cssRules[0]?.selectorText=='#edit')
+console.log(stylesheet)
 function change(n,ele,i,i2){
     try{
         let source=i2*styles.length+i
     if(formIndex[source]){
-        document.styleSheets[2].deleteRule(formIndex[source])
+        stylesheet.deleteRule(formIndex[source])
         formIndex[source]=''
     }
     
     // let selectorText=selectorMap.find(item=>item[1]==ele)[0]
-    // let length=Object.values(document.styleSheets[2].cssRules).findIndex(item=>item.selectorText==selectorText)
+    // let length=Object.values(stylesheet.cssRules).findIndex(item=>item.selectorText==selectorText)
     if(n.value)
-    formIndex[source]=document.styleSheets[2].insertRule(`${selectorMap.find(item=>item[1]==ele)[0]} {${n.key}:${n.value}}`,document.styleSheets[2].cssRules.length)
+    formIndex[source]=stylesheet.insertRule(`${selectorMap.find(item=>item[1]==ele)[0]} {${n.key}:${n.value}}`,stylesheet.cssRules.length)
     }
     catch(err){
         ElMessage.error('样式格式出错了')
@@ -49,21 +51,21 @@ function change(n,ele,i,i2){
     }
 }
 function make({text}){
-    let length=document.styleSheets[2].cssRules.length
+    let length=stylesheet.cssRules.length
     try{
         if(index.length)
         index.forEach((item,i)=>{ 
         if(item){
-        document.styleSheets[2].deleteRule(item)
+        stylesheet.deleteRule(item)
         }
         index=['']
     })
         if(text!=''){
         text.split('\n#').forEach((item,i)=>{
             if(i!=0)
-            index.push(document.styleSheets[2].insertRule('#'+item,length))
+            index.push(stylesheet.insertRule('#'+item,length))
             else
-            index.push(document.styleSheets[2].insertRule(item,length))
+            index.push(stylesheet.insertRule(item,length))
         })
         
         }
@@ -79,8 +81,8 @@ watch([index,formIndex],()=>{
 })
 const selectorMap=[]
 onMounted(() => {
-    // console.log(document.styleSheets[2].cssRules)
-    Object.values(document.styleSheets[2].cssRules).forEach(item=>{
+    // console.log(stylesheet.cssRules)
+    Object.values(stylesheet.cssRules).forEach(item=>{
         let type=''
         
         switch(item.selectorText){

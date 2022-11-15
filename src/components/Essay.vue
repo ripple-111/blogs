@@ -23,7 +23,7 @@
                         <template #dropdown>
                             <el-dropdown-menu>
                                 <el-dropdown-item :icon="EditPen" @click="router.push({ path: '/edit', query: { id: essay.id } })">编辑</el-dropdown-item>
-                                <el-dropdown-item :icon="Check">Action 4</el-dropdown-item>
+                                <el-dropdown-item :icon="Delete" @click="deleteBlog({ id: essay.id })">删除</el-dropdown-item>
                                 <el-dropdown-item :icon="More">Action 5</el-dropdown-item>
                             </el-dropdown-menu>
                         </template>
@@ -76,19 +76,20 @@
 
 <script setup>
 import { useStore } from '../../stores/index'
-import { useRouter } from 'vue-router'
 import { timeFormat } from '../../util/time'
 import {
     EditPen,
-  Check,
-  More
+  More,
+Delete
 } from '@element-plus/icons-vue'
+import {  deleteBlog } from '../http/api' 
 const router = useRouter()
 const store = useStore()
 const currentPage = ref(1)
 function enter(n) {
     router.push({ path: '/display', query: { id: n.id } })
 }
+
 // const essay=reactive({
 //     name:'John',
 //     time:'一分钟前',
