@@ -6,7 +6,7 @@
             <div class="text-xl text-white w-10 text-left align-bottom border bg-blue-400  py-4  leading-10  hover:bg-blue-500  active:bg-blue-700 transition-all duration-500" style="writing-mode: vertical-lr;letter-spacing:10px" @click="islogin=false;form.resetFields()" :class="!islogin?'text-2xl text-semibold bg-opacity-70':'bg-opacity-10'">注册</div>
         </div>
        
-            <div class="w-5/12 h-full bg-white flex flex-col items-center shadow-2xl shadow-black bg-opacity-5 rounded-lg animate__animated animate__bounceInDown" v-show="!islogin">
+            <div class="w-5/12 h-full bg-white flex flex-col items-center shadow-2xl shadow-black bg-opacity-10 rounded-lg animate__animated animate__bounceInDown " v-show="!islogin">
                 <p class="text-center leading-loose text-2xl mt-16">Welcome to join The stars</p>
                 <div class="mt-10 w-3/4">
                     <el-form :model="user" :rules="rule" show-message scroll-to-error ref="form">
@@ -28,7 +28,7 @@
       
         <!-- <div class="flex-1 h-70 bg-starRiver bg-100%  border-y-2 border-gray-300 border-double relative "> </div>  -->
         
-            <div class="w-5/12 h-full bg-white flex flex-col items-center shadow-2xl shadow-black bg-opacity-5 rounded-lg animate__animated animate__bounceInUp" v-show="islogin">
+            <div class="w-5/12 h-full bg-white flex flex-col items-center shadow-2xl shadow-black bg-opacity-10 rounded-lg animate__animated animate__bounceInUp" v-show="islogin">
                 <p class="text-center leading-loose text-2xl mt-16">Welcome to Start The stars</p>
                 <div class="mt-10 w-3/4">
                     <el-form :model="user" :rules="rule" show-message scroll-to-error ref="form">

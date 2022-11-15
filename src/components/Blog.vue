@@ -29,8 +29,8 @@
                             </span>
                             <template #dropdown>
                             <el-dropdown-menu>
-                                <el-dropdown-item>账号管理</el-dropdown-item>
-                                <el-dropdown-item>登录注册</el-dropdown-item>
+                                <el-dropdown-item @click="drawer=true">账号管理</el-dropdown-item>
+                                <el-dropdown-item @click="router.push('/login')">登录注册</el-dropdown-item>
                                 <el-dropdown-item>Action 3</el-dropdown-item>
                                 <el-dropdown-item>Action 4</el-dropdown-item>
                             </el-dropdown-menu>
@@ -110,12 +110,19 @@
             <div class="w-3/4 h-40 mx-auto leading-40 text-center" style="background-image:linear-gradient(120deg,#a1c4fd 0%, #c2e9fb 100%)">
                {{time||'...'}}
             </div>
-           
         </div>
         
     </div>
 </el-scrollbar>
-
+<el-drawer
+    v-model="drawer"
+    title="I am the title"
+    direction="ltr"
+    :before-close="handleClose"
+    size="30%"
+    >
+    <span>Hi, there!</span>
+  </el-drawer>
 </template>
 
 <script setup>
@@ -126,6 +133,8 @@ const store=useStore()
 const router=ref(useRouter())
 const path=computed(()=>router.value.currentRoute.path)
 const time=ref('')
+const drawer=ref(false)
+
 let info=ref({
     article:'999',
     fan:'999',

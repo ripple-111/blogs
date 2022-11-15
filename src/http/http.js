@@ -1,5 +1,6 @@
 import axios from "axios";
 let baseUrl='http://127.0.0.1:3000/api'
+let timer
 axios.defaults.baseURL=baseUrl
 axios.defaults.timeout=50000 
 axios.defaults.withCredentials = true //自动携带cookie
@@ -25,9 +26,14 @@ axios.interceptors.request.use(
         return Promise.reject(res)
     }
   },(err)=>{
-    if(err.response.status==401){
-        window.location.hash = '/login'
-        alert(err.response.data.msg)
+    if(err.response?.status==401){
+        if(timer)
+        clearTimeout(timer)
+        timer=setTimeout(()=>{
+            window.location.hash = '/login'
+            alert(err.response.data.msg)
+        },500)
+        
     }
   }
   )
