@@ -22,7 +22,8 @@ module.exports = {
             
         },
         minWidth:{
-            '50':'50px'
+            '50':'50px',
+            '300':'300px'
         },
         backgroundColor:{
             'editor':'rgb(40,40,40)',

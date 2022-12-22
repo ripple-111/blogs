@@ -1,45 +1,10 @@
 <template>
       <el-scrollbar height="100vh" ref="scroll" class="scroll">
-        <div class="bg-water fixed w-full h-screen z-under" ></div>
-        <div class="flex flex-wrap w-full min-h-screen content-start ">
+        <div class="bg-water fixed w-full h-screen z-underer" ></div>
         
-        <div class="w-full fixed z-50">
-            <el-menu  mode="horizontal" router :default-active="'/blog'" :ellipsis="false" class="h-12" background-color="rgba(7,21,58,.5)" style="backdrop-filter: blur(4px);--el-menu-hover-text-color:white;--el-menu-hover-bg-color:#ffffff1a" text-color="rgba(233,233,233,.6)">
-                <el-menu-item >LOGO</el-menu-item>
-                <div class="flex-1"></div>
-                    <el-menu-item index="/blog">
-                        <el-icon :size="40"><HomeFilled /></el-icon>主页
-                    </el-menu-item>
-                    <el-menu-item index="/community">
-                        <el-icon :size="40"><Promotion /></el-icon>社区
-                    </el-menu-item>
-                    <el-menu-item index="/edit">
-                        <el-icon><EditPen /></el-icon>创作
-                    </el-menu-item>
-                    <el-menu-item index="/more">
-                        <el-icon :size="40"><MoreFilled /></el-icon>更多
-                    </el-menu-item>
-                    <el-avatar :size="40" class="my-auto mx-2" :src="info.headImage" fit="fill" />
-                        <el-dropdown class="my-auto mr-6">
-                            <span class="text-white font-semibold">
-                                <span class="align-middle">{{info.username}}</span>
-                                <el-icon :size="20" class="align-middle">
-                                <arrow-down />
-                                </el-icon>
-                            </span>
-                            <template #dropdown>
-                            <el-dropdown-menu>
-                                <el-dropdown-item @click="drawer=true">账号管理</el-dropdown-item>
-                                <el-dropdown-item @click="router.push('/login')">登录注册</el-dropdown-item>
-                                <el-dropdown-item>Action 3</el-dropdown-item>
-                                <el-dropdown-item>Action 4</el-dropdown-item>
-                            </el-dropdown-menu>
-                            </template>
-                        </el-dropdown>
-                   
-            </el-menu>
-        </div>
-        <div class="w-full flex justify-center h-screen items-center">
+        <div class="flex flex-wrap w-full min-h-screen content-start">
+        <NavBar/>
+        <div class="w-full flex justify-center h-screen items-center relative">
             <div class="w-80">
                 <p class="font-blod text-5xl text-center mb-4 text-transparent" style="background-clip: text;-webkit-background-clip: text;background-image:linear-gradient(60deg,#64b3f4 0%, #c2e59c 100%)">The Star</p>
                 <el-input
@@ -48,13 +13,18 @@
                 prefix-icon="Search"
                 style="height:40px;--el-input-bg-color:#eef1f5"
                 class="mb-2"
-                @change="change()"
+                @input="(search)=>store.getArticle({search})"
+                @change="scrollTo()"
                 >
                 </el-input>
                 <p class="font-blod text-lg text-center mb-4 text-white mt-4">开启你的去中心博客之旅</p>
             </div> 
+            <div class="absolute right-40 bottom-20 rounded-full bg-white" style="height:30px" @click="scrollTo()">
+            <el-icon :size="30" color="#409EFC"><CaretBottom /></el-icon>
+            </div>
         </div>
         <div class="w-1/4 flex flex-col items-end pr-4 bg-blue-200">
+           
             <div class="flex flex-col items-center w-3/4  my-8 bg-gradient-to-br from-blue-500 via-blue-300 to-blue-500 rounded-lg border-solid border-2 border-opacity-80 shadow-xl relative">
             <el-avatar :size="130"  src="../public/headImage.jpeg" fit="fill" class="m-10 mb-0"/>
             <div class="text-2xl mt-4 font-semibold">{{info.username}}</div>
@@ -108,59 +78,42 @@
         
         <div class="w-1/5 pt-8 text-xl font-semibold bg-blue-200">
             <div class="w-3/4 h-40 mx-auto leading-40 text-center" style="background-image:linear-gradient(120deg,#a1c4fd 0%, #c2e9fb 100%)">
-               {{time||'...'}}
+              
             </div>
         </div>
         
     </div>
 </el-scrollbar>
-<el-drawer
-    v-model="drawer"
-    title="I am the title"
-    direction="ltr"
-    :before-close="handleClose"
-    size="30%"
-    >
-    <span>Hi, there!</span>
-  </el-drawer>
+        <el-drawer
+            v-model="pageStore.drawer"
+            title="个人中心"
+            direction="ltr"
+            size="30%"
+            >
+            <span>Hi, there!</span>
+            <el-card class="mt-10">
+                <div class="mb-4">{{'个人介绍：'+info.introduce}}</div>
+                <div class="mb-4">{{'个人介绍：'+info.introduce}}</div>
+            </el-card>
+        </el-drawer>
 </template>
 
 <script setup>
-
-import {userInfo} from '../http/api'
-import {useStore} from '../../stores/index'
+import {useStore} from '../../stores/user'
+import {usePageStore} from '../../stores/page'
+import NavBar from '../components/TopNavBar.vue';
 const store=useStore()
 const router=ref(useRouter())
 const path=computed(()=>router.value.currentRoute.path)
-const time=ref('')
-const drawer=ref(false)
-
-let info=ref({
-    article:'999',
-    fan:'999',
-    topic:'999',
-    username:'默认昵称',
-    introduce:'...',
-    headImage:'../public/headImage.jpeg',
-    ipfs:""
-})
-userInfo().then(res=>{
-        info.value=res.data.user
-})
-onMounted(()=>{
-    setInterval(()=>{
-        let date=new Date()
-        time.value=date.getMonth()+'月'+date.getDate()+'日'+'  '+date.getHours()+'.'+date.getMinutes()+'.'+(date.getSeconds()<10?'0'+date.getSeconds():date.getSeconds())
-    },1000)
-})
+const pageStore=usePageStore()
+let {info}=storeToRefs(store)
 const search=ref()
-
-store.getAll({})
-store.getAllType()
+store.userInfo()
+store.getArticle({})
+store.getType()
 const scroll=ref()
-function change(){
+function scrollTo(){ //滚动一个窗口
     scroll.value.scrollTo({top:window.innerHeight,left:0,behavior:'smooth' })
-    store.getAll({search:search.value})
 }
 </script>
 
@@ -170,9 +123,6 @@ function change(){
   }
   .el-divider{
     margin: 1px 0;
-  }
-  .el-backtop{
-    background-color: antiquewhite;
   }
   .button .el-button{
     height: 50px;

@@ -84,7 +84,7 @@ import Edit_style from './Edit-style.vue'
 import { genFileId } from 'element-plus'
 import { upload as BlogUpload } from '../http/api'
 import { ElNotification } from 'element-plus'
-import {useStore} from '../../stores/index'
+import {useStore} from '../../stores/user'
 const store=useStore()
 const route=useRoute()
 let file = ref(`<!--访问https://github.com/showdownjs/showdown/wiki/emojis 网站得到更多支持的emoji-->
