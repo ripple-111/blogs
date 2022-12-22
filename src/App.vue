@@ -16,5 +16,7 @@
 
 <style lang="scss">
 @import 'blog.css';
-
+.el-divider{
+    margin: 16px 0!important;
+}
 </style>

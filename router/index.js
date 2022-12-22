@@ -3,7 +3,7 @@ import Edit from '../src/components/Edit.vue'
 const routes=[
     {
         path:'/',
-        component:()=>import('../src/components/Home.vue')
+        redirect:'/login',
     },
     {
         path:'/edit',
@@ -16,7 +16,7 @@ const routes=[
     },
     {
         path:'/login',
-        component:()=>import('../src/components/Login.vue')
+        component:()=>import('../src/pages/Login.vue')
     },
     {
         path:'/display',
@@ -24,7 +24,7 @@ const routes=[
     },
     {
         path:'/blog',
-        component:()=>import('../src/components/Blog.vue'),
+        component:()=>import('../src/pages/Blog.vue'),
         children:[
         {
             path:'',component:()=>import('../src/components/Essay.vue')

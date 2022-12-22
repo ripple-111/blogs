@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
+import piniaPersist from 'pinia-plugin-persist'
 import 'animate.css'
 import './index.css'
 import '../public/font.css'
@@ -13,10 +13,8 @@ import App from './App.vue'
 
 const app=createApp(App)
 // app.use(ElementPlus)
-app.use(vueRouter)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
-app.use(createPinia())
-app.mount('#app')
+app.use(createPinia().use(piniaPersist)).use(vueRouter).mount('#app')
 
