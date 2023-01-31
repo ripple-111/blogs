@@ -1,5 +1,4 @@
 import { createRouter,createWebHashHistory} from "vue-router";
-import Edit from '../src/components/Edit.vue'
 const routes=[
     {
         path:'/',
@@ -7,8 +6,8 @@ const routes=[
     },
     {
         path:'/edit',
-        meta:{keepAlive:true},
-        component:Edit
+        // meta:{keepAlive:true},
+        component:()=>import('../src/pages/Edit.vue')
     },
     {
         path:'/index',

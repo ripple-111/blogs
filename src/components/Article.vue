@@ -8,7 +8,7 @@
                 {{item.type}}
             </div>
         </div>
-        <div class="">
+        <div>
             <el-timeline>
                 <el-timeline-item timestamp="2018/4/12" placement="top" color="#008899">
                     <el-card class="hover:bg-gray-200">
@@ -31,7 +31,6 @@
 </template>
 
 <script setup>
-import {useStore} from '../../stores/index'
 const store=useStore()
 </script>
 

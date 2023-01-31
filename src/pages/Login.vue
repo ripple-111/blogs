@@ -12,7 +12,7 @@
 
             <div class="min-w-300 w-5/12 h-full bg-white flex flex-col items-center shadow-xl shadow-black bg-opacity-10 rounded-lg animate__animated animate__bounceInDown "
                 v-show="!islogin">
-                <p class="text-center leading-loose text-2xl mt-16">Welcome to join The stars</p>
+                <p class="text-center leading-loose text-2xl mt-16 text-blue-100">欢迎加入群星之旅</p>
                 <div class="mt-10 w-3/4">
                     <el-form :model="user" :rules="rule" show-message scroll-to-error ref="form">
                         <el-form-item prop="username"><el-input placeholder="请输入账号" type="text" class="my-1 h-10"
@@ -41,7 +41,7 @@
 
             <div class="min-w-300 w-5/12 h-full bg-white flex flex-col items-center shadow-xl shadow-black bg-opacity-10 rounded-lg animate__animated animate__bounceInUp"
                 v-show="islogin">
-                <p class="text-center leading-loose text-2xl mt-16">Welcome to the journey of the stars</p>
+                <p class="text-center leading-loose text-2xl mt-16 text-blue-100">进入群星之旅</p>
                 <div class="mt-10 w-3/4">
                     <el-form :model="user" :rules="rule" show-message scroll-to-error ref="form">
                         <el-form-item prop="username">
@@ -55,19 +55,18 @@
                             </el-input>
                         </el-form-item>
                     </el-form>
-                    <!-- <el-input placeholder="请输入账号" class="my-2 h-10" v-model="user.username" required></el-input>
-                    <el-input placeholder="请输入密码" class="my-2 h-10" showPassword v-model="user.password" required></el-input> -->
-                </div>
-                <p class=" text-blue-500 font-semibold underline pr-2 overflow-hidden text-sm w-3/4 text-right cursor-pointer hover:text-blue-200"
+                    <p class=" text-blue-500 font-semibold underline pr-2 overflow-hidden text-sm float-right inline cursor-pointer hover:text-blue-200"
                     @click="dialogVisible = true">忘记密码</p>
-                <el-button class="w-3/5 mt-4" type="primary" @click="onLogin(form)" :loading="loading">登录</el-button>
-                <p class="text-slate-400 text-sm mt-10">——其他方式登录——</p>
+                </div>
+               
+                <el-button class="w-3/5 mt-2" type="primary" @click="onLogin(form)" :loading="loading">登录</el-button>
+                <p class="text-slate-400 text-sm mt-6">——其他方式登录——</p>
                 <div class="my-6">
                     <span class="iconfont icon-QQ rounded-full bg-blue-700 p-2 text-2xl mx-2 cursor-pointer"></span>
                     <span
                         class="iconfont icon-weixing rounded-full bg-blue-700 p-2 text-2xl mx-2 cursor-pointer"></span>
                 </div>
-                <p class="my-2 text-slate-400">没有账号？立即<span
+                <p class="my-4 text-slate-400">没有账号？立即<span
                         class="text-blue-600 cursor-pointer font-semibold hover:text-blue-200"
                         @click="islogin = !islogin; form.resetFields()">注册</span></p>
             </div>
@@ -91,7 +90,8 @@
 <script setup>
 import { UserFilled, Lock } from '@element-plus/icons-vue'
 import { register, login } from '../http/api'
-import { useStore } from '../../stores/index'
+import { ElMessage } from 'element-plus';
+
 const store = useStore()
 const islogin = ref(true)
 const loading = ref(false)
@@ -127,7 +127,7 @@ const onRegister = (form) => {
                 if (res.msg == '注册成功')
                     loading.value = false
                 islogin.value = true
-                alert(res.msg)
+                ElMessage.info(res.msg)
             }).catch(err => { loading.value = false })
         }
     })
@@ -139,8 +139,7 @@ const onLogin = (form) => {
             loading.value = true
             login({ username, password }).then(res => {
                 loading.value = false
-                alert(res.msg)
-                console.log(res)
+                ElMessage.success(res.msg)
                 if (res.msg == '登录成功') {
                     localStorage.setItem('token', res.token)
                     localStorage.setItem('userId', res.data)
