@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.md-editor-footer{
+    height: 40px!important;
+    align-items: center;
+}
+.md-editor-footer-left{
+    display: flex;
+    align-items: center;
+}
+.md-editor-fullscreen{
+    z-index: 1;
+}
+.el-divider{
+    margin: 16px 0!important;
+}

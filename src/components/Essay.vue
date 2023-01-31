@@ -37,9 +37,9 @@
                     <el-tag class="ml-2" v-for="item in essay?.tags.split(',')">{{ item }}</el-tag>
                 </div>
             </div>
-            <div class="mt-2 flex">
-                <el-image style="width: 20%; height: auto" :src="essay?.image" fit="cover" />
-                <div class="ml-4 tracking-wide">
+            <div class="mt-2 flex w-full">
+                <el-image style="width: 20%; height: auto;" :src="essay?.image" fit="cover" />
+                <div class="ml-4 flex-1 ">
                 {{ essay?.expla }}
                 </div>
             </div>
@@ -76,14 +76,10 @@
 </template>
 
 <script setup>
-import { useStore } from '../../stores/user'
 import { timeFormat } from '../../util/time'
 import {
-    EditPen,
-    More,
-    Delete
+    EditPen,More,Delete,
 } from '@element-plus/icons-vue'
-import {  deleteBlog } from '../http/api' 
 const router = useRouter()
 const store = useStore()
 const currentPage = ref(1)

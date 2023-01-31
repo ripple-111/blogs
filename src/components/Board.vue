@@ -27,8 +27,6 @@
 </template>
 <script setup>
 import { Operation } from '@element-plus/icons-vue';
-import {getMessage,sendMessage} from "../http/api"
-import {useStore} from '../../stores/index'
 const store=useStore()
 const total=ref(1)
 const currentPage=ref(1)

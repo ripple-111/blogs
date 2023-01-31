@@ -1,5 +1,5 @@
 <template>
-      <el-scrollbar height="100vh" ref="scroll" class="scroll">
+      <el-scrollbar height="100vh" ref="scroll">
         <div class="bg-water fixed w-full h-screen z-underer" ></div>
         
         <div class="flex flex-wrap w-full min-h-screen content-start">
@@ -19,7 +19,7 @@
                 </el-input>
                 <p class="font-blod text-lg text-center mb-4 text-white mt-4">开启你的去中心博客之旅</p>
             </div> 
-            <div class="absolute right-40 bottom-20 rounded-full bg-white" style="height:30px" @click="scrollTo()">
+            <div class="absolute right-40 bottom-20 rounded-full bg-white cursor-pointer" style="height:30px" @click="scrollTo()">
             <el-icon :size="30" color="#409EFC"><CaretBottom /></el-icon>
             </div>
         </div>
@@ -75,37 +75,23 @@
                
            </div>
         </div>
-        
         <div class="w-1/5 pt-8 text-xl font-semibold bg-blue-200">
             <div class="w-3/4 h-40 mx-auto leading-40 text-center" style="background-image:linear-gradient(120deg,#a1c4fd 0%, #c2e9fb 100%)">
               
             </div>
         </div>
-        
     </div>
 </el-scrollbar>
-        <el-drawer
-            v-model="pageStore.drawer"
-            title="个人中心"
-            direction="ltr"
-            size="30%"
-            >
-            <span>Hi, there!</span>
-            <el-card class="mt-10">
-                <div class="mb-4">{{'个人介绍：'+info.introduce}}</div>
-                <div class="mb-4">{{'个人介绍：'+info.introduce}}</div>
-            </el-card>
-        </el-drawer>
+    <UserInfo/>
 </template>
 
 <script setup>
-import {useStore} from '../../stores/user'
-import {usePageStore} from '../../stores/page'
 import NavBar from '../components/TopNavBar.vue';
+import UserInfo from '../components/UserInfo.vue';
 const store=useStore()
 const router=ref(useRouter())
 const path=computed(()=>router.value.currentRoute.path)
-const pageStore=usePageStore()
+
 let {info}=storeToRefs(store)
 const search=ref()
 store.userInfo()

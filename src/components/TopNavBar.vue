@@ -1,9 +1,9 @@
 <template>
 
-    <div class="w-full fixed z-50">
+    <div class="w-full sticky z-50 top-0">
         <el-menu mode="horizontal" router :default-active="'/blog'" :ellipsis="false" 
             class="h-12"
-            background-color="rgba(7,21,58,.5)"
+            background-color="rgba(7,21,58,.7)"
             style="backdrop-filter: blur(4px);--el-menu-hover-text-color:white;--el-menu-hover-bg-color:#ffffff1a"
             text-color="rgba(233,233,233,.6)">
             <el-menu-item>LOGO</el-menu-item>
@@ -52,9 +52,6 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
-import { useStore } from '../../stores/user'
-import { usePageStore } from '../../stores/page'
 const router = useRouter()
 const store = useStore()
 const pageStore = usePageStore()
