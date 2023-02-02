@@ -82,7 +82,7 @@
 <script setup>
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import { genFileId} from 'element-plus'
+import { ElMessage, genFileId}  from 'element-plus'
 const {DropdownToolbar,NormalToolbar} = MdEditor;
 const toolbar=[
   'bold',
@@ -117,6 +117,17 @@ const toolbar=[
   'preview',
   'catalog',
 ];
+MdEditor.config({
+    markedRenderer(renderer){
+        renderer.heading = (text,level,raw,s,index)=>{
+            return  `
+            <h${level} id="heading-${index}">
+            <a href="#${text}" onclick="return false;">${text}</a>
+            </h${level}>`
+        }
+        return renderer
+    }
+})
 const footers = ['markdownTotal', 0,1,2, '=', 'scrollSwitch'];
 let theme=['default','github','vuepress','mk-cute','smart-blue','cyanosis']
 let lookType=false

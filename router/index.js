@@ -19,7 +19,7 @@ const routes=[
     },
     {
         path:'/display',
-        component:()=>import('../src/components/Display.vue')
+        component:()=>import('../src/pages/Display.vue')
     },
     {
         path:'/blog',
