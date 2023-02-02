@@ -4,8 +4,8 @@
         <el-menu mode="horizontal" router :default-active="'/blog'" :ellipsis="false" 
             class="h-12"
             background-color="rgba(7,21,58,.7)"
-            style="backdrop-filter: blur(4px);--el-menu-hover-text-color:white;--el-menu-hover-bg-color:#ffffff1a"
-            text-color="rgba(233,233,233,.6)">
+            style="backdrop-filter: blur(2px);--el-menu-hover-text-color:white;--el-menu-hover-bg-color:rgb(3 6 14 / 54%)"
+            text-color="rgb(191 179 179 / 55%)">
             <el-menu-item>LOGO</el-menu-item>
             <div class="flex-1"></div>
             <el-menu-item index="/blog">

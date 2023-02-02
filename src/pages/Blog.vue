@@ -3,7 +3,7 @@
         <div class="bg-water fixed w-full h-screen z-underer" ></div>
         
         <div class="flex flex-wrap w-full min-h-screen content-start">
-        <NavBar/>
+        <TopNavBar/>
         <div class="w-full flex justify-center h-screen items-center relative">
             <div class="w-80">
                 <p class="font-blod text-5xl text-center mb-4 text-transparent" style="background-clip: text;-webkit-background-clip: text;background-image:linear-gradient(60deg,#64b3f4 0%, #c2e59c 100%)">The Star</p>
@@ -55,13 +55,13 @@
                 <el-button class="w-full" :class="path=='/board'?'active':''" @click="router.push('/board')"><el-icon :size="18" class="mr-4"><DataBoard /></el-icon>留言板</el-button>
             </div>
             <div class="w-3/4 min-h-200 mt-8 bg-white bg-opacity-80 shadow-lg rounded-md pt-2">
-                <el-tag size="large" class="m-2 cursor-pointer" effect="dark" round v-for="tag in store.tags" :key="tag" @click="store.currentTag=tag; store.getAll({})">{{'#'+tag}}</el-tag>
+                <el-tag size="large" class="m-2 cursor-pointer" effect="dark" round v-for="tag in store.tags" :key="tag" @click="store.currentTag=tag; store.getArticle({})">{{'#'+tag}}</el-tag>
                 
             </div>
-            <div class="w-3/4 min-h-200 my-8 bg-white bg-opacity-80 py-2 text-lg text-gray-600 shadow-lg rounded-md">
+            <div class="w-3/4 min-h-200 my-8 bg-white bg-opacity-80 p-4 text-lg text-gray-600 shadow-lg rounded-md">
                 <p class="font-semibold text-xl text-blue-400 mb-4 ml-4">文章归类</p>
                 <div class="my-4 cursor-pointer hover:bg-slate-200 flex justify-between items-center px-4"   v-for="item in store.type" :key="item.type" 
-                @click="store.currentType=item.type;store.getAll({})">
+                @click="store.currentType=item.type;store.getArticle({})">
                 {{item.type}}
                 <span class=" text-blue-600 border px-1 rounded content-center text-sm bg-blue-100">{{item.count}}</span>
                 </div>
@@ -86,7 +86,7 @@
 </template>
 
 <script setup>
-import NavBar from '../components/TopNavBar.vue';
+import TopNavBar from '../components/TopNavBar.vue';
 import UserInfo from '../components/UserInfo.vue';
 const store=useStore()
 const router=ref(useRouter())
