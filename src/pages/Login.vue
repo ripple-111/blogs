@@ -144,7 +144,7 @@ const onLogin = (form) => {
                     localStorage.setItem('token', res.token)
                     localStorage.setItem('userId', res.data)
                     store.userId = res.data
-                    router.push('/blog')
+                    router.push('/community')
                 }
             }).catch(err=>loading.value=false)
         }

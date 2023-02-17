@@ -19,10 +19,10 @@
         @current-change="getMessage()"
         class="justify-center"
         />
-    <div class="px-4 mt-4">
+    <!-- <div class="px-4 mt-4">
         <el-input  v-model="textarea" :autosize="{ minRows: 4, maxRows: 4 }" type="textarea" placeholder="留下你的评论"></el-input>
         <el-button type="primary" class="float-right mt-2" @click="send">提交</el-button>
-    </div>
+    </div> -->
     
 </template>
 <script setup>

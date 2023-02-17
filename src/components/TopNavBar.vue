@@ -1,19 +1,18 @@
 <template>
-
-    <div class="w-full sticky z-50 top-0">
-        <el-menu mode="horizontal" router :default-active="'/blog'" :ellipsis="false" 
+    <div class="w-full sticky z-50 top-0" ref=sticky>
+        <el-menu mode="horizontal" router :default-active="router.currentRoute.value.fullPath" :ellipsis="false" 
             class="h-12"
             background-color="rgba(7,21,58,.7)"
             style="backdrop-filter: blur(2px);--el-menu-hover-text-color:white;--el-menu-hover-bg-color:rgb(3 6 14 / 54%)"
             text-color="rgb(191 179 179 / 55%)">
             <el-menu-item>LOGO</el-menu-item>
             <div class="flex-1"></div>
-            <el-menu-item index="/blog">
+            <el-menu-item index="/community">
                 <el-icon :size="40">
                     <HomeFilled />
                 </el-icon>主页
             </el-menu-item>
-            <el-menu-item index="/community">
+            <el-menu-item index="/mine">
                 <el-icon :size="40">
                     <Promotion />
                 </el-icon>社区
@@ -56,6 +55,11 @@ const router = useRouter()
 const store = useStore()
 const pageStore = usePageStore()
 let { info } = storeToRefs(store)
+const sticky=ref()
+
+defineExpose({
+    sticky
+})
 </script>
 <style lang="scss" scoped>
 

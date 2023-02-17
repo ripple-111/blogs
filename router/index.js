@@ -22,14 +22,18 @@ const routes=[
         component:()=>import('../src/pages/Display.vue')
     },
     {
-        path:'/blog',
+        path:'/community',
+        component:()=>import('../src/pages/Community.vue')
+    },
+    {
+        path:'/mine',
         component:()=>import('../src/pages/Blog.vue'),
         children:[
         {
-            path:'',component:()=>import('../src/components/Essay.vue')
+            path:'',component:()=>import('../src/components/Article.vue')
         },
         {
-            path:'/kind',component:()=>import('../src/components/Article.vue')
+            path:'/kind',component:()=>import('../src/components/ArticleType.vue')
         },
         {
             path:'/friend',component:()=>import('../src/components/Friend.vue')
@@ -37,7 +41,7 @@ const routes=[
         {
             path:'/board',component:()=>import('../src/components/Board.vue')
         }]
-    }
+    },
 ]
 const router=createRouter({
     history:createWebHashHistory(),
