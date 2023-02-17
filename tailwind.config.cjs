@@ -16,6 +16,11 @@ module.exports = {
             '70':'70%',
             '70vh':'70vh',
         },
+        width:{
+            '20vw':'20vw',
+            '18vw':'18vw',
+            '25vw':'25vw'
+        },
         minHeight:{
             '200':'200px',
             '150':'150px',
