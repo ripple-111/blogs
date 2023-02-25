@@ -1,9 +1,12 @@
 <template>
     <div class="w-full sticky z-50 top-0" ref=sticky>
         <el-menu mode="horizontal" router :default-active="router.currentRoute.value.fullPath" :ellipsis="false" 
-            class="h-12"
+            class="h-14"
             background-color="rgba(7,21,58,.7)"
-            style="backdrop-filter: blur(2px);--el-menu-hover-text-color:white;--el-menu-hover-bg-color:rgb(3 6 14 / 54%)"
+            style="backdrop-filter: blur(2px);
+            --el-menu-hover-text-color:white;
+            --el-menu-hover-bg-color:rgb(3 6 14 / 54%);
+            --el-menu-active-color:#9af9dc"
             text-color="rgb(191 179 179 / 55%)">
             <el-menu-item>LOGO</el-menu-item>
             <div class="flex-1"></div>
@@ -15,7 +18,7 @@
             <el-menu-item index="/mine">
                 <el-icon :size="40">
                     <Promotion />
-                </el-icon>社区
+                </el-icon>博客
             </el-menu-item>
             <el-menu-item index="/edit">
                 <el-icon :size="40">
@@ -44,22 +47,27 @@
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
-
         </el-menu>
+        <SecondTopNav v-show="isScroll"/>
     </div>
 
 </template>
 
 <script setup>
+import SecondTopNav from './SecondTopNav.vue';
 const router = useRouter()
 const store = useStore()
 const pageStore = usePageStore()
 let { info } = storeToRefs(store)
-const sticky=ref()
 
-defineExpose({
-    sticky
+const sticky=ref()
+const isScroll=inject('isScroll')
+onMounted(()=>{
+    watchEffect(()=>{
+    isScroll.value?sticky.value.style.backgroundColor='white':sticky.value.style.backgroundColor=''
 })
+})
+
 </script>
 <style lang="scss" scoped>
 

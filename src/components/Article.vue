@@ -1,6 +1,6 @@
 <template>
-    <div v-if="store.articles.length" style="width:700px;">
-        <div class="p-4 px-6 mb-2 border-b-2 border-zinc-500 bg-white box-content rounded" v-for="essay in store.articles"
+    <div v-if="store.articles.length">
+        <div class="p-4 px-6 mb-2 border-b-2 border-zinc-500 bg-white box-content rounded shadow-sm shadow-gray-400" v-for="essay in store.articles"
             :key="essay.id">
             <div class="flex items-center">
                 <!-- <el-avatar :size="50"  :src=essay?.headImage fit="cover" /> -->
@@ -37,7 +37,7 @@
             <div class="flex w-full mt-2" >
                 <div class="flex-1 text-gray-500 text-sm pr-1">
                 <h1 class="text-lg font-semibold mb-2 text-black">{{ essay?.title }}</h1>
-                {{ essay?.expla }}
+                <p id="overText">{{ essay?.expla }}</p>
                 </div>
                 <el-image style="width: 160px; min-height: 100px;height: auto;" :src="essay?.image" fit="cover" v-if="essay.image"/>
             </div>
