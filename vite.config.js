@@ -37,6 +37,7 @@ export default defineConfig({
           {
             '../../stores/user':['useStore'],
             '../../stores/page':['usePageStore'],
+            '../../stores/home':['useHomeStore'],
             '../http/api':Object.keys(api)
           }
           // 自定义导入的api

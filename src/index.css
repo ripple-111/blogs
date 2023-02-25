@@ -1,6 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+#overText{
+    overflow:hidden; /* 超出隐藏 */
+    text-overflow:ellipsis; /* 文本超出呈现方式：省略号 */
+    display:-webkit-box; /* 盒模型 */
+    -webkit-line-clamp:3; /* 限制文本行数 */
+    -webkit-box-orient:vertical; /* 盒内子元素布局方向 */
+
+}
 .md-editor-footer{
     height: 40px!important;
     align-items: center;
@@ -18,6 +26,13 @@
 .md-editor-catalog-active{
     position:relative;
  
+}
+.el-calendar__body{
+    padding:5px 20px 15px!important;
+}
+.el-calendar-table .el-calendar-day{
+    height: 40px !important;
+    text-align:center;
 }
 .md-editor-catalog-active:before{
     content: "";

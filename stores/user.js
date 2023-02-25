@@ -30,9 +30,9 @@ export const useStore=defineStore('user',{
         getArticle({currentPage=1,search}){
             getArticle({currentPage,search,type:this.currentType,tags:this.currentTag}).then(res=>{
                 console.log(res.data)
-                this.articles=res.data.article.rows.map(item=>{item.name=res.data.user;item.headImage=res.data.headImage;return item})
+                this.articles=res.data.rows.map(item=>{item.name=res.data.user;return item})
                 // localStorage.setItem('article',JSON.stringify(this.articles))
-                this.total=res.data.article.count
+                this.total=res.data.count
             })
         },
         getType(){
@@ -48,7 +48,7 @@ export const useStore=defineStore('user',{
         },
         userInfo(){
             userInfo().then(res=>{
-                this.info=res.data.user
+                this.info=res.data
             })
         }
        

@@ -1,7 +1,6 @@
 <template>
-    <el-scrollbar height="100vh" ref="scroll" @scroll="hasScroll">
         <div class="bg-water fixed w-full h-screen z-underer"></div>
-        <TopNavBar ref="NavBar"/>
+        <TopNavBar/>
         <div class="flex flex-wrap  w-screen h-screen content-start">
             <div class="w-full flex justify-center h-full items-center relative">
                 <div class="w-80">
@@ -14,47 +13,41 @@
                     </el-input>
                     <p class="font-blod text-lg text-center mb-4 text-white mt-4">开启你的去中心博客之旅</p>
                 </div>
-                <div class="absolute right-40 bottom-20 rounded-full bg-white cursor-pointer" style="height:30px"
+                <div class="fixed right-40 bottom-20 rounded-full bg-white cursor-pointer" style="height:30px"
                     @click="scrollTo()">
                     <el-icon :size="30" color="#409EFC">
-                        <CaretBottom />
+                        <CaretBottom v-show="!isScroll"/>
+                        <CaretTop v-show="isScroll"/>
                     </el-icon>
                 </div>
             </div>
         </div>
         <div class="min-h-screen w-full" style="background-color: #f2f3f5;">
-        <div class="w-full max-w-5xl mx-auto relative pt-10">
+        <div class="w-full max-w-5xl mx-auto relative pt-14 px-4">
+            <div class="lg:max-w-[700px] transition-all duration-150">
             <Article/>
-            <aside/>
+            </div>
+            <div class="hidden lg:block">
+            <Aside/>
+            </div>
         </div>
         </div>
-    </el-scrollbar>
-
 </template>
 
 <script setup>
 import Article from '../components/Article.vue';
+import Aside from '../components/Aside.vue';
 import TopNavBar from '../components/TopNavBar.vue';
-import debounce from '../../util/shake'
 const store = useStore()
 const search = ref()
 store.userInfo()
 store.getArticle({})
 store.getType()
-const scroll = ref()
-const NavBar=ref()
-onMounted(() => {
-    console.log()
-})
 
-const hasScroll=debounce(({scrollTop})=>{
-    if(scrollTop+100>window.innerHeight)
-    NavBar.value.sticky.style.backgroundColor='white'
-    else
-    NavBar.value.sticky.style.backgroundColor=''
-},200)
+const scroll=inject('scroll')
+const isScroll=inject('isScroll')
 function scrollTo() { //滚动一个窗口
-    scroll.value.scrollTo({ top: window.innerHeight, left: 0, behavior: 'smooth' })
+    isScroll.value?scroll.scrollTo({ top: 0, left: 0, behavior: 'smooth' }):scroll.scrollTo({ top: window.innerHeight, left: 0, behavior: 'smooth' })
 }
 </script>
 

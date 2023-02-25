@@ -49,7 +49,4 @@ const router=createRouter({
     // base:process.env.BASE_URL,
     routes
 })
-router.beforeEach(()=>{
-    scrollTo({top:0,left:0,behavior:'smooth'})
-})
 export default router

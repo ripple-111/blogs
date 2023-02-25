@@ -141,9 +141,9 @@ const onLogin = (form) => {
                 loading.value = false
                 ElMessage.success(res.msg)
                 if (res.msg == '登录成功') {
-                    localStorage.setItem('token', res.token)
-                    localStorage.setItem('userId', res.data)
-                    store.userId = res.data
+                    localStorage.setItem('token', res.data.token)
+                    localStorage.setItem('userId', res.data.id)
+                    store.userId = res.data.id
                     router.push('/community')
                 }
             }).catch(err=>loading.value=false)
