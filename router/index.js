@@ -26,7 +26,7 @@ const routes=[
         component:()=>import('../src/pages/Community.vue')
     },
     {
-        path:'/mine',
+        path:'/blog',
         component:()=>import('../src/pages/Blog.vue'),
         children:[
         {

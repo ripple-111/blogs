@@ -4,7 +4,7 @@
             <a v-for="(tag,index) in tags" class="px-4 hover:text-blue-400 cursor-pointer" :key="index">
                 {{ tag }}
             </a>
-            <a class="absolute right-0 top-0 items-center flex h-full">标签管理</a>
+            <a class="absolute right-10 top-0 items-center flex h-full">标签管理</a>
         </div>
     </nav>
 </template>

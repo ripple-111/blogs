@@ -39,8 +39,6 @@ if (document.getElementById('evanyou')) {
       var t = p + (z() * 2 - 1.1) * f
       return (t > h || t < 0) ? y(p) : t
     }
-    document.onclick = evanyou
-    document.ontouchstart = evanyou
     evanyou()
   }
 }

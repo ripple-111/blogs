@@ -3,13 +3,25 @@ import UserInfo from './components/UserInfo.vue'
 import debounce from '../util/shake'
 import zhCn from 'element-plus/dist/locale/zh-cn'
 const router=useRouter()
+const route=useRoute()
+const store=useStore()
 const scroll = ref()
 const isScroll=ref(false)
-router.beforeEach(()=>{
+router.beforeEach((to,from)=>{
+    if(to.path=='/display'||from.path=='/community'){
     if(scroll.value){
     scroll.value.scrollTo({top:0,left:0})
     isScroll.value=false
     }
+    }
+})
+router.afterEach((to, from) => {
+    //&&to.query.id!=from.query.id
+    if(to.path=='/blog'){
+        store.userInfo(route.query.id)
+        store.getArticle({id:route.query.id})
+        store.getType(route.query.id)
+    }// to and from are both route objects.
 })
 onMounted(()=>{
     provide('scroll',scroll.value)
