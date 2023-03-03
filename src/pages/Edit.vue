@@ -11,6 +11,11 @@
     @onSave="save"
     >
     <template #defToolbars>
+    <NormalToolbar title="亮暗模式" class="!h-auto">
+        <template #trigger>
+           <el-button @click="router.back()" type="primary" class="h-auto">返回</el-button>
+        </template>
+    </NormalToolbar>    
     <DropdownToolbar
         title="主题样式"
         :visible="state.styleVisible"
@@ -23,14 +28,14 @@
             </li>
           </ul>
         </template>
-        <template #trigger>
-            <el-icon><Tools /></el-icon>
+        <template #trigger >
+            <el-icon class="!mt-1"><Tools /></el-icon>
         </template>
     </DropdownToolbar>
-    <NormalToolbar title="亮暗模式" @onClick="()=>{state.light=state.light=='light'?'dark':'light'}">
-        <template #trigger>
-            <el-icon v-if="state.light=='dark'"><Sunny /></el-icon>
-            <el-icon v-else><Moon /></el-icon>
+    <NormalToolbar title="亮暗模式" @onClick="()=>{state.light=state.light=='light'?'dark':'light'}"  >
+        <template #trigger >
+            <el-icon v-if="state.light=='dark'" class="mt-1"><Sunny /></el-icon>
+            <el-icon v-else class="mt-1"><Moon /></el-icon>
         </template>
     </NormalToolbar>
 
@@ -52,7 +57,7 @@
                 <el-input v-model="article.title" placeholder="输入文章的标题"/>
             </el-form-item>
             <el-form-item label="文章类型">
-                <el-input v-model="article.type" placeholder="输入文章的类型" />
+                <el-input v-model="article.type" placeholder="输入文章的类型"/>
             </el-form-item>
             <el-form-item label="文章封面">
                 <el-input v-model="article.image" placeholder="输入文章封面链接" />
@@ -63,7 +68,7 @@
                 {{ tag }}
             </el-tag>
             <el-input v-if="inputVisible" ref="InputRef" v-model="inputValue" style="width:60px"
-                @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" />
+                @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" maxlength="2"/>
             <el-button v-else class="button-new-tag ml-1" @click="showInput">
                 + 增加标签
             </el-button>
@@ -83,8 +88,10 @@
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { ElMessage, genFileId}  from 'element-plus'
+const router=useRouter()
 const {DropdownToolbar,NormalToolbar} = MdEditor;
 const toolbar=[
+    0,
   'bold',
   'underline',
   'italic',
@@ -106,8 +113,8 @@ const toolbar=[
   'mermaid',
   'katex',
   '-',
-    0,
     1,
+    2,
   '-',
   'revoke',
   'next',
@@ -150,7 +157,7 @@ const bloguUpload=()=>{
         else {
             if (article.type && article.tags.length && article.expla)
             BlogUpload({ md: state.text, article}).then(res => {
-                    if(res.data.text==state.text){
+                    if(res.data[0].text==state.text){
                         ElNotification.success('文章上传成功')
                         localStorage.removeItem('content')
                         article.id=res.data.id

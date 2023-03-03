@@ -13,19 +13,13 @@
                     </el-input>
                     <p class="font-blod text-lg text-center mb-4 text-white mt-4">开启你的去中心博客之旅</p>
                 </div>
-                <div class="fixed right-40 bottom-20 rounded-full bg-white cursor-pointer" style="height:30px"
-                    @click="scrollTo()">
-                    <el-icon :size="30" color="#409EFC">
-                        <CaretBottom v-show="!isScroll"/>
-                        <CaretTop v-show="isScroll"/>
-                    </el-icon>
-                </div>
+                <Scroll/>
             </div>
         </div>
         <div class="min-h-screen w-full" style="background-color: #f2f3f5;">
         <div class="w-full max-w-5xl mx-auto relative pt-14 px-4">
             <div class="lg:max-w-[700px] transition-all duration-150">
-            <Article/>
+            <Article :all="true"/>
             </div>
             <div class="hidden lg:block">
             <Aside/>
@@ -37,18 +31,13 @@
 <script setup>
 import Article from '../components/Article.vue';
 import Aside from '../components/Aside.vue';
+import Scroll from '../components/Scroll.vue';
 import TopNavBar from '../components/TopNavBar.vue';
 const store = useStore()
+const homeStore=useHomeStore()
 const search = ref()
 store.userInfo()
-store.getArticle({})
-store.getType()
-
-const scroll=inject('scroll')
-const isScroll=inject('isScroll')
-function scrollTo() { //滚动一个窗口
-    isScroll.value?scroll.scrollTo({ top: 0, left: 0, behavior: 'smooth' }):scroll.scrollTo({ top: window.innerHeight, left: 0, behavior: 'smooth' })
-}
+homeStore.getAllArticle()
 </script>
 
 <style lang="scss" scoped>

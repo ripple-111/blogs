@@ -1,5 +1,7 @@
 <template>
-    <h1 class="text-center my-4 font-bold text-xl text-blue-500">留言板</h1>
+    
+    <div class="bg-gray-200 min-h-[80px] py-5">
+    <h1 class="text-center font-bold text-xl text-blue-500">留言板</h1>
     <el-card class="m-4" v-for="m in messages">
         <template #header>
             <div class="flex justify-between items-center">
@@ -11,18 +13,19 @@
         </template>
         <div class="p-2 font-semibold">{{m.message}}</div>
     </el-card>
+    </div>
     <el-pagination
         v-model:currentPage="currentPage"
         layout="prev, pager, next, jumper"
         :total="total"
         :page-size="5"
         @current-change="getMessage()"
-        class="justify-center"
+        class="justify-center !bg-slate-200"
         />
-    <!-- <div class="px-4 mt-4">
+    <div class="mt-4">
         <el-input  v-model="textarea" :autosize="{ minRows: 4, maxRows: 4 }" type="textarea" placeholder="留下你的评论"></el-input>
         <el-button type="primary" class="float-right mt-2" @click="send">提交</el-button>
-    </div> -->
+    </div>
     
 </template>
 <script setup>

@@ -1,6 +1,6 @@
 <template>
     <div class="w-full sticky z-50 top-0" ref=sticky>
-        <el-menu mode="horizontal" router :default-active="router.currentRoute.value.fullPath" :ellipsis="false" 
+        <el-menu mode="horizontal" router :default-active="router.currentRoute.value.path"  :ellipsis="false" 
             class="h-14"
             background-color="rgba(7,21,58,.7)"
             style="backdrop-filter: blur(2px);
@@ -15,7 +15,7 @@
                     <HomeFilled />
                 </el-icon>主页
             </el-menu-item>
-            <el-menu-item index="/mine">
+            <el-menu-item index="/blog">
                 <el-icon :size="40">
                     <Promotion />
                 </el-icon>博客
@@ -48,7 +48,7 @@
                 </template>
             </el-dropdown>
         </el-menu>
-        <SecondTopNav v-show="isScroll"/>
+        <SecondTopNav v-show="isScroll&&router.currentRoute.value.path=='/community'" />
     </div>
 
 </template>
@@ -59,7 +59,6 @@ const router = useRouter()
 const store = useStore()
 const pageStore = usePageStore()
 let { info } = storeToRefs(store)
-
 const sticky=ref()
 const isScroll=inject('isScroll')
 onMounted(()=>{

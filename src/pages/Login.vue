@@ -3,7 +3,7 @@
         <div class="w-3/4 flex  items-center justify-center md:h-3/4">
             <div class="self-start mr-2 shadow-base shadow-black cursor-pointer text-lg w-10 text-white hidden md:block">
                 <div class="rounded-xl shadow-sm shadow-cyan-600 bg-cyan-500  py-4  leading-10 hover:bg-cyan-400 active:bg-cyan-700 transition-all duration-500"
-                    style="writing-mode: vertical-lr;letter-spacing:5px" @click="islogin = true; form.resetFields()"
+                    style="writing-mode: vertical-lr;letter-spacing:5px" @click="islogin = true; form2.resetFields()"
                     :class="islogin?'text-xl text-semibold bg-opacity-70':'bg-opacity-10'">登录</div>
                 <div class="rounded-xl mt-2 shadow-sm shadow-cyan-600 bg-cyan-500  py-4  leading-10  hover:bg-cyan-400  active:bg-cyan-700 transition-all duration-500"
                     style="writing-mode: vertical-lr;letter-spacing:5px" @click="islogin = false; form.resetFields()"
@@ -14,7 +14,7 @@
                 v-show="!islogin">
                 <p class="text-center leading-loose text-2xl mt-16 text-blue-100">欢迎加入群星之旅</p>
                 <div class="mt-10 w-3/4">
-                    <el-form :model="user" :rules="rule" show-message scroll-to-error ref="form">
+                    <el-form :model="user" :rules="rule" show-message scroll-to-error ref="form2">
                         <el-form-item prop="username"><el-input placeholder="请输入账号" type="text" class="my-1 h-10"
                                 v-model="user.username" autofocus="true" :prefix-icon="UserFilled">
                             </el-input></el-form-item>
@@ -34,7 +34,7 @@
                 </p>
                 <p class="my-6 text-slate-400">已有账号？直接<span
                         class="text-blue-500 font-semibold cursor-pointer hover:text-blue-200"
-                        @click="islogin = !islogin; form.resetFields()">登录</span></p>
+                        @click="islogin = !islogin; form2.resetFields()">登录</span></p>
             </div>
 
             <!-- <div class="flex-1 h-70 bg-starRiver bg-100%  border-y-2 border-gray-300 border-double relative "> </div>  -->
@@ -89,14 +89,12 @@
 
 <script setup>
 import { UserFilled, Lock } from '@element-plus/icons-vue'
-import { register, login } from '../http/api'
-import { ElMessage } from 'element-plus';
-
 const store = useStore()
 const islogin = ref(true)
 const loading = ref(false)
 const dialogVisible = ref(false)
 const form = ref()
+const form2 = ref()
 const router = useRouter()
 const user = reactive({
     username: '',
@@ -124,10 +122,17 @@ const onRegister = (form) => {
             let { username, password } = user
             loading.value = true
             register({ username, password }).then(res => {
-                if (res.msg == '注册成功')
-                    loading.value = false
-                islogin.value = true
-                ElMessage.info(res.msg)
+                console.log(res)
+                if (res.msg == '注册成功'){
+                    ElMessage.success(res.msg)
+                    islogin.value = true
+                }
+                else{
+                    ElMessage.warning(res.msg)
+                    form2.value.resetFields()    
+                }
+                loading.value = false
+                
             }).catch(err => { loading.value = false })
         }
     })
@@ -139,13 +144,15 @@ const onLogin = (form) => {
             loading.value = true
             login({ username, password }).then(res => {
                 loading.value = false
-                ElMessage.success(res.msg)
                 if (res.msg == '登录成功') {
+                    ElMessage.success(res.msg)
                     localStorage.setItem('token', res.data.token)
                     localStorage.setItem('userId', res.data.id)
                     store.userId = res.data.id
                     router.push('/community')
                 }
+                else
+                    ElMessage.warning(res.msg)
             }).catch(err=>loading.value=false)
         }
     })

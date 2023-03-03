@@ -7,8 +7,17 @@ import Components from 'unplugin-vue-components/vite'
 import * as api from './src/http/api'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import {createStyleImportPlugin,ElementPlusResolve} from 'vite-plugin-style-import' 
+function _resolve(url){
+    return url?path.resolve(__dirname,url):__dirname
+}
 export default defineConfig({
 //   base: path.resolve(__dirname, './dist/'), // 新增
+    resolve:{
+        alias:{
+            '@':_resolve('src'),
+            '#':_resolve()
+        }
+    },
   plugins: [
     vue(),
     createStyleImportPlugin({
@@ -35,10 +44,10 @@ export default defineConfig({
           'vue-router',
           'pinia',
           {
-            '../../stores/user':['useStore'],
-            '../../stores/page':['usePageStore'],
-            '../../stores/home':['useHomeStore'],
-            '../http/api':Object.keys(api)
+            '#/stores/user':['useStore'],
+            '#/stores/page':['usePageStore'],
+            '#/stores/home':['useHomeStore'],
+            '@/http/api':Object.keys(api)
           }
           // 自定义导入的api
         ],
