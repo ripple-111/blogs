@@ -30,13 +30,24 @@ export const useHomeStore=defineStore('home',{
                 name:'狂炫沙糖桔',
                 description:'小萌新'
             }],
-            articles:[]
+            articles:[],
+            currentArt:{}
         }
     },
     actions:{
         async getAllArticle(){
             const res=await getAllArticle()
             this.articles=res.data
-        }    
+        },    
+        async getArticleInfo(id){
+            const res=await getArticleInfo(id)
+            this.currentArt=res.data.data
+            this.currentArt.tags=this.currentArt.tags.split(',')
+        },
+        async getBestAuthors(){
+            const res=await getBestAuthors()
+            this.authors=res.data
+            console.log(res.data)
+        }
     }
 })

@@ -6,7 +6,6 @@
     :previewOnly="lookType"
     pageFullscreen 
     showCodeRowNumber
-    placeholder="需要清空示例，输入任意字符保存后即可"
     @onChange="change"
     @onSave="save"
     >
@@ -89,6 +88,8 @@ import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { ElMessage, genFileId}  from 'element-plus'
 const router=useRouter()
+const route=useRoute()
+const store=useHomeStore()
 const {DropdownToolbar,NormalToolbar} = MdEditor;
 const toolbar=[
     0,
@@ -142,6 +143,7 @@ const change=(content)=>{
     localStorage.setItem('content',content)
 }
 onMounted(()=>{
+    if(!route.query.id)
     state.text=localStorage.getItem('content')||state.text
 })
 const save=(content,h)=>{
@@ -177,13 +179,19 @@ const bloguUpload=()=>{
         ElMessage('无内容')
 
 }
-const article = reactive({
+if(route.query.id)
+store.getArticleInfo(route.query.id)
+const article=ref({
     title: '',
     type: '',
     tags: [],
-    image: '',
-    expla: '',
+    image:'',
+    expla:'',
     id:'',
+})
+watch(()=>store.currentArt,()=>{
+    article.value=store.currentArt
+    state.text=store.currentArt.text
 })
 const state = reactive({
     text:`# 请先清空示例内容

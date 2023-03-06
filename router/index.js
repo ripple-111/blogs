@@ -33,13 +33,13 @@ const routes=[
             path:'',component:()=>import('../src/components/Article.vue')
         },
         {
-            path:'/kind',component:()=>import('../src/components/ArticleType.vue')
+            path:'kind',component:()=>import('../src/components/ArticleType.vue')
         },
         {
-            path:'/friend',component:()=>import('../src/components/Friend.vue')
+            path:'friend',component:()=>import('../src/components/Friend.vue')
         },
         {
-            path:'/board',component:()=>import('../src/components/Board.vue')
+            path:'board',component:()=>import('../src/components/Board.vue')
         }]
     },
 ]
