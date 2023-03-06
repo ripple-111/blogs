@@ -10,10 +10,6 @@
                     <p class="text-lg">文章数</p>
                     <p class="text-gray-500">{{isPerson.article}}</p>
                 </div>
-                <!-- <div class="w-1/3">
-                    <p class="text-lg">话题数</p>
-                    <p class="text-gray-500">{{info.topic}}</p>
-                </div> -->
                 <div>
                     <p class="text-lg">粉丝数</p>
                     <p class="text-gray-500">{{isPerson.fan}}</p>
@@ -21,23 +17,23 @@
             </div>
             <el-divider></el-divider>
             <div class="my-4">
-                <el-button size="large" type="primary" @click="followOne" :disabled="!id">{{isFollow?'取消关注':'现在关注'}}</el-button>
+                <el-button size="large" type="primary" @click="followOne" :disabled="!id||id==store.userId">{{isFollow?'取消关注':'现在关注'}}</el-button>
             </div>
         </div>
         <div class="w-full button">
             <el-button class="w-full" :class="path=='/blog'?'active':''"
-                @click="router.push(id?`/blog?id=${id}`:'blog');store.clear(id)"><el-icon :size="18" class="mr-4">
+                @click="router.push(id?`/blog?id=${id}`:'/blog');store.clear(id)"><el-icon :size="18" class="mr-4">
                     <HomeFilled />
                 </el-icon>回到首页</el-button>
-            <el-button class="w-full" :class="path=='/kind'?'active':''" @click="router.push(id?`/kind?id=${id}`:'/kind')"><el-icon
+            <el-button class="w-full" :class="path=='/blog/kind'?'active':''" @click="router.push(id?`/blog/kind?id=${id}`:'/blog/kind')"><el-icon
                     :size="18" class="mr-4">
                     <Tickets />
                 </el-icon>文章归档</el-button>
-            <el-button class="w-full" :class="path=='/friend'?'active':''" @click="router.push(id?`/friend?id=${id}`:'/friend')"><el-icon
+            <el-button class="w-full" :class="path=='/blog/friend'?'active':''" @click="router.push(id?`/blog/friend?id=${id}`:'/blog/friend')"><el-icon
                     :size="18" class="mr-4">
                     <PhoneFilled />
                 </el-icon>关注列表</el-button>
-            <el-button class="w-full" :class="path=='/board'?'active':''" @click="router.push(id?`/board?id=${id}`:'/board')"><el-icon
+            <el-button class="w-full" :class="path=='/blog/board'?'active':''" @click="router.push(id?`/blog/board?id=${id}`:'/blog/board')"><el-icon
                     :size="18" class="mr-4">
                     <DataBoard />
                 </el-icon>留言板</el-button>
@@ -70,6 +66,7 @@ let {otherinfo,info,currentTag,currentType,tags}=storeToRefs(store)
 watch([currentTag,currentType],()=>{
     store.getArticle({id})
 })
+
 const followOne=()=>{
     if(!isFollow.value)
     follow(id.value).then(res=>{

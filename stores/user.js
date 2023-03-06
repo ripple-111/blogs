@@ -40,6 +40,7 @@ export const useStore=defineStore('user',{
             const res=await getAllFollowers(id||this.userId)
             this.fans=res.data
         },
+        //获取所有关注者
         async getAllFollowees(id){
             const res=await getAllFollowees(id||this.userId)
             this.followers=res.data

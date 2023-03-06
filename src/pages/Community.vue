@@ -38,6 +38,7 @@ const homeStore=useHomeStore()
 const search = ref()
 store.userInfo()
 homeStore.getAllArticle()
+homeStore.getBestAuthors()
 </script>
 
 <style lang="scss" scoped>

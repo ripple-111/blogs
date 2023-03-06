@@ -1,28 +1,33 @@
 <template>
-    <div class="w-full bg-white border-2 min-h-screen rounded-md  p-6">
-        <div class="flex text-blue-600 text-center text-lg flex-wrap">
-            <div class="bg-blue-500 h-10 leading-10 rounded bg-opacity-40 m-4 px-2 cursor-pointer min-w-50" v-for="tag in store.tags" :key="tag">{{'#'+tag}}</div>
+    <div class="w-full bg-white border-2 min-h-[140vh] rounded-md  p-6">
+        <p class="text-2xl font-semibold text-center">标签</p>
+        <div class="text-base text-balck tracking-wider font-semibold my-4 grid grid-col-2 gap-8 md:grid-cols-3 lg:grid-cols-4 auto-rows-auto">
+            <div v-for="i in store.tags" :key="i.id"
+                class="h-16 leading-16 relative text-center hover:animate-shake hover:opacity-100 hover:-translate-y-2 group cursor-pointer"
+                @click="current = i;">
+                <div class="h-px absolute z-0 bg-opacity-50 bottom-0 w-full group-hover:h-full transition-all duration-100 group-hover:bg-opacity-80 group-hover:rounded"
+                    :style="bg()">
+                </div>
+                <div class="z-10 relative">{{ i }}</div>
+            </div>
         </div>
-        <div class="my-8 text-2xl text-bold text-center flex flex-wrap content-between">
-            <div class="w-60 bg-blue-400 h-40 leading-40 rounded-xl text-white m-2 cursor-pointer shadow-xl" v-for="item in store.type">
-                {{item.type}}
+        <p class="text-2xl font-semibold text-center mt-10">文章分类</p>
+        <div class="text-base text-balck tracking-wider font-semibold my-4 grid grid-col-2 gap-8 md:grid-cols-3 lg:grid-cols-2 auto-rows-auto">
+            <div v-for="(item,index) in store.type" :key="index"
+                class="h-16 leading-16 relative text-center hover:animate-shake hover:opacity-100 hover:-translate-y-2 group cursor-pointer"
+                @click="current = i;">
+                <div class="h-px absolute z-0 bg-opacity-50 bottom-0 w-full group-hover:h-full transition-all duration-100 group-hover:bg-opacity-80 group-hover:rounded"
+                    :style="bg()">
+                </div>
+                <div class="z-10 relative">{{ item.type }}</div>
             </div>
         </div>
         <div>
+            <p class="text-2xl font-semibold text-center mt-10">时间线</p>
             <el-timeline>
-                <el-timeline-item timestamp="2018/4/12" placement="top" color="#008899">
+                <el-timeline-item :timestamp="timeFormat(item.time)" placement="top" color="#008899" v-for="item in store.articles">
                     <el-card class="hover:bg-gray-200">
-                        <p class="text-lg text-semibold hover:cursor-pointer">标题</p>
-                    </el-card>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2018/4/3" placement="top" color="#008899">
-                    <el-card class="hover:bg-gray-200">
-                        <p class="text-lg text-semibold hover:cursor-pointer">标题</p>
-                    </el-card>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2018/4/2" placement="top" color="#008899">
-                    <el-card class="hover:bg-gray-200">
-                        <p class="text-lg text-semibold hover:cursor-pointer">标题</p>
+                        <p class="text-lg text-semibold hover:cursor-pointer">{{item.title}}</p>
                     </el-card>
                 </el-timeline-item>
             </el-timeline>
@@ -31,9 +36,22 @@
 </template>
 
 <script setup>
-const store=useStore()
+import { timeFormat } from '../../util/time'
+const store = useStore()
+
+const bg = computed(() => () => {
+    let arr = [
+        '#64748b', '#6b7280', '#71717a',
+        '#737373', '#78716c', '#ef4444',
+        '#f97316', '#f59e0b', '#eab308',
+        '#84cc16', '#22c55e', '#10b981',
+        '#14b8a6', '#06b6d4', '#0ea5e9',
+        '#3b82f6', '#6366f1', '#8b5cf6',
+        '#a855f7', '#d946ef', '#ec4899',
+        '#f43f5e'
+    ]
+    return `background-color: ${arr[Math.floor(Math.random() * 21)]}`
+})
 </script>
 
-<style>
-
-</style>
+<style></style>

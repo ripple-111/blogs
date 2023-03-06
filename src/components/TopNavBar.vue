@@ -1,6 +1,6 @@
 <template>
     <div class="w-full sticky z-50 top-0" ref=sticky>
-        <el-menu mode="horizontal" router :default-active="router.currentRoute.value.path"  :ellipsis="false" 
+        <el-menu mode="horizontal" router :default-active="path"  :ellipsis="false" 
             class="h-14"
             background-color="rgba(7,21,58,.7)"
             style="backdrop-filter: blur(2px);
@@ -58,6 +58,9 @@ import SecondTopNav from './SecondTopNav.vue';
 const router = useRouter()
 const store = useStore()
 const pageStore = usePageStore()
+const path=computed(()=>{
+    return router.currentRoute.value.matched[0].path
+})
 let { info } = storeToRefs(store)
 const sticky=ref()
 const isScroll=inject('isScroll')

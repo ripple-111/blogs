@@ -9,10 +9,10 @@
             <p>🎖️作者榜</p>
             <el-divider />
             <ul class="my-4 max-h-60">
-                <li v-for="i in authors" :key="i.id" class="flex mb-4 items-center">
-                    <el-avatar src="../public/headImage.jpeg" :size="50" fit="fill" class="mr-4" />
+                <li v-for="i in authors" :key="i.uid" class="flex mb-4 items-center">
+                    <el-avatar :src="i.headImage" :size="50" fit="fill" class="mr-4" />
                     <div class="max-w-[200px]">
-                        <p class="truncate">{{ i.name }}</p>
+                        <p class="truncate">{{ i.username }}</p>
                         <p class="text-gray-400 text-sm truncate">{{ i.description }}</p>
                     </div>
                 </li>

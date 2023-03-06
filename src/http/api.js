@@ -42,6 +42,10 @@ export const BlogUpload = data => post('/blogService/upload',data)
  */
 export const getArticle=data=>get('/blogService/getArticle',data)
 /**
+ * @function 获取文章信息
+ */
+export const getArticleInfo=id=>get(`/blogService/getArticleInfo?id=${id}`)
+/**
  * @function 获取用户文章类型和标签
  */
 export const getType=(uid)=>get(`/blogService/getType?uid=${uid}`)
@@ -98,3 +102,13 @@ export const getAllFollowers=(id)=>post('/fanService/getAllFollowers',{id})
  * @function 获取用户所有粉丝
  */
 export const getAllFollowees=(id)=>post('/fanService/getAllFollowees',{id})
+/**
+ * @function 文章点赞
+ * @param {Number} 文章id
+ */
+export const goodArticle=(id)=>post('/blogService/goodArticle',{id})
+/**
+ * @function 文章观看
+ * @param {Number} 文章id
+ */
+export const watchArticle=(id)=>post('/blogService/watchArticle',{id})

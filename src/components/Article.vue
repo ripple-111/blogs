@@ -1,6 +1,6 @@
 <template>
     <div v-if="all?homeStore.articles.length:store.articles.length">
-        <div class="p-4 px-6 mb-2 border-b-2 border-zinc-500 bg-white box-content rounded shadow-sm shadow-gray-400" v-for="essay in all?homeStore.articles:store.articles"
+        <div class="p-4 px-6 mb-2 border-b-2 border-zinc-500 bg-white box-content rounded shadow-sm shadow-gray-400 hover:bg-slate-50" v-for="essay in all?homeStore.articles:store.articles"
             :key="essay.id">
             <div class="flex items-center">
                 <!-- <el-avatar :size="50"  :src=essay?.headImage fit="cover" /> -->
@@ -46,7 +46,7 @@
             
             <el-divider></el-divider>
             <div class="mt-4 flex justify-between">
-                <el-button type="primary" plain @click="enter(essay)">>>进入看看</el-button>
+                <el-button type="primary" plain @click="enter(essay)">>>进去看看</el-button>
                 <span class="mr-4">
                     <el-badge :value="99" class="item" type="primary">
                         <el-icon class="align-middle ml-8" :size="20">

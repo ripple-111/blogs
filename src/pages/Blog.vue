@@ -35,11 +35,25 @@ onBeforeUnmount(() => {
 })
 const store=useStore()
 const route=useRoute()
-// store.userInfo(route.query.id)
-// store.getArticle({id:route.query.id})
-// store.getType(route.query.id)
+const id=computed(()=>route.query.id)
+watch(()=>route.query.id,()=>{
+    getData()
+},{
+    immediate:true
+})
+function getData(){
+store.userInfo(id.value)
+store.getArticle({id:id.value})
+store.getType(id.value)
+if(id.value){
+//获取关注者
 store.getAllFollowees()
-store.getAllFollowers()
+//获取粉丝
+store.getAllFollowers(id.value)
+}
+
+}
+
 </script>
 
 <style lang="scss" scoped>
