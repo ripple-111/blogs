@@ -9,6 +9,9 @@
     -webkit-box-orient:vertical; /* 盒内子元素布局方向 */
 
 }
+.el-loading-mask {
+  z-index: 1!important;
+}
 .md-editor-footer{
     height: 40px!important;
     align-items: center;

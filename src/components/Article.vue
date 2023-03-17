@@ -48,18 +48,18 @@
             <div class="mt-4 flex justify-between">
                 <el-button type="primary" plain @click="enter(essay)">>>进去看看</el-button>
                 <span class="mr-4">
-                    <el-badge :value="99" class="item" type="primary">
+                    <el-badge :value="(essay.watch||0)>999?999:essay.watch" class="item" type="primary" :max="999">
                         <el-icon class="align-middle ml-8" :size="20">
                             <View />
                         </el-icon>
                     </el-badge>
-                    <el-badge :value="12" class="item" type="primary">
+                    <el-badge :value="essay.good?JSON.parse(essay.good).length:0" class="item" type="primary">
                         
                         <el-icon class="align-middle ml-8" :size="20">
                             <Star />
                         </el-icon>
                     </el-badge>
-                    <el-badge :value="12" class="item" type="primary">
+                    <el-badge :value="0" class="item" type="primary">
                         <el-icon class="align-middle ml-8" :size="20">
                             <Document />
                         </el-icon>
@@ -68,11 +68,14 @@
             </div>
         </div>
     </div>
+    <div  v-else-if="all" class="text-center font-medium text-xl leading-[300px] bg-slate-300 cursor-pointer">
+        似乎没有这类文章（去其他地方看看吧）
+    </div>
     <div v-else class="text-center font-medium text-xl leading-[100px] bg-gray-400 hover:bg-gray-300 cursor-pointer" @click="router.push('/edit')">
         似乎没有文章（点此创建）
     </div>
-    <el-pagination v-model:currentPage="currentPage" layout="prev, pager, next, jumper" :total="store.total"
-        :page-size="4" @current-change="store.getAll({ currentPage })" class="justify-center" />
+    <el-pagination v-model:currentPage="currentPage" layout="prev, pager, next, jumper" :total="all?homeStore.total:store.total"
+        :page-size="5" @current-change="all?homeStore.getAllArticle(currentPage):store.getArticle({ currentPage,id:store.userId })" class="justify-center"/>
 </template>
 
 <script setup>
@@ -96,7 +99,7 @@ async function deleteItem(id){
     const res=await deleteBlog({ id })
     if(res.data==1)
     ElMessage.success('删除成功')
-    store.getArticle({})
+    store.getArticle({id:store.userId})
 }
 </script>
 

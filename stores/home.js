@@ -1,4 +1,4 @@
-import { getAllArticle } from "../src/http/api";
+import { getAllArticle,getArticle, } from "../src/http/api";
 import { defineStore } from "pinia";
 export const useHomeStore=defineStore('home',{
     persist: {
@@ -8,36 +8,24 @@ export const useHomeStore=defineStore('home',{
     state:()=>{
         return{
             tags:['综合','关注','前端','后端','大数据','人工智能','IOS'], //主页文章标签
-            authors:[{
-                id:'1',
-                url:'../public/headImage.jpeg',
-                name:'狂炫沙糖桔',
-                description:'小萌新'
-            },{
-                id:'1',
-                url:'../public/headImage.jpeg',
-                name:'狂炫沙糖桔',
-                description:'小萌新'
-            },{
-                id:'1',
-                url:'../public/headImage.jpeg',
-                name:'狂炫沙糖桔',
-                description:'小萌新'
-            },
-            {
-                id:'1',
-                url:'../public/headImage.jpeg',
-                name:'狂炫沙糖桔',
-                description:'小萌新'
-            }],
+            authors:[],
             articles:[],
-            currentArt:{}
+            currentArt:{},
+            currentTag:null,
+            total:0,  //文章总数
+            loading:false,
         }
     },
     actions:{
-        async getAllArticle(){
-            const res=await getAllArticle()
-            this.articles=res.data
+        async getAllArticle(currentPage){
+            this.loading=true
+            const res=await getArticle({currentPage,tags:this.currentTag})
+            this.articles=res.data.rows
+            this.total=res.data.count
+            this.loading=false
+            
+            // const res=await getAllArticle()
+            // this.articles=res.data
         },    
         async getArticleInfo(id){
             const res=await getArticleInfo(id)
@@ -47,7 +35,6 @@ export const useHomeStore=defineStore('home',{
         async getBestAuthors(){
             const res=await getBestAuthors()
             this.authors=res.data
-            console.log(res.data)
         }
     }
 })

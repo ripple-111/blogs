@@ -17,8 +17,8 @@
             </div>
         </div>
         <div class="min-h-screen w-full" style="background-color: #f2f3f5;">
-        <div class="w-full max-w-5xl mx-auto relative pt-14 px-4">
-            <div class="lg:max-w-[700px] transition-all duration-150">
+        <div class="w-full max-w-5xl mx-auto relative pt-14 p-6">
+            <div class="lg:max-w-[700px] transition-all duration-150" v-loading="homeStore.loading"  element-loading-text="Loading...">
             <Article :all="true"/>
             </div>
             <div class="hidden lg:block">
@@ -35,6 +35,7 @@ import Scroll from '../components/Scroll.vue';
 import TopNavBar from '../components/TopNavBar.vue';
 const store = useStore()
 const homeStore=useHomeStore()
+console.log(homeStore.loading)
 const search = ref()
 store.userInfo()
 homeStore.getAllArticle()

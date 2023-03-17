@@ -16,8 +16,8 @@
                     最新博客
                     <el-button type="primary" @click="cancel(item.id)">取消关注</el-button>
                 </div>
-                <div class="mt-2 ml-2 flex border-t-2 border-slate-300" v-for="i in item.userArticles" :key="i.id">
-                    <div class="cursor-pointer hover:bg-blue-200 text-lg font-semibold w-3/4 text-ellipsis overflow-hidden whitespace-nowrap h-10 leading-[40px]" @click="router.push(`/display?id=${i.id}`)">{{ i.title }}</div>
+                <div class="px-1 mt-2 flex border-t-2 border-slate-300 bg-slate-200 hover:cursor-pointer" v-for="i in item.userArticles" :key="i.id">
+                    <div class="cursor-pointertext-lg font-semibold w-3/4 text-ellipsis overflow-hidden whitespace-nowrap h-10 leading-[40px]" @click="router.push(`/display?id=${i.id}`)">{{ i.title }}</div>
                     <div class="w-1/4 overflow-hidden whitespace-nowrap text-sm leading-[40px]">{{interval(i.time)}}</div>
                 </div>
             </el-card>

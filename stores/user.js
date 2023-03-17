@@ -29,7 +29,7 @@ export const useStore=defineStore('user',{
         }
     },
     actions:{
-        getArticle({currentPage=1,search,id=this.userId}){
+        getArticle({currentPage=1,search,id=null}){
             getArticle({currentPage,search,type:this.currentType,tags:this.currentTag,id}).then(res=>{
                 // this.articles=res.data.rows.map(item=>{item.user=item.user.username;return item})
                 this.articles=res.data.rows

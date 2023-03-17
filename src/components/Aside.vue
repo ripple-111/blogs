@@ -9,7 +9,7 @@
             <p>🎖️作者榜</p>
             <el-divider />
             <ul class="my-4 max-h-60">
-                <li v-for="i in authors" :key="i.uid" class="flex mb-4 items-center">
+                <li v-for="i in authors" :key="i.uid" class="flex mb-4 items-center hover:bg-slate-100 hover:cursor-pointer hover:text-lg" @click="router.push(`/blog?id=${i.uid}`)">
                     <el-avatar :src="i.headImage" :size="50" fit="fill" class="mr-4" />
                     <div class="max-w-[200px]">
                         <p class="truncate">{{ i.username }}</p>
@@ -27,5 +27,6 @@
 <script setup>
 const { authors } = storeToRefs(useHomeStore())
 const date = ref(new Date())
+const router=useRouter()
 </script>
 <style lang="scss" scoped></style>

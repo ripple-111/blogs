@@ -42,9 +42,9 @@
             <el-check-tag size="large" class="m-2 cursor-pointer min-w-[65px] text-center" effect="plain" v-for="tag in tags" :key="tag" :checked="store.currentTag==tag"
                 @change="currentTag=currentTag!=tag?tag:''" :style="tagStyles[tag]" >{{'#'+tag}}</el-check-tag>
         </div>
-        <div class="w-full min-h-200 my-8 bg-white/80 bg-opacity-80 p-4 text-lg text-gray-600 shadow-lg rounded-md">
+        <div class="w-full min-h-200 my-8 bg-white/80 bg-opacity-80 p-4 text-lg text-gray-600 shadow-lg rounded-md overflow-auto">
             <p class="font-semibold text-xl text-blue-400 mb-4 ml-4">文章归类</p>
-            <div class="my-4 cursor-pointer hover:bg-slate-200 flex justify-between items-center px-4"
+            <div class="my-4 cursor-pointer hover:bg-slate-200 flex justify-between items-center px-4" :class="currentType==item.type?'bg-slate-300':''"
                 v-for="item in store.type" :key="item.type" @click="currentType=currentType!=item.type?item.type:''">
                 {{item.type}}
                 <span
@@ -64,7 +64,7 @@ const path=computed(()=>router.value.currentRoute.path)
 let {otherinfo,info,currentTag,currentType,tags}=storeToRefs(store)
 
 watch([currentTag,currentType],()=>{
-    store.getArticle({id})
+    store.getArticle({id:id.value})
 })
 
 const followOne=()=>{

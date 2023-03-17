@@ -1,13 +1,10 @@
 <template>
     <div class="w-full sticky z-50 top-0" ref=sticky>
-        <el-menu mode="horizontal" router :default-active="path"  :ellipsis="false" 
-            class="h-14"
-            background-color="rgba(7,21,58,.7)"
-            style="backdrop-filter: blur(2px);
-            --el-menu-hover-text-color:white;
-            --el-menu-hover-bg-color:rgb(3 6 14 / 54%);
-            --el-menu-active-color:#9af9dc"
-            text-color="rgb(191 179 179 / 55%)">
+        <el-menu mode="horizontal" router :default-active="path" :ellipsis="false" class="h-14"
+            background-color="rgba(7,21,58,.7)" style="backdrop-filter: blur(2px);
+                --el-menu-hover-text-color:white;
+                --el-menu-hover-bg-color:rgb(3 6 14 / 54%);
+                --el-menu-active-color:#9af9dc" text-color="rgb(191 179 179 / 55%)">
             <el-menu-item>LOGO</el-menu-item>
             <div class="flex-1"></div>
             <el-menu-item index="/community">
@@ -40,17 +37,16 @@
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item @click="pageStore.drawer = true">账号管理</el-dropdown-item>
+                        <el-dropdown-item @click="pageStore.drawer = true">个人中心</el-dropdown-item>
                         <el-dropdown-item @click="router.push('/login')">登录注册</el-dropdown-item>
-                        <el-dropdown-item>Action 3</el-dropdown-item>
-                        <el-dropdown-item>Action 4</el-dropdown-item>
+                        <el-dropdown-item >自定样式</el-dropdown-item>
+                        <el-dropdown-item @click="loginOut">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
         </el-menu>
-        <SecondTopNav v-show="isScroll&&router.currentRoute.value.path=='/community'" />
+        <SecondTopNav v-show="isScroll && router.currentRoute.value.path == '/community'" />
     </div>
-
 </template>
 
 <script setup>
@@ -58,19 +54,21 @@ import SecondTopNav from './SecondTopNav.vue';
 const router = useRouter()
 const store = useStore()
 const pageStore = usePageStore()
-const path=computed(()=>{
+const path = computed(() => {
     return router.currentRoute.value.matched[0].path
 })
 let { info } = storeToRefs(store)
-const sticky=ref()
-const isScroll=inject('isScroll')
-onMounted(()=>{
-    watchEffect(()=>{
-    isScroll.value?sticky.value.style.backgroundColor='white':sticky.value.style.backgroundColor=''
-})
+function loginOut() {
+    localStorage.removeItem('token')
+    router.push('/login')
+}
+const sticky = ref()
+const isScroll = inject('isScroll')
+onMounted(() => {
+    watchEffect(() => {
+        isScroll.value ? sticky.value.style.backgroundColor = 'white' : sticky.value.style.backgroundColor = ''
+    })
 })
 
 </script>
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

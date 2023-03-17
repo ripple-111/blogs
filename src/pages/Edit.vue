@@ -160,9 +160,12 @@ const bloguUpload=()=>{
             if (article.type && article.tags.length && article.expla)
             BlogUpload({ md: state.text, article}).then(res => {
                     if(res.data[0].text==state.text){
+                        if(article.id??true)
                         ElNotification.success('文章上传成功')
+                        else
+                        ElNotification.success('文章更新成功')
                         localStorage.removeItem('content')
-                        article.id=res.data.id
+                        article.id=res.data[0].id
                     }
                     else
                     ElNotification.error('出错了')
@@ -181,7 +184,7 @@ const bloguUpload=()=>{
 }
 if(route.query.id)
 store.getArticleInfo(route.query.id)
-const article=ref({
+let article=reactive({
     title: '',
     type: '',
     tags: [],
@@ -190,7 +193,7 @@ const article=ref({
     id:'',
 })
 watch(()=>store.currentArt,()=>{
-    article.value=store.currentArt
+    article=store.currentArt.value
     state.text=store.currentArt.text
 })
 const state = reactive({
