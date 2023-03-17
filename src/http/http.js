@@ -31,9 +31,8 @@ axios.interceptors.request.use(
         clearTimeout(timer)
         timer=setTimeout(()=>{
             window.location.hash = '/login'
-            console.log(1)
             ElMessage.error(err.response.data.msg)
-        },800)
+        },400)
         
     }
   }

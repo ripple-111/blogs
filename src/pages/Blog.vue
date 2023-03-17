@@ -2,7 +2,7 @@
     <div ref="bg">
         <canvas class="fixed w-full h-full top-0 left-0 z-under bg-[#d4eaee]" id="evanyou"></canvas>
         <TopNavBar/>
-        <div class="flex flex-wrap w-screen min-h-screen content-start">
+        <div class="flex flex-wrap w-screen min-h-screen content-start pb-6">
             <div class="mx-auto flex px-2 pt-10 flex-wrap md:w-[1200px]">
             <div class="md:order-2 w-full md:w-3/4">
                 <router-view></router-view>
@@ -31,15 +31,19 @@ onMounted(() => {
     evan()
 })
 onBeforeUnmount(() => {
+    unwatch()
     cn.destroy();  // destroy
 })
+
 const store=useStore()
 const route=useRoute()
 const id=computed(()=>route.query.id)
-watch(()=>route.query.id,()=>{
+
+const unwatch=watch(id,()=>{
     getData()
 },{
-    immediate:true
+    immediate:true,
+    flush:'post'
 })
 function getData(){
 store.userInfo(id.value)

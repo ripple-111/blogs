@@ -6,6 +6,11 @@ const router=useRouter()
 const scroll = ref()
 const isScroll=ref(false)
 router.beforeEach((to,from)=>{
+    if(!localStorage.getItem('token')&&to.path!=='/login'){
+    ElMessage.warning('未登录')    
+    return {path:'/login'}
+    }
+   
     if(to.path=='/display'||from.path=='/community'){
     if(scroll.value){
     scroll.value.scrollTo({top:0,left:0})

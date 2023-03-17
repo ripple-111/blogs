@@ -59,7 +59,8 @@ export const sendMessage=data=>post('/messageService/sendMessage',data)
 /**
  * @function 获取用户的留言
  */
-export const getMessage=data=>get('/messageService/getMessage',data)
+export const getMessage=data=>get(`/messageService/getMessage?id=${data}`)
+export const delMessage=data=>post('/messageService/delMessage',data)
 /**
  * @function 删除博客
  * @param {Object} data

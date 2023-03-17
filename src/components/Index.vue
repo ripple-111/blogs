@@ -19,7 +19,7 @@
                     class="object-cover h-screen"></video> -->
                 <div class="absolute bottom-10 left-32 text-white">
                     <h1 class="tracking-widest text-6xl leading-20 my-10">加入群星</h1>
-                    <el-button plain id="button">Get Start</el-button>
+                    <el-button plain id="button" class="text-xl text-white bg-transparent p-6 font-bold">Get Start</el-button>
                 </div>
             </div>
 
@@ -33,9 +33,6 @@
 
 </script>
 <style lang="scss" scoped>
-#button {
-    @apply text-xl text-white bg-transparent p-6 font-bold
-}
 .el-menu--horizontal{
     border:none;
 }

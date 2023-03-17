@@ -25,7 +25,7 @@
         <div>
             <p class="text-2xl font-semibold text-center mt-10">时间线</p>
             <el-timeline>
-                <el-timeline-item :timestamp="timeFormat(item.time)" placement="top" color="#008899" v-for="item in store.articles">
+                <el-timeline-item :timestamp="timeFormat(item.time)" placement="top" color="#008899" v-for="item in store.articles" @click="router.push(`/display?id=${item.id}`)">
                     <el-card class="hover:bg-gray-200">
                         <p class="text-lg text-semibold hover:cursor-pointer">{{item.title}}</p>
                     </el-card>
@@ -38,7 +38,7 @@
 <script setup>
 import { timeFormat } from '../../util/time'
 const store = useStore()
-
+const router=useRouter()
 const bg = computed(() => () => {
     let arr = [
         '#64748b', '#6b7280', '#71717a',
