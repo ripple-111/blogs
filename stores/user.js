@@ -57,7 +57,7 @@ export const useStore=defineStore('user',{
             uid?this.getArticle({id:uid}):this.getArticle({})
         },
         userInfo(uid){
-            userInfo(this.userId).then(res=>{
+            userInfo(this.userId).then(res=>{     
                 this.info=res.data
             })
             if(uid)

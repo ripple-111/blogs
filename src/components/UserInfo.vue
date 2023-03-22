@@ -5,11 +5,24 @@
             direction="ltr"
             size="30%"
             >
-            <div class="text-center text-2xl h-16 leading-16 ">
-            <el-avatar :size="64"  src="../public/headImage.jpeg" fit="fill" class="align-middle"/>
-            <span class=" ml-4">Hi, 你好!</span>
+            <div class="text-center text-2xl  mb-2">
+            <el-tooltip
+                effect="dark"
+                content="点击头像更换上传你的新头像"
+                placement="top"
+            >
+            <el-upload
+                :action='`http://127.0.0.1:3000/uploadHead?${store.userId}`'
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+            >
+            <el-avatar :size="64"  :src="info.headImage||imageUrl" fit="fill" class="hover:animate-shake"/>
+            </el-upload>
+            </el-tooltip>
+            <div class="my-2">Hi, 你好!</div>
             </div>
-            <el-card class="mt-10">
+            <el-card class="mt-4">
                 <div class="mb-4 leading-6">我是<span class="font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">{{ info.username }}</span>
                     <ChangeButton text="更改名称" place="名称" type="username" class="float-right" :length="[3,12]" @confirm="setUserInfo"/>
                 </div>
@@ -29,6 +42,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import ChangeButton from './ChangeButton.vue';
+import { ElMessage } from 'element-plus';
 const pageStore=usePageStore()
 const store=useStore()
 const router=useRouter()
@@ -48,6 +62,26 @@ const setUserInfo=(type,value,pas)=>{
         
     })
 }
+const imageUrl=ref('')
+const handleAvatarSuccess = (
+  response,
+  uploadFile
+) => {
+    imageUrl.value = URL.createObjectURL(uploadFile.raw)
+    ElMessage.success('上传成功')
+}
+
+const beforeAvatarUpload= (rawFile) => {
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.error('头像格式必须为jpg')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('头像的大小不能超过2MB')
+    return false
+  }
+  return true
+}
+
 </script>
 <style lang="scss" scoped>
 

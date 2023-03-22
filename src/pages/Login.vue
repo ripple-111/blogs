@@ -72,13 +72,13 @@
             </div>
             <el-dialog v-model="dialogVisible" title="Tips" width="30%">
                 <el-form>
-
+                    仍在开发
                 </el-form>
                 <template #footer>
                     <span>
-                        <el-button @click="dialogVisible = false">Cancel</el-button>
+                        <el-button @click="dialogVisible = false">取消</el-button>
                         <el-button type="primary" @click="dialogVisible = false">
-                            Confirm
+                            确认
                         </el-button>
                     </span>
                 </template>

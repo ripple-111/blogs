@@ -17,9 +17,9 @@ export const useHomeStore=defineStore('home',{
         }
     },
     actions:{
-        async getAllArticle(currentPage){
+        async getAllArticle(currentPage,search=null){
             this.loading=true
-            const res=await getArticle({currentPage,tags:this.currentTag})
+            const res=await getArticle({currentPage,tags:this.currentTag,search})
             this.articles=res.data.rows
             this.total=res.data.count
             this.loading=false
@@ -30,6 +30,7 @@ export const useHomeStore=defineStore('home',{
         async getArticleInfo(id){
             const res=await getArticleInfo(id)
             this.currentArt=res.data.data
+            console.log(this.currentArt)
             this.currentArt.tags=this.currentArt.tags.split(',')
         },
         async getBestAuthors(){
