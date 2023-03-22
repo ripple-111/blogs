@@ -58,8 +58,18 @@
             <el-form-item label="文章类型">
                 <el-input v-model="article.type" placeholder="输入文章的类型"/>
             </el-form-item>
-            <el-form-item label="文章封面">
-                <el-input v-model="article.image" placeholder="输入文章封面链接" />
+            <el-form-item label="文章封面" class="w-full">
+                <el-upload
+                action='http://127.0.0.1:3000/uploadHead'
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+                class="avatar-uploader mx-auto"
+                >
+                <img v-if="article.image" :src="article.image" class="avatar" />
+                <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+                </el-upload>
+                <!-- <el-input v-model="article.image" placeholder="输入文章封面链接" /> -->
             </el-form-item>
             <el-form-item label="文章标签"></el-form-item>
             <el-tag v-for="tag in article.tags" :key="tag" closable size="large" class="m-1"
@@ -152,15 +162,15 @@ const save=(content,h)=>{
 }
 const bloguUpload=()=>{
     if (state.text.length) {
-        if (!article.title.length) {
+        if (!article.value.title.length) {
             ElNotification.warning({message:'文章信息缺少',position: 'top-left'})
             setTimeout(()=>{drawer.value = true},800) 
         }
         else {
-            if (article.type && article.tags.length && article.expla)
-            BlogUpload({ md: state.text, article}).then(res => {
+            if (article.value.type && article.value.tags.length && article.value.expla)
+            BlogUpload({ md: state.text, article:article.value}).then(res => {
                     if(res.data[0].text==state.text){
-                        if(article.id??true)
+                        if(article.value.id=='')
                         ElNotification.success('文章上传成功')
                         else
                         ElNotification.success('文章更新成功')
@@ -184,7 +194,7 @@ const bloguUpload=()=>{
 }
 if(route.query.id)
 store.getArticleInfo(route.query.id)
-let article=reactive({
+let article=ref({
     title: '',
     type: '',
     tags: [],
@@ -193,9 +203,11 @@ let article=reactive({
     id:'',
 })
 watch(()=>store.currentArt,()=>{
-    article=store.currentArt.value
+    article.value=store.currentArt
     state.text=store.currentArt.text
 })
+
+
 const state = reactive({
     text:`# 请先清空示例内容
 ## 😲 md编辑器示例
@@ -256,6 +268,25 @@ const InputRef = ref()
 const handleClose = (tag) => {
     article.tags.splice(article.tags.indexOf(tag), 1)
 }
+const handleAvatarSuccess = (
+  response,
+  uploadFile
+) => {
+    article.image = response.url
+    ElMessage.success('上传成功')
+}
+
+const beforeAvatarUpload= (rawFile) => {
+  if (rawFile.type !== 'image/jpeg') {
+    ElMessage.error('格式必须为jpg')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('大小不能超过2MB')
+    return false
+  }
+  return true
+}
+
 const showInput = () => {
     inputVisible.value = true
     nextTick(() => {
@@ -291,6 +322,35 @@ const handleExceed = (files) => {
 }
 
 </script>
-<style>
+<style scoped>
+.avatar-uploader .avatar {
+  width: 300px;
+  height: 178px;
+  display: block;
+}
+</style>
 
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+.avatar-uploader{
+    margin: 0 auto;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 300px;
+  height: 178px;
+  text-align: center;
+}
 </style>

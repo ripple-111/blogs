@@ -2,7 +2,7 @@
     <div class="w-full flex flex-col items-center p-2 pt-0">
         <div
             class="flex flex-col items-center w-full bg-gradient-to-br from-blue-500 via-blue-300 to-blue-500 rounded-lg border-solid border-2 border-opacity-80 shadow-xl relative">
-            <el-avatar :size="130" src="../public/headImage.jpeg" fit="fill" class="m-10 mb-0" />
+            <el-avatar :size="130" :src="isPerson.headImage" fit="fill" class="m-10 mb-0" />
             <div class="text-2xl mt-4 font-semibold">{{isPerson.username}}</div>
             <div class="text-base text-gray-500 mt-2">{{isPerson.introduce}}</div>
             <div class="flex w-60 mt-4 text-center text-gray-700 justify-evenly">

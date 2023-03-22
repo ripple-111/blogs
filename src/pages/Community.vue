@@ -9,7 +9,7 @@
                         The Star</p>
                     <el-input v-model="search" placeholder="输入你想搜索的文章名字" prefix-icon="Search"
                         style="height:40px;--el-input-bg-color:#eef1f5" class="mb-2"
-                        @input="(search) => store.getArticle({ search })" @change="scrollTo()">
+                        @input="(search) => homeStore.getAllArticle(1,search.trim())" @change="scrollTo()">
                     </el-input>
                     <p class="font-blod text-lg text-center mb-4 text-white mt-4">开启你的去中心博客之旅</p>
                 </div>
@@ -35,11 +35,14 @@ import Scroll from '../components/Scroll.vue';
 import TopNavBar from '../components/TopNavBar.vue';
 const store = useStore()
 const homeStore=useHomeStore()
-console.log(homeStore.loading)
 const search = ref()
 store.userInfo()
 homeStore.getAllArticle()
 homeStore.getBestAuthors()
+const scroll=inject('scroll')
+function scrollTo(){
+    scroll.scrollTo({ top: window.innerHeight, left: 0, behavior: 'smooth' })
+}
 </script>
 
 <style lang="scss" scoped>

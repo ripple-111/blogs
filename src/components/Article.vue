@@ -30,7 +30,7 @@
                             <el-dropdown-menu>
                                 <el-dropdown-item :icon="EditPen" @click="router.push({ path: '/edit', query: { id: essay.id } })">编辑</el-dropdown-item>
                                 <el-dropdown-item :icon="Delete" @click="deleteItem(essay.id)">删除</el-dropdown-item>
-                                <el-dropdown-item :icon="More">Action 5</el-dropdown-item>
+                                <!-- <el-dropdown-item :icon="More">Action 5</el-dropdown-item> -->
                             </el-dropdown-menu>
                         </template>
                     </el-dropdown>
