@@ -1,5 +1,5 @@
 <template>
-    <div class="fixed rounded-full bg-white cursor-pointer" :style="style" @click="scrollTo()">
+    <div class="fixed rounded-full bg-white cursor-pointer z-40" :style="style" @click="scrollTo()">
         <el-icon :size="30" color="#409EFC">
             <CaretBottom v-show="!isScroll" />
             <CaretTop v-show="isScroll" />

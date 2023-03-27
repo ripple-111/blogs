@@ -5,13 +5,13 @@
             <template #header>
                 <div class="flex justify-between items-center">
                     <el-avatar :size="40" class="inline-block align-middle" :src="item.user.headImage" fit="cover" />
-                    <span class="text-xl  inline-block align-middle mx-2">{{ item.user.username }}</span>
-                    <el-dropdown>
+                    <span class="text-xl  inline-block align-middle mx-auto  text-center">{{ item.user.username }}</span>
+                    <el-dropdown >
                     <el-button>
                     操作<el-icon class="el-icon--right"><arrow-down /></el-icon>
                     </el-button>
                     <template #dropdown>
-                        <el-dropdown-menu>
+                        <el-dropdown-menu v-if="!route.query.id || route.query.id==store.userId">
                         <el-dropdown-item @click="del(item)">删除</el-dropdown-item>
                         <el-dropdown-item>开发中.</el-dropdown-item>
                         </el-dropdown-menu>
