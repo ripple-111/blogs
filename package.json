@@ -19,7 +19,6 @@
     "element-plus": "^2.2.17",
     "highlight.js": "^11.6.0",
     "md-editor-v3": "^2.6.0",
-    "monaco-editor": "^0.34.0",
     "node-sass": "^7.0.3",
     "pinia": "^2.0.21",
     "pinia-plugin-persist": "^1.0.0",
@@ -42,6 +41,7 @@
     "unplugin-element-plus": "^0.4.1",
     "unplugin-vue-components": "^0.22.7",
     "vite": "^3.0.7",
+    "vite-plugin-cdn-import": "^0.3.5",
     "vite-plugin-style-import": "^2.0.0"
   }
 }

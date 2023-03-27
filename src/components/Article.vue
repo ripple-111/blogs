@@ -16,7 +16,7 @@
                     </span> 
                     <span class="font-medium align-middle">
                         |
-                        <el-tag class="ml-1 hover:bg-blue-200 hover:cursor-pointer" v-for="item in essay?.tags.split(',')">{{ item }}</el-tag>
+                        <el-tag class="ml-1 hover:bg-blue-200 hover:cursor-pointer" v-for="item in essay?.tags.split(',')" @click="setTag(item)">{{ item }}</el-tag>
                     </span>
                 </div>
                 <el-icon :size="20" class="my-auto" color="gray" v-if="!all&&isEdit">
@@ -100,6 +100,15 @@ async function deleteItem(id){
     if(res.data==1)
     ElMessage.success('删除成功')
     store.getArticle({id:store.userId})
+    currentPage.value=1
+}
+function setTag(tag){
+    if(all){
+        homeStore.tags.includes(tag)?'':homeStore.tags.push(tag)
+        homeStore.currentTag=tag
+        homeStore.getAllArticle()
+    }
+    
 }
 </script>
 

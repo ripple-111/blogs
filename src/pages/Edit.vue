@@ -175,7 +175,7 @@ const bloguUpload=()=>{
                         else
                         ElNotification.success('文章更新成功')
                         localStorage.removeItem('content')
-                        article.id=res.data[0].id
+                        article.value.id=res.data[0].id
                     }
                     else
                     ElNotification.error('出错了')
@@ -272,7 +272,7 @@ const handleAvatarSuccess = (
   response,
   uploadFile
 ) => {
-    article.image = response.url
+    article.value.image = response.url
     ElMessage.success('上传成功')
 }
 
@@ -295,8 +295,8 @@ const showInput = () => {
 }
 const handleInputConfirm = () => {
     if (inputValue.value) {
-        if (article.tags.length < 10)
-            article.tags.push(inputValue.value)
+        if (article.value.tags.length < 10)
+            article.value.tags.push(inputValue.value)
     }
     inputVisible.value = false
     inputValue.value = ''
@@ -310,7 +310,7 @@ function loadIn(n) {
     // 接下来可对文件内容进行处理
     fileRead.onload = (e) => {
         state.text = e.target.result
-        article.title = n.name.slice(0, n.name.indexOf('.'))
+        article.value.title = n.name.slice(0, n.name.indexOf('.'))
     }
 }
 
