@@ -12,12 +12,12 @@
                 placement="top"
             >
             <el-upload
-                :action='`http://127.0.0.1:3000/uploadHead?${store.userId}`'
+                :action='`${baseUrl}/uploadHead?${store.userId}`'
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
             >
-            <el-avatar :size="64"  :src="info.headImage||imageUrl" fit="fill" class="hover:animate-shake"/>
+            <el-avatar :size="64"  :src="imageUrl||info.headImage" fit="fill" class="hover:animate-shake"/>
             </el-upload>
             </el-tooltip>
             <div class="my-2">Hi, 你好!</div>
@@ -43,6 +43,7 @@
 import { useRouter } from 'vue-router';
 import ChangeButton from './ChangeButton.vue';
 import { ElMessage } from 'element-plus';
+import {baseUrl} from '../http/http'
 const pageStore=usePageStore()
 const store=useStore()
 const router=useRouter()
@@ -68,6 +69,7 @@ const handleAvatarSuccess = (
   uploadFile
 ) => {
     imageUrl.value = URL.createObjectURL(uploadFile.raw)
+    store.info.headImage= URL.createObjectURL(uploadFile.raw)
     ElMessage.success('上传成功')
 }
 

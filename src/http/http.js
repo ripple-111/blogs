@@ -1,5 +1,5 @@
 import axios from "axios";
-let baseUrl='http://127.0.0.1:3000/api'
+export let baseUrl='http://127.0.0.1:3000/api'
 let timer
 axios.defaults.baseURL=baseUrl
 axios.defaults.timeout=50000 
