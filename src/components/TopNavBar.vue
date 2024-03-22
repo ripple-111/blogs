@@ -5,8 +5,8 @@
                 --el-menu-hover-text-color:white;
                 --el-menu-hover-bg-color:rgb(3 6 14 / 54%);
                 --el-menu-active-color:#9af9dc" text-color="rgb(191 179 179 / 55%)">
-            <el-menu-item>
-                <el-avatar :size="40" class="my-auto mx-2" src="../../icon.png" fit="fill" />
+            <el-menu-item index="/">
+                <el-avatar  :size="40" class="my-auto mx-2" src="../../icon.png" fit="fill" />
             </el-menu-item>
             <div class="flex-1"></div>
             <el-menu-item index="/community">

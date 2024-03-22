@@ -9,6 +9,10 @@ const routes = [
         redirect: '/404'
     },
     {
+        path: '/static',
+        component: () => import('@/components/Comment.vue')
+    },
+    {
         path: '/edit',
         // meta:{keepAlive:true},
         component: () => import('@/pages/Edit.vue')
