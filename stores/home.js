@@ -1,6 +1,6 @@
 import { getAllArticle,getArticle, } from "../src/http/api";
 import { defineStore } from "pinia";
-export const useHomeStore=defineStore('home',{
+export const useHomeStore = defineStore('home',{
     persist: {
         enabled: true, // 开启缓存  默认会存储在本地localstorage
         strategies:[{storage:sessionStorage,paths:['articles']}]

@@ -113,3 +113,18 @@ export const goodArticle=(id)=>post('/blogService/goodArticle',{id})
  * @param {Number} 文章id
  */
 export const watchArticle=(id)=>post('/blogService/watchArticle',{id})
+
+/**
+ * @function 文章评论
+ * @param {id} 文章id
+ */
+export const getArticleComments = (id) => post('/commentService/getAll',{id})
+
+/**
+ * @function 发文章评论
+ *
+ */
+export const setComment = (data) => post('/commentService/setComment',data)
+
+export const likeComment = (data) => post('/commentService/like',data)
+export const deleComment = (data) => post('/commentService/deleComment',data)

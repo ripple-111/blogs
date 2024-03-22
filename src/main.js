@@ -5,8 +5,9 @@ import '../public/font.css'
 import vueRouter from '../router/index'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import App from './App.vue'
-
+import comment from './components/comment.vue';
 const app=createApp(App)
+app.component('comment',comment)
 // app.use(ElementPlus)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
