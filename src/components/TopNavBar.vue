@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full sticky z-50 top-0" ref=sticky>
+    <div class="w-full sticky z-50 top-10" ref="sticky">
         <el-menu mode="horizontal" router :default-active="path" :ellipsis="false" class="h-14"
             background-color="rgba(7,21,58,.7)" style="backdrop-filter: blur(2px);
                 --el-menu-hover-text-color:white;
@@ -73,4 +73,5 @@ onMounted(() => {
 })
 
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss">
+</style>
