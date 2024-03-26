@@ -8,7 +8,7 @@
             <div class="p-2 pb-0 text-xl font-semibold">评论</div>
             <Comment :comments="comments" :aid="route.query.id" @refresh="getComments"></Comment>
             </div>
-            <div class="w-60 fixed top-20 right-72 hidden xl:block">
+            <div class="w-60 fixed top-40 right-10 hidden xl:block">
                 <span class="text-black align-middle mr-2">主题:</span>
                 <el-select v-model="value" class="w-48" placeholder="选择主题" @change="(val) => { theme = val }">
                     <el-option v-for="(item, index) in options" :key="index" :label="item" :value="item" />
@@ -71,6 +71,7 @@ onMounted(() => {
     getComments()
 })
 const getComments = () =>{
+    console.log({aid:route.query.id})
     getArticleComments({aid:route.query.id}).then(res=>{
         comments.value = res.data
         console.log(res)

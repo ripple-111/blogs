@@ -118,7 +118,7 @@ export const watchArticle=(id)=>post('/blogService/watchArticle',{id})
  * @function 文章评论
  * @param {id} 文章id
  */
-export const getArticleComments = (id) => post('/commentService/getAll',{id})
+export const getArticleComments = (data) => post('/commentService/getAll',data)
 
 /**
  * @function 发文章评论
