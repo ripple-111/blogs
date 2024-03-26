@@ -26,13 +26,14 @@ provide('isScroll', isScroll)
 const hasScroll = debounce(({ scrollTop }) => {
     scrollTop + 50 > window.innerHeight ? isScroll.value = true : isScroll.value = false //副标题是否显示
 }, 200)
+let flag = window && window.process && window.process.versions && window.process.versions['electron']
 </script>
 
 <template>
     <el-config-provider :locale="zhCn">
         <UserInfo />
         <el-scrollbar height="100vh" ref="scroll" @scroll="hasScroll">
-            <Top/>
+            <Top v-if="flag" />
             <router-view v-slot="{ Component }">
                 <keep-alive>
                     <component :is="Component" v-if="$route.meta.keepAlive" />
