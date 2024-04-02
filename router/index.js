@@ -10,7 +10,7 @@ const routes = [
     },
     {
         path: '/static',
-        component: () => import('@/components/Comment.vue')
+        component: () => import('@/components/IPFS.vue')
     },
     {
         path: '/edit',

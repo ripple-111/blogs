@@ -18,7 +18,15 @@ export default defineConfig({
             '#':_resolve()
         }
     },
-  plugins: [
+    build:{
+      target:'es2020'
+    },
+    optimizeDeps:{
+      esbuildOptions:{
+      target:'es2020'
+      }
+    },
+    plugins: [
     vue(),
     createStyleImportPlugin({
         resolves: [ElementPlusResolve()],
