@@ -1,73 +1,67 @@
 <template>
-    <md-editor v-model="state.text" :theme="state.light" 
-    :preview-theme="state.theme" 
-    :toolbars="toolbar" 
-    :footers="footers"
-    :previewOnly="lookType"
-    pageFullscreen 
-    showCodeRowNumber
-    @onChange="change"
-    @onSave="save"
-    >
-    <template #defToolbars>
-    <NormalToolbar title="亮暗模式" class="!h-auto">
-        <template #trigger>
-           <el-button @click="router.back()" type="primary" class="h-auto">返回</el-button>
-        </template>
-    </NormalToolbar>    
-    <DropdownToolbar
-        title="主题样式"
-        :visible="state.styleVisible"
-        :on-change="(visible)=>{ state.styleVisible=visible}"
-      >
-        <template #overlay>
-          <ul class="md-editor-menu">
-            <li v-for="(i,index) in theme" :key="index" class="md-editor-menu-item" @click="()=>{state.theme=i}">
-            {{i}}
-            </li>
-          </ul>
-        </template>
-        <template #trigger >
-            <el-icon class="!mt-1"><Tools /></el-icon>
-        </template>
-    </DropdownToolbar>
-    <NormalToolbar title="亮暗模式" @onClick="()=>{state.light=state.light=='light'?'dark':'light'}"  >
-        <template #trigger >
-            <el-icon v-if="state.light=='dark'" class="mt-1"><Sunny /></el-icon>
-            <el-icon v-else class="mt-1"><Moon /></el-icon>
-        </template>
-    </NormalToolbar>
+    <md-editor v-model="state.text" :theme="state.light" :preview-theme="state.theme" :toolbars="toolbar"
+        :footers="footers" :previewOnly="lookType" pageFullscreen showCodeRowNumber @onChange="change" @onSave="save" :style="!flag? 'top: 40px!important;' : ''">
+        <template #defToolbars>
+            <NormalToolbar title="亮暗模式" class="!h-auto">
+                <template #trigger>
+                    <el-button @click="router.back()" type="primary" class="h-auto">返回</el-button>
+                </template>
+            </NormalToolbar>
+            <DropdownToolbar title="主题样式" :visible="state.styleVisible"
+                :on-change="(visible) => { state.styleVisible = visible }">
+                <template #overlay>
+                    <ul class="md-editor-menu">
+                        <li v-for="(i, index) in theme" :key="index" class="md-editor-menu-item"
+                            @click="() => { state.theme = i }">
+                            {{ i }}
+                        </li>
+                    </ul>
+                </template>
+                <template #trigger>
+                    <el-icon class="!mt-1">
+                        <Tools />
+                    </el-icon>
+                </template>
+            </DropdownToolbar>
+            <NormalToolbar title="亮暗模式" @onClick="() => { state.light = state.light == 'light' ? 'dark' : 'light' }">
+                <template #trigger>
+                    <el-icon v-if="state.light == 'dark'" class="mt-1">
+                        <Sunny />
+                    </el-icon>
+                    <el-icon v-else class="mt-1">
+                        <Moon />
+                    </el-icon>
+                </template>
+            </NormalToolbar>
 
-    </template>
-    <template #defFooters>
-        <el-upload ref="uploadRef" :auto-upload="false" :on-change="loadIn"
-            :show-file-list="false" :limit="1" :on-exceed="handleExceed" class="inline ml-10 mx-3 h-full">
-            <template #trigger>
-                <el-button type="primary">导入文件</el-button>
-            </template>
-        </el-upload>
-        <el-button type="primary"  @click="bloguUpload">上传文章</el-button>
-        <el-button type="primary"  @click="drawer=true">文章设置</el-button>
-    </template>
+        </template>
+        <template #defFooters>
+            <el-upload ref="uploadRef" :auto-upload="false" :on-change="loadIn" :show-file-list="false" :limit="1"
+                :on-exceed="handleExceed" class="inline ml-10 mx-3 h-full">
+                <template #trigger>
+                    <el-button type="primary">导入文件</el-button>
+                </template>
+            </el-upload>
+            <el-button type="primary" @click="bloguUpload">上传文章</el-button>
+            <el-button type="primary" @click="drawer = true">文章设置</el-button>
+        </template>
     </md-editor>
     <el-drawer v-model="drawer" title="文章分类" custom-class="drawer">
         <el-form label-position="top">
             <el-form-item label="文章标题">
-                <el-input v-model="article.title" placeholder="输入文章的标题"/>
+                <el-input v-model="article.title" placeholder="输入文章的标题" />
             </el-form-item>
             <el-form-item label="文章类型">
-                <el-input v-model="article.type" placeholder="输入文章的类型"/>
+                <el-input v-model="article.type" placeholder="输入文章的类型" />
             </el-form-item>
             <el-form-item label="文章封面" class="w-full">
-                <el-upload
-                action='http://127.0.0.1:3000/uploadHead'
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
-                class="avatar-uploader mx-auto"
-                >
-                <img v-if="article.image" :src="article.image" class="avatar" />
-                <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+                <el-upload action='http://127.0.0.1:3000/uploadHead' :show-file-list="false"
+                    :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload"
+                    class="avatar-uploader mx-auto">
+                    <img v-if="article.image" :src="article.image" class="avatar" />
+                    <el-icon v-else class="avatar-uploader-icon">
+                        <Plus />
+                    </el-icon>
                 </el-upload>
                 <!-- <el-input v-model="article.image" placeholder="输入文章封面链接" /> -->
             </el-form-item>
@@ -77,68 +71,75 @@
                 {{ tag }}
             </el-tag>
             <el-input v-if="inputVisible" ref="InputRef" v-model="inputValue" style="width:60px"
-                @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" maxlength="2"/>
+                @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" maxlength="2" />
             <el-button v-else class="button-new-tag ml-1" @click="showInput">
                 + 增加标签
             </el-button>
-            <p class="ml-1 my-1 text-right">{{article.tags.length+'/10'}}</p>
+            <p class="ml-1 my-1 text-right">{{ article.tags.length + '/10' }}</p>
 
             <el-form-item label="简介">
                 <el-input v-model="article.expla" type="textarea" autosize placeholder="请输入文章简介,便于他人了解你的文章主题,不超过100字"
-                    show-word-limit max-length="100" >
-            </el-input>
+                    show-word-limit max-length="100">
+                </el-input>
             </el-form-item>
-            <p class="ml-1 my-1 text-right  text-xs text-gray-500">{{'字数:'+article.expla.length}}</p>
+            <p class="ml-1 my-1 text-right  text-xs text-gray-500">{{ '字数:' + article.expla.length }}</p>
         </el-form>
     </el-drawer>
 </template>
-  
+
 <script setup>
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import { ElMessage, genFileId}  from 'element-plus'
-const router=useRouter()
-const route=useRoute()
-const store=useHomeStore()
-const {DropdownToolbar,NormalToolbar} = MdEditor;
-const toolbar=[
+import { ElMessage, genFileId } from 'element-plus'
+import { useHeliaStore } from '../HeliaApi/useHeliaStore'
+import { useHeliaKey } from '../HeliaApi/useHeliaKey'
+import { inject } from 'vue';
+const router = useRouter()
+const route = useRoute()
+const store = useHomeStore()
+const userStore = useStore()
+const key = inject('heliaKey')
+const { cid, addBlog, getIpns, result, getBlog } = useHeliaStore(key)
+const { DropdownToolbar, NormalToolbar } = MdEditor;
+const toolbar = [
     0,
-  'bold',
-  'underline',
-  'italic',
-  '-',
-  'title',
-  'strikeThrough',
-  'sub',
-  'sup',
-  'quote',
-  'unorderedList',
-  'orderedList',
-  'task',
-  '-',
-  'codeRow',
-  'code',
-  'link',
-  'image',
-  'table',
-  'mermaid',
-  'katex',
-  '-',
+    'bold',
+    'underline',
+    'italic',
+    '-',
+    'title',
+    'strikeThrough',
+    'sub',
+    'sup',
+    'quote',
+    'unorderedList',
+    'orderedList',
+    'task',
+    '-',
+    'codeRow',
+    'code',
+    'link',
+    'image',
+    'table',
+    'mermaid',
+    'katex',
+    '-',
     1,
     2,
-  '-',
-  'revoke',
-  'next',
-  'save',
-  '=',
-  'fullscreen',
-  'preview',
-  'catalog',
+    '-',
+    'revoke',
+    'next',
+    'save',
+    '=',
+    'fullscreen',
+    'preview',
+    'catalog',
 ];
+const flag = inject('globalFlag')
 MdEditor.config({
-    markedRenderer(renderer){
-        renderer.heading = (text,level,raw,s,index)=>{
-            return  `
+    markedRenderer(renderer) {
+        renderer.heading = (text, level, raw, s, index) => {
+            return `
             <h${level} id="heading-${index}">
             <a href="#${text}" onclick="return false;">${text}</a>
             </h${level}>`
@@ -146,44 +147,48 @@ MdEditor.config({
         return renderer
     }
 })
-const footers = ['markdownTotal', 0,1,2, '=', 'scrollSwitch'];
-let theme=['default','github','vuepress','mk-cute','smart-blue','cyanosis']
-let lookType=false
-const change=(content)=>{
-    localStorage.setItem('content',content)
+const footers = ['markdownTotal', 0, 1, 2, '=', 'scrollSwitch'];
+let theme = ['default', 'github', 'vuepress', 'mk-cute', 'smart-blue', 'cyanosis']
+let lookType = false
+const change = (content) => {
+    localStorage.setItem('content', content)
 }
-onMounted(()=>{
-    if(!route.query.id)
-    state.text=localStorage.getItem('content')||state.text
+onMounted(async () => {
+    if (!route.query.id)
+        state.text = localStorage.getItem('content') || state.text
+    getIpns()
+    console.log(result.value)
 })
-const save=(content,h)=>{
-    localStorage.setItem('content',content)
-    h.then(html=>{})
+const save = (content, h) => {
+    localStorage.setItem('content', content)
+    h.then(html => { })
 }
-const bloguUpload=()=>{
+const bloguUpload = () => {
     if (state.text.length) {
         if (!article.value.title.length) {
-            ElNotification.warning({message:'文章信息缺少',position: 'top-left'})
-            setTimeout(()=>{drawer.value = true},800) 
+            ElNotification.warning({ message: '文章信息缺少', position: 'top-left' })
+            setTimeout(() => { drawer.value = true }, 800)
         }
         else {
             if (article.value.type && article.value.tags.length && article.value.expla)
-            BlogUpload({ md: state.text, article:article.value}).then(res => {
-                    if(res.data[0].text==state.text){
-                        if(article.value.id=='')
-                        ElNotification.success('文章上传成功')
+                BlogUpload({ md: state.text, article: article.value }).then(async res => {
+                    if (res.data[0].text == state.text) {
+                        if (article.value.id == '')
+                            ElNotification.success('文章上传成功')
                         else
-                        ElNotification.success('文章更新成功')
+                            ElNotification.success('文章更新成功')
                         localStorage.removeItem('content')
-                        article.value.id=res.data[0].id
+                        article.value.id = res.data[0].id
+                        await addBlog(res.data[0])
+                        console.log(result.value,cid.value)
                     }
                     else
-                    ElNotification.error('出错了')
-                    
-            })
+                        ElNotification.error('出错了')
+
+                })
             else {
-                ElNotification.warning({message:'请补充文章类型、标签和简介',position: 'top-left'})
-                setTimeout(()=>{drawer.value = true},1000) 
+                ElNotification.warning({ message: '请补充文章类型、标签和简介', position: 'top-left' })
+                setTimeout(() => { drawer.value = true }, 1000)
             }
         }
 
@@ -192,24 +197,24 @@ const bloguUpload=()=>{
         ElMessage('无内容')
 
 }
-if(route.query.id)
-store.getArticleInfo(route.query.id)
-let article=ref({
+if (route.query.id)
+    store.getArticleInfo(route.query.id)
+let article = ref({
     title: '',
     type: '',
     tags: [],
-    image:'',
-    expla:'',
-    id:'',
+    image: '',
+    expla: '',
+    id: '',
 })
-watch(()=>store.currentArt,()=>{
-    article.value=store.currentArt
-    state.text=store.currentArt.text
+watch(() => store.currentArt, () => {
+    article.value = store.currentArt
+    state.text = store.currentArt.text
 })
 
 
 const state = reactive({
-    text:`# 请先清空示例内容
+    text: `# 请先清空示例内容
 ## 😲 md编辑器示例
 
 ### 🤖 基本演示
@@ -257,9 +262,9 @@ flowchart TD
 \`\`\`
 
 `,
-    theme:'mk-cute',
-    styleVisible:false,
-    light:"light",
+    theme: 'mk-cute',
+    styleVisible: false,
+    light: "light",
 });
 const drawer = ref(false)
 const inputValue = ref('')
@@ -269,22 +274,22 @@ const handleClose = (tag) => {
     article.tags.splice(article.tags.indexOf(tag), 1)
 }
 const handleAvatarSuccess = (
-  response,
-  uploadFile
+    response,
+    uploadFile
 ) => {
     article.value.image = response.url
     ElMessage.success('上传成功')
 }
 
-const beforeAvatarUpload= (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('格式必须为jpg')
-    return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('大小不能超过2MB')
-    return false
-  }
-  return true
+const beforeAvatarUpload = (rawFile) => {
+    if (rawFile.type !== 'image/jpeg') {
+        ElMessage.error('格式必须为jpg')
+        return false
+    } else if (rawFile.size / 1024 / 1024 > 2) {
+        ElMessage.error('大小不能超过2MB')
+        return false
+    }
+    return true
 }
 
 const showInput = () => {
@@ -324,33 +329,35 @@ const handleExceed = (files) => {
 </script>
 <style scoped>
 .avatar-uploader .avatar {
-  width: 300px;
-  height: 178px;
-  display: block;
+    width: 300px;
+    height: 178px;
+    display: block;
 }
 </style>
 
 <style>
 .avatar-uploader .el-upload {
-  border: 1px dashed var(--el-border-color);
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: var(--el-transition-duration-fast);
+    border: 1px dashed var(--el-border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--el-transition-duration-fast);
 }
-.avatar-uploader{
+
+.avatar-uploader {
     margin: 0 auto;
 }
+
 .avatar-uploader .el-upload:hover {
-  border-color: var(--el-color-primary);
+    border-color: var(--el-color-primary);
 }
 
 .el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 300px;
-  height: 178px;
-  text-align: center;
+    font-size: 28px;
+    color: #8c939d;
+    width: 300px;
+    height: 178px;
+    text-align: center;
 }
 </style>

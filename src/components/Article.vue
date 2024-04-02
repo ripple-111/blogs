@@ -100,7 +100,7 @@ async function deleteItem(id){
     if(res.data==1)
     ElMessage.success('删除成功')
     store.getArticle({id:store.userId})
-    currentPage.value=1
+    currentPage.value = 1
 }
 function setTag(tag){
     if(all){

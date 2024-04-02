@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full sticky z-50 top-10" ref="sticky">
+    <div class="w-full sticky z-50 top-10" :style="$globalFlag ? {top:'40px'} : {top:0} " ref="sticky">
         <el-menu mode="horizontal" router :default-active="path" :ellipsis="false" class="h-14"
             background-color="rgba(7,21,58,.7)" style="backdrop-filter: blur(2px);
                 --el-menu-hover-text-color:white;
@@ -14,7 +14,7 @@
                     <HomeFilled />
                 </el-icon>主页
             </el-menu-item>
-            <el-menu-item index="/blog">
+            <el-menu-item index="/blog">    
                 <el-icon :size="40">
                     <Promotion />
                 </el-icon>博客

@@ -46,7 +46,7 @@ const fullScreen = ()=>{
     .contain{
         width: 100vw;
         height: 40px;
-        background: linear-gradient(-45deg, #7bb9d6, #7592cf, #8dcaee, #baddcf);
+        background: linear-gradient(-45deg, #8fd7f8, #8daffa, #8dcaee, #cdf3e4);
         animation: gradientBG 10s ease infinite;
         background-size:200% 200%;
     }

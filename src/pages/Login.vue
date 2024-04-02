@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen  flex  items-center justify-center bg-forest bg-center bg-100% overflow-hidden">
+    <div class="h-screen  flex  items-center justify-center bg-forest bg-center bg-100% overflow-hidden mt-0">
         <div class="w-3/4 flex  items-center justify-center md:h-3/4">
             <div class="self-start mr-2 shadow-base shadow-black cursor-pointer text-lg w-10 text-white hidden md:block">
                 <div class="rounded-xl shadow-sm shadow-cyan-600 bg-cyan-500  py-4  leading-10 hover:bg-cyan-400 active:bg-cyan-700 transition-all duration-500"
