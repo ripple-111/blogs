@@ -8,7 +8,7 @@
             <div class="p-2 pb-0 text-xl font-semibold">评论</div>
             <Comment :comments="comments" :aid="route.query.id" @refresh="getComments"></Comment>
             </div>
-            <div class="w-60 fixed top-40 right-10 hidden xl:block">
+            <div class="w-60 fixed 2xl:top-[10%] 2xl:right-[10%] hidden xl:block right-10 top-32">
                 <span class="text-black align-middle mr-2">主题:</span>
                 <el-select v-model="value" class="w-48" placeholder="选择主题" @change="(val) => { theme = val }">
                     <el-option v-for="(item, index) in options" :key="index" :label="item" :value="item" />

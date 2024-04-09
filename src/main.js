@@ -6,10 +6,9 @@ import vueRouter from '../router/index'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import App from './App.vue'
 import comment from './components/comment.vue';
-import { HeliaProviderPlugin } from './helia'
+// Vue3.0
 const app=createApp(App)
 app.component('comment',comment)
-app.use(HeliaProviderPlugin)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }

@@ -1,6 +1,6 @@
 <template>
-    <div class="w-full sticky z-50 top-10" :style="$globalFlag ? {top:'40px'} : {top:0} " ref="sticky">
-        <el-menu mode="horizontal" router :default-active="path" :ellipsis="false" class="h-14"
+    <div class="w-full sticky z-50" :style="$globalFlag ? {top:'40px'} : {top:0} " ref="sticky">
+        <el-menu mode="horizontal" router :default-active="path" :ellipsis="false" class="h-[6vh]"
             background-color="rgba(7,21,58,.7)" style="backdrop-filter: blur(2px);
                 --el-menu-hover-text-color:white;
                 --el-menu-hover-bg-color:rgb(3 6 14 / 54%);
@@ -24,7 +24,7 @@
                     <EditPen />
                 </el-icon>创作
             </el-menu-item>
-            <el-menu-item index="/more">
+            <el-menu-item index="/admin/home">
                 <el-icon :size="40">
                     <MoreFilled />
                 </el-icon>更多

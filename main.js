@@ -5,16 +5,18 @@ const path = require('path')
 function createWindow () {
   // 创建浏览器窗口
   const mainWindow = new BrowserWindow({
-    width: 1200,
+    width: 1400,
     height: 800,
     frame: false,
+    minHeight:400,
+    minWidth:600,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration:true,
       contextIsolation: false
     }
   })
-  mainWindow.webContents.openDevTools() 
+  // mainWindow.webContents.openDevTools() 
   // 加载 index.html
   // mainWindow.loadFile('dist/index.html') // 此处跟electron官网路径不同，需要注意
   mainWindow.loadURL('http://localhost:5173/')

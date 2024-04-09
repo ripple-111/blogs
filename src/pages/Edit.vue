@@ -1,6 +1,6 @@
 <template>
     <md-editor v-model="state.text" :theme="state.light" :preview-theme="state.theme" :toolbars="toolbar"
-        :footers="footers" :previewOnly="lookType" pageFullscreen showCodeRowNumber @onChange="change" @onSave="save" :style="!flag? 'top: 40px!important;' : ''">
+        :footers="footers" :previewOnly="lookType" pageFullscreen showCodeRowNumber @onChange="change" @onSave="save" :style="flag? {top: '40px!important'} : {}">
         <template #defToolbars>
             <NormalToolbar title="亮暗模式" class="!h-auto">
                 <template #trigger>
@@ -91,15 +91,10 @@
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 import { ElMessage, genFileId } from 'element-plus'
-import { useHeliaStore } from '../HeliaApi/useHeliaStore'
-import { useHeliaKey } from '../HeliaApi/useHeliaKey'
 import { inject } from 'vue';
 const router = useRouter()
 const route = useRoute()
 const store = useHomeStore()
-const userStore = useStore()
-const key = inject('heliaKey')
-const { cid, addBlog, getIpns, result, getBlog } = useHeliaStore(key)
 const { DropdownToolbar, NormalToolbar } = MdEditor;
 const toolbar = [
     0,
@@ -156,8 +151,6 @@ const change = (content) => {
 onMounted(async () => {
     if (!route.query.id)
         state.text = localStorage.getItem('content') || state.text
-    getIpns()
-    console.log(result.value)
 })
 const save = (content, h) => {
     localStorage.setItem('content', content)
@@ -172,15 +165,13 @@ const bloguUpload = () => {
         else {
             if (article.value.type && article.value.tags.length && article.value.expla)
                 BlogUpload({ md: state.text, article: article.value }).then(async res => {
-                    if (res.data[0].text == state.text) {
+                    if (res.data.text == state.text) {
                         if (article.value.id == '')
                             ElNotification.success('文章上传成功')
                         else
                             ElNotification.success('文章更新成功')
                         localStorage.removeItem('content')
-                        article.value.id = res.data[0].id
-                        await addBlog(res.data[0])
-                        console.log(result.value,cid.value)
+                        article.value.id = res.data.id
                     }
                     else
                         ElNotification.error('出错了')

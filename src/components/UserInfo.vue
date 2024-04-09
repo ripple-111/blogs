@@ -25,7 +25,7 @@
             </div>
             <div class="mb-4">
                 <p>IPFS地址：</p>
-                <p class="break-words">{{ info.key }}</p>
+                <p class="break-words">{{ info.ipfs }}</p>
             </div>
             <ChangeButton text="修改密码" place="密码" :length="[6, 12]" type="password" class="float-right"
                 @confirm="setUserInfo" />
@@ -38,14 +38,10 @@ import { useRouter } from 'vue-router';
 import ChangeButton from './ChangeButton.vue';
 import { ElMessage } from 'element-plus';
 import { baseUrl } from '../http/http'
-import { inject } from 'vue';
 const pageStore = usePageStore()
 const store = useStore()
 const router = useRouter()
 let { info } = storeToRefs(store)
-
-let key = inject('heliaKey')
-
 const setUserInfo = (type, value, pas) => {
     changeUserInfo({ [type]: value, pas }).then(res => {
         if (res.msg == '修改成功') {

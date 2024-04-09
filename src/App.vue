@@ -4,7 +4,6 @@ import Top  from './components/Top.vue';
 import debounce from '../util/shake'
 import zhCn from 'element-plus/dist/locale/zh-cn'
 import { provide } from 'vue';
-import { useHeliaKey } from './HeliaApi/useHeliaKey'
 const router = useRouter()
 const scroll = ref()
 const isScroll = ref(false)
@@ -25,11 +24,6 @@ onMounted(async () => {
     provide('scroll', scroll.value)
     
 })
-    const store = useStore()
-    let { info } = storeToRefs(store)
-    const { key, getHeliaKey } = useHeliaKey(info.value.username)
-    getHeliaKey()
-    provide('heliaKey',key)
 provide('isScroll', isScroll)
 const hasScroll = debounce(({ scrollTop }) => {
     scrollTop + 50 > window.innerHeight ? isScroll.value = true : isScroll.value = false //副标题是否显示

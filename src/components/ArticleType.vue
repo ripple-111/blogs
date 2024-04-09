@@ -1,10 +1,11 @@
 <template>
     <div class="w-full bg-white border-2 min-h-[140vh] rounded-md  p-6">
         <p class="text-2xl font-semibold text-center">标签</p>
-        <div class="text-base text-balck tracking-wider font-semibold my-4 grid grid-col-2 gap-8 md:grid-cols-3 lg:grid-cols-4 auto-rows-auto">
+        <div
+            class="text-base text-balck tracking-wider font-semibold my-4 grid grid-col-2 gap-8 md:grid-cols-3 lg:grid-cols-4 auto-rows-auto">
             <div v-for="i in store.tags" :key="i.id"
                 class="h-16 leading-16 relative text-center hover:animate-shake hover:opacity-100 hover:-translate-y-2 group cursor-pointer"
-                @click="current = i;">
+                @click="currentTag = currentTag != i ? i : ''; router.push(id ? `/blog?id=${id}`:'/blog') ">
                 <div class="h-px absolute z-0 bg-opacity-50 bottom-0 w-full group-hover:h-full transition-all duration-100 group-hover:bg-opacity-80 group-hover:rounded"
                     :style="bg()">
                 </div>
@@ -12,10 +13,11 @@
             </div>
         </div>
         <p class="text-2xl font-semibold text-center mt-10">文章分类</p>
-        <div class="text-base text-balck tracking-wider font-semibold my-4 grid grid-col-2 gap-8 md:grid-cols-3 lg:grid-cols-2 auto-rows-auto">
-            <div v-for="(item,index) in store.type" :key="index"
+        <div
+            class="text-base text-balck tracking-wider font-semibold my-4 grid grid-col-2 gap-8 md:grid-cols-3 lg:grid-cols-2 auto-rows-auto">
+            <div v-for="(item, index) in store.type" :key="index"
                 class="h-16 leading-16 relative text-center hover:animate-shake hover:opacity-100 hover:-translate-y-2 group cursor-pointer"
-                @click="current = i;">
+                @click="currentType = currentType != item.type ? item.type : ''; router.push(id?`/blog?id=${id}`:'/blog')">
                 <div class="h-px absolute z-0 bg-opacity-50 bottom-0 w-full group-hover:h-full transition-all duration-100 group-hover:bg-opacity-80 group-hover:rounded"
                     :style="bg()">
                 </div>
@@ -25,9 +27,10 @@
         <div>
             <p class="text-2xl font-semibold text-center mt-10">时间线</p>
             <el-timeline>
-                <el-timeline-item :timestamp="timeFormat(item.time)" placement="top" color="#008899" v-for="item in store.articles" @click="router.push(`/display?id=${item.id}`)">
+                <el-timeline-item :timestamp="timeFormat(item.time)" placement="top" color="#008899"
+                    v-for="item in store.articles" @click="router.push(`/display?id=${item.id}`)">
                     <el-card class="hover:bg-gray-200">
-                        <p class="text-lg text-semibold hover:cursor-pointer">{{item.title}}</p>
+                        <p class="text-lg text-semibold hover:cursor-pointer">{{ item.title }}</p>
                     </el-card>
                 </el-timeline-item>
             </el-timeline>
@@ -36,9 +39,13 @@
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router';
 import { timeFormat } from '../../util/time'
 const store = useStore()
-const router=useRouter()
+const router = useRouter()
+const route = useRoute()
+const id=computed(()=>route.query.id)
+let { currentTag, currentType, tags } = storeToRefs(store)
 const bg = computed(() => () => {
     let arr = [
         '#64748b', '#6b7280', '#71717a',

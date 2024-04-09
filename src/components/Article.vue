@@ -59,7 +59,7 @@
                             <Star />
                         </el-icon>
                     </el-badge>
-                    <el-badge :value="0" class="item" type="primary">
+                    <el-badge :value="essay.Comments.length" class="item" type="primary">
                         <el-icon class="align-middle ml-8" :size="20">
                             <Document />
                         </el-icon>

@@ -8,9 +8,23 @@ const routes = [
         path: '/:pathMatch(.*)*',
         redirect: '/404'
     },
+    // {
+    //     path: '/static',
+    //     component: () => import('@/components/IPFS.vue')
+    // },
     {
-        path: '/static',
-        component: () => import('@/components/IPFS.vue')
+        path: '/admin',
+        component: () => import('@/pages/Admin.vue'),
+        children:[{
+            path: 'home',
+            component: () => import('@/components/admin/Home.vue')
+        },{
+            path: 'data',
+            component: () => import('@/components/admin/AdminDataBoard.vue')
+        },{
+            path: 'manage',
+            component: () => import('@/components/admin/DataManage.vue')
+        }]
     },
     {
         path: '/edit',
