@@ -25,7 +25,7 @@
                                 v-model="user.password2" :prefix-icon="Lock"></el-input></el-form-item>
                     </el-form>
                 </div>
-                <p class=" text-blue-500 font-semibold underline pr-2 overflow-hidden cursor-pointer text-sm w-3/4 text-right hover:text-blue-200"
+                <p class=" text-blue-100 font-semibold underline pr-2 overflow-hidden cursor-pointer text-sm w-3/4 text-right hover:text-blue-200"
                     @click="dialogVisible = true">忘记密码</p>
                 <el-button class="w-3/5 mt-4" type="primary" @click="onRegister(form)" :loading="loading">注册</el-button>
                 <p class="text-slate-400 text-sm  mt-4 md:mt-10">——寄语——</p>
@@ -55,7 +55,7 @@
                             </el-input>
                         </el-form-item>
                     </el-form>
-                    <p class=" text-blue-500 font-semibold underline pr-2 overflow-hidden text-sm float-right inline cursor-pointer hover:text-blue-200"
+                    <p class=" text-blue-100 font-semibold underline pr-2 overflow-hidden text-sm float-right inline cursor-pointer hover:text-blue-200"
                     @click="dialogVisible = true">忘记密码</p>
                 </div>
                
@@ -67,7 +67,7 @@
                         class="iconfont icon-weixing rounded-full bg-blue-700 p-2 text-2xl mx-2 cursor-pointer"></span>
                 </div>
                 <p class="my-4 text-slate-400">没有账号？立即<span
-                        class="text-blue-600 cursor-pointer font-semibold hover:text-blue-200"
+                        class="text-blue-500 cursor-pointer font-semibold hover:text-blue-200"
                         @click="islogin = !islogin; form.resetFields()">注册</span></p>
             </div>
             <el-dialog v-model="dialogVisible" title="Tips" width="30%">

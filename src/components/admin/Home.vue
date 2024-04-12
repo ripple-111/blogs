@@ -40,8 +40,8 @@
     <div class="p-2 flex-1">
       <Echarts :chart-style="{ width: '100%', height: '20vh' }" :chart-option="typeOption" />
       <div class="font-extrabold mt-4 pt-4 border-t border-slate-200">浏览量最高的文章</div>
-      <div class="mt-8">
-        <div v-for="(i, index) in blogs" class="my-6 flex">
+      <div class="mt-4">
+        <div v-for="(i, index) in blogs" class="my-2 flex hover:bg-slate-200 p-2 cursor-pointer" @click="router.push('/display?id='+i.id)">
           <span :class="`bg-${index <= 2 ? 'black' : 'slate-200'} text-${index <= 2 ? 'white' : 'black'}`"
             class="rounded-full block w-6 h-6 text-center leading-6">{{ index + 1 }}</span>
           <span class="ml-4 flex-1">{{ i.title }}</span>
@@ -58,6 +58,7 @@ import Echarts from '../Echarts.vue'
 import { getArticle, getAllFollowers } from '@/http/api'
 import moment from 'moment';
 const store = useStore()
+const router = useRouter()
 const boardData = ref([
   {
     title: '文章总数',

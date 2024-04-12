@@ -2,7 +2,7 @@ import axios from "axios";
 export let baseUrl='http://127.0.0.1:3000/api'
 let timer
 axios.defaults.baseURL=baseUrl
-axios.defaults.timeout=50000 
+axios.defaults.timeout=5000000 
 axios.defaults.withCredentials = true //自动携带cookie
 axios.interceptors.request.use(
     config => {

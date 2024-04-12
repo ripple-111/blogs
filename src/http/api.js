@@ -128,3 +128,4 @@ export const setComment = (data) => post('/commentService/setComment', data)
 
 export const likeComment = (data) => post('/commentService/like', data)
 export const deleComment = (data) => post('/commentService/deleComment', data)
+export const getIpfsInfo = () => get('/blogService/getIpfsInfo')

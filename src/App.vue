@@ -4,7 +4,9 @@ import Top  from './components/Top.vue';
 import debounce from '../util/shake'
 import zhCn from 'element-plus/dist/locale/zh-cn'
 import { provide } from 'vue';
+import { useRoute } from 'vue-router';
 const router = useRouter()
+const route = useRoute()
 const scroll = ref()
 const isScroll = ref(false)
 router.beforeEach((to, from) => {
@@ -36,7 +38,7 @@ const hasScroll = debounce(({ scrollTop }) => {
         <UserInfo />
         <el-scrollbar height="100vh" ref="scroll" @scroll="hasScroll">
             <Top v-if="$globalFlag" />
-            <router-view v-slot="{ Component }">
+            <router-view v-slot="{ Component }" :key="route.fullPath">
                 <keep-alive>
                     <component :is="Component" v-if="$route.meta.keepAlive" />
                 </keep-alive>

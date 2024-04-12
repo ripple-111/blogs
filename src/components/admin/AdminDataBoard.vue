@@ -13,50 +13,35 @@
 </template>
 
 <script setup>
+import { reactive } from 'vue';
 import Echarts from '../Echarts.vue';
+import moment  from 'moment';
 import { getArticle } from '@/http/api'
-var data = {
-  name: 'flare',
-  children: [
-    {
-      name: 'flex',
-      children: [{ name: 'FlareVis', value: 4116 }]
-    },
-    {
-      name: 'scale',
-      children: [
-        { name: 'IScaleMap', value: 2105 },
-        { name: 'LinearScale', value: 1316 },
-        { name: 'LogScale', value: 3151 },
-        { name: 'OrdinalScale', value: 3770 },
-        { name: 'QuantileScale', value: 2435 },
-        { name: 'QuantitativeScale', value: 4839 },
-        { name: 'RootScale', value: 1756 },
-        { name: 'Scale', value: 4268 },
-        { name: 'ScaleType', value: 1821 },
-        { name: 'TimeScale', value: 5833 }
-      ]
-    },
-    {
-      name: 'display',
-      children: [{ name: 'DirtySprite', value: 8833 }]
-    }
-  ]
-}
+import { time } from 'echarts';
+const store = useStore()
+var data = reactive({
+  name: store.info.username,
+  children: []
+})
 const option = {
   title: {
     text: 'IPFS树结构'
   },
   tooltip: {
     trigger: 'item',
-    triggerOn: 'mousemove'
+    triggerOn: 'mousemove',
+    formatter:(i)=>{
+      if(i.data.children)
+      return `<div>${i.name}</div>`
+      return `<div>${i.value}</div>`
+    }
   },
   legend: {
     top: '2%',
     orient: 'vertical',
     data: [
       {
-        name: 'tree1',
+        name: 'IPFS树结构',
         icon: 'rectangle'
       }
     ],
@@ -65,22 +50,22 @@ const option = {
   series: [
     {
       type: 'tree',
-      name: 'tree1',
-      left: '5%',
-      right: '15%',
+      name: 'IPFS树结构',
+      left: '10%',
+      right: '20%',
       bottom: '5%',
       data: [data],
       symbolSize: 7,
       label: {
         position: 'left',
         verticalAlign: 'middle',
-        align: 'right'
+        align: 'right',
       },
       leaves: {
         label: {
           position: 'right',
           verticalAlign: 'middle',
-          align: 'left'
+          align: 'left',
         }
       },
       expandAndCollapse: true,
@@ -92,7 +77,7 @@ const option = {
     }
   ]
 }
-const wordOption = ref({
+const wordOption = reactive({
   title: {
     text: '博客标签词云'
   },
@@ -123,46 +108,44 @@ const wordOption = ref({
     }
   ]
 })
-const pieOption = {
+const pieOption = reactive({
   title: {
     text: '博客24小时发表时刻图'
   },
-  xAxis: {},
-  yAxis: {},
+  xAxis: {
+    max:24
+  },
+  yAxis: {
+
+  },
+  tooltip: {
+    trigger: 'item',
+    triggerOn: 'mousemove',
+    formatter:(i)=>{
+      return `<div>${i.value[0]}</div>`
+    }
+  },
   series: [
     {
       symbolSize: 20,
-      data: [
-        [10.0, 8.04],
-        [8.07, 6.95],
-        [13.0, 7.58],
-        [9.05, 8.81],
-        [11.0, 8.33],
-        [14.0, 7.66],
-        [13.4, 6.81],
-        [10.0, 6.33],
-        [14.0, 8.96],
-        [12.5, 6.82],
-        [9.15, 7.2],
-        [11.5, 7.2],
-        [3.03, 4.23],
-        [12.2, 7.83],
-        [2.02, 4.47],
-        [1.05, 3.33],
-        [4.05, 4.96],
-        [6.03, 7.24],
-        [12.0, 6.26],
-        [12.0, 8.84],
-        [7.08, 5.82],
-        [5.02, 5.68]
-      ],
+      data: [],
       type: 'scatter'
     }
   ]
-};
-getArticle().then(res => {
+})
+getArticle({pageSize:10000}).then(res => {
   let tags = new Map()
+  let times = new Map()
   res.data.rows.map(i => {
+    let utcTime = moment.utc(i.time)
+    let hour = utcTime.hours()
+    let minute = (utcTime.minutes() / 60).toFixed(2) 
+    let time = hour + Number(minute)
+    if(times.has(time)){
+      times.set(time,times.get(time)+1)
+    }
+    else
+    times.set(time,1)
     i.tags.split(',').map(n => {
       if (tags.has(n)) {
         tags.set(n, tags.get(n)+1)
@@ -172,10 +155,34 @@ getArticle().then(res => {
     })
   })
   let arr = []
+  pieOption.series[0].data = Array.from(times)
   tags.forEach((a,b)=>{
     arr.push({name:b,value:a})
   })
-  wordOption.value.series[0].data=arr
+  wordOption.series[0].data=arr
+})
+getIpfsInfo().then(res=>{
+  let map = new Map()
+  res.data.map(i=>{
+    let arr = i.name.split('--')
+    if(map.get(arr[0])){
+      map.set(arr[0],[...map.get(arr[0]),i])
+    }
+    else{
+      map.set(arr[0],[i])
+    }
+  })
+  map.forEach((value,key)=>{
+    data.children.push({
+      name:key,
+      children:value.map(i=>{
+        return {
+          name:i.name.split('--')[1] || 1,
+          value:i.cid
+        }
+      })
+    })
+  })
 })
 </script>
 

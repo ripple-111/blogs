@@ -33,6 +33,13 @@ const drawChart = () => {
     echart.setOption(props.chartOption, {
         notMerge: true // 不和之前的 option 合并
     })
+    if(echart._$handlers?.click){
+        echart._$handlers.click.length = 0
+    }
+    echart.on('click','series',(n)=>{
+        if(n.componentSubType == 'tree')
+        alert(n.data.value)
+    })
     let resize = lodash.throttle(() => {
         echart.resize({
             animation: { duration: 300 }

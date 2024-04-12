@@ -24,6 +24,9 @@ const routes = [
         },{
             path: 'manage',
             component: () => import('@/components/admin/DataManage.vue')
+        },{
+            path: 'friend',
+            component: () => import('@/components/admin/AdminFriend.vue')
         }]
     },
     {

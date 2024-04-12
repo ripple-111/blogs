@@ -5,7 +5,8 @@
         background-color="rgba(7,21,58,.7)" 
         :default-active="path" :collapse="isCollapse"
         router
-        :class="`min-w-${isCollapse ? 0 : '[15vw]'}`"
+        
+        :class="styleClass"
         style="backdrop-filter: blur(2px);
         --el-menu-hover-text-color:white;
         --el-menu-hover-bg-color:rgb(3 6 14 / 54%);
@@ -22,7 +23,7 @@
             <el-icon><Document /></el-icon>
             <span>文章管理</span>
         </el-menu-item>
-        <el-menu-item index="4">
+        <el-menu-item index="/admin/friend">
             <el-icon><MostlyCloudy /></el-icon>
             <span>朋友管理</span>
         </el-menu-item>
@@ -50,6 +51,7 @@ const router = useRouter()
 const path = computed(() => {
     return router.currentRoute.value.matched[1].path
 })
+const styleClass = isCollapse ? 'min-w-[15vw]' : 'min-w-0'
 </script>
 
 <style lang="scss" scoped>
