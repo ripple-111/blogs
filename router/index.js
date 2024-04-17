@@ -27,6 +27,9 @@ const routes = [
         },{
             path: 'friend',
             component: () => import('@/components/admin/AdminFriend.vue')
+        },{
+            path: 'ipfs',
+            component: () => import('@/components/admin/AdminIPFS.vue')
         }]
     },
     {

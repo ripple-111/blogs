@@ -23,7 +23,6 @@
 <script setup>
 import { getArticle,deleteBlog } from '@/http/api.js'
 import { timeFormat } from '../../../util/time'
-import { time } from 'echarts';
 import { useRouter} from 'vue-router';
 const tableData = ref([])
 const currentPage = ref(1)

@@ -27,7 +27,7 @@
             <el-menu-item index="/admin/home">
                 <el-icon :size="40">
                     <MoreFilled />
-                </el-icon>更多
+                </el-icon>管理
             </el-menu-item>
             <el-avatar :size="40" class="my-auto mx-2" :src="info.headImage" fit="fill" />
             <el-dropdown class="my-auto mr-6">

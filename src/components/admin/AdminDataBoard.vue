@@ -7,8 +7,8 @@
       <Echarts :chart-style="{ width: '100%', height: '300px' }" :chart-option="wordOption" />
     </div>
   </div>
-  <div class="bg-white m-2 flex-1 relative h-[500px]">
-    <Echarts :chart-style="{ width: '100%', height: '480px' }" :chart-option="pieOption" class="absolute" />
+  <div class="bg-white m-2 flex-1 relative h-[45vh]">
+    <Echarts :chart-style="{ width: '100%', height: '45vh' }" :chart-option="pieOption" class="absolute" />
   </div>
 </template>
 

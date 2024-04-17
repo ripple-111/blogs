@@ -24,8 +24,12 @@
             <span>文章管理</span>
         </el-menu-item>
         <el-menu-item index="/admin/friend">
-            <el-icon><MostlyCloudy /></el-icon>
+            <el-icon><OfficeBuilding /></el-icon>
             <span>朋友管理</span>
+        </el-menu-item>
+        <el-menu-item index="/admin/ipfs">
+            <el-icon><MostlyCloudy /></el-icon>
+            <span>IPFS</span>
         </el-menu-item>
     </el-menu>
     <div class="flex flex-col flex-1">
@@ -44,6 +48,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import TopNavBar from '../components/TopNavBar.vue'
 import { useRouter } from 'vue-router';
 const isCollapse = ref(false)
@@ -51,7 +56,7 @@ const router = useRouter()
 const path = computed(() => {
     return router.currentRoute.value.matched[1].path
 })
-const styleClass = isCollapse ? 'min-w-[15vw]' : 'min-w-0'
+const styleClass = computed(()=>isCollapse.value ? 'min-w-0' : 'min-w-[15vw]') 
 </script>
 
 <style lang="scss" scoped>

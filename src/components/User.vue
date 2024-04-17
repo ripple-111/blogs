@@ -79,6 +79,7 @@ const followOne = () => {
                 store.getAllFollowees()
                 isPerson.value.fan++
             }
+            setFollow()
         })
     else
         unfollow(id.value).then(res => {
@@ -88,16 +89,18 @@ const followOne = () => {
                 if (isPerson.value.fan > 0)
                     isPerson.value.fan--
             }
-
+            setFollow()
         })
 }
 const id = computed(() => route.query.id)
 const isFollow = ref(false)
-getAllFollowees(store.userId).then(res => {
+const setFollow = () =>{
+    getAllFollowees(store.userId).then(res => {
     isFollow.value = res.data.findIndex(i => i.id == id.value) != -1 
     console.log(isFollow)
 })
-console.log(isFollow.value)
+}
+setFollow()
 const isPerson = computed(() => id.value ? otherinfo.value : info.value)
 const tagStyles = computed(() => {
     return [...tags.value].reduce((acc, tag) => {
